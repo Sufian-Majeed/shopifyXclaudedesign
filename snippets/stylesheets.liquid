@@ -58,10 +58,26 @@
   .header__row img { filter: brightness(0) invert(1); }
   /* Icons (search, cart, account) */
   .header__row svg, .header__row .icon { color: #f5f4f0 !important; fill: #f5f4f0 !important; stroke: #f5f4f0 !important; }
+  /* Cart button — gold like reference */
+  .header__row a[href="/cart"],
+  .header__row button[data-action="open-cart"],
+  .cart-count-bubble, [data-cart-count],
+  a[aria-label*="cart" i], a[aria-label*="bag" i],
+  button[aria-label*="cart" i], button[aria-label*="bag" i] {
+    background: #b8975a !important;
+    color: #0a0a0a !important;
+    padding: 8px 18px !important;
+    font-weight: 600 !important;
+    opacity: 1 !important;
+  }
   /* Announcement bar */
-  .header-announcements, .announcement-bar { background: #0a0a0a !important; color: #f5f4f0 !important; border-bottom: 1px solid rgba(255,255,255,0.08) !important; }
-  .header-announcements a, .announcement-bar a { color: #b8975a !important; }
+  .header-announcements, .announcement-bar { background: #b8975a !important; color: #0a0a0a !important; border-bottom: none !important; }
+  .header-announcements a, .announcement-bar a { color: #0a0a0a !important; }
+  .header-announcements *, .announcement-bar * { color: #0a0a0a !important; font-family: 'Barlow', system-ui, sans-serif !important; font-size: 11px !important; font-weight: 600 !important; letter-spacing: 0.15em !important; text-transform: uppercase !important; }
 
   /* ── JIGERZ FOOTER OVERRIDE ── */
-  footer, .shopify-section--footer, #footer-group { background: #060606 !important; }
+  footer, .shopify-section--footer, #footer-group, #footer-group .shopify-section { background: #060606 !important; }
+
+  /* ── GLOBAL DARK BASE ── */
+  body { background: #0a0a0a !important; color: #f5f4f0 !important; font-family: 'Barlow', system-ui, sans-serif !important; }
 </style>
