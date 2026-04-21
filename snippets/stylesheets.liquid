@@ -89,19 +89,35 @@
   /* Icons */
   .header__row svg, .header__row .icon { color: #f5f4f0 !important; fill: #f5f4f0 !important; stroke: #f5f4f0 !important; }
 
-  /* Cart/Bag button — gold */
-  header-actions a[href*="cart"],
-  .header__row a[href*="cart"],
-  header-actions button[aria-label*="art" i],
-  .cart-notification-button {
-    background: #b8975a !important;
-    color: #0a0a0a !important;
-    padding: 8px 18px !important;
-    font-weight: 600 !important;
+  /* Header actions text style */
+  header-actions .header-actions__text-style,
+  header-actions .account-button__text {
+    font-family: 'Barlow', system-ui, sans-serif !important;
+    font-size: 11px !important;
+    letter-spacing: 0.13em !important;
+    text-transform: uppercase !important;
+    color: #f5f4f0 !important;
+    opacity: 0.7 !important;
+  }
+  header-actions .header-actions__text-style:hover,
+  header-actions .account-button__text:hover { opacity: 1 !important; }
+
+  /* Cart/Bag button — gold outlined box */
+  header-actions .header-actions__action:has(cart-icon),
+  header-actions .cart-drawer,
+  header-actions a[href*="cart"] {
+    border: 1px solid #b8975a !important;
+    color: #f5f4f0 !important;
+    padding: 7px 16px !important;
     opacity: 1 !important;
   }
-  header-actions a[href*="cart"] svg,
-  header-actions button[aria-label*="art" i] svg { fill: #0a0a0a !important; stroke: #0a0a0a !important; color: #0a0a0a !important; }
+  header-actions .header-actions__action:has(cart-icon) *,
+  header-actions .cart-drawer *,
+  header-actions a[href*="cart"] * {
+    color: #f5f4f0 !important;
+    fill: #f5f4f0 !important;
+    opacity: 1 !important;
+  }
 
   /* Announcement bar (header-announcements section) */
   .announcement-bar, .header-announcements, aside.announcement-bar { background: #b8975a !important; border-bottom: none !important; }
