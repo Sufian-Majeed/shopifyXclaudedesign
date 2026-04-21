@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JIGERZ — Not Just A Brand, It's A Bond</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<script type="application/json" id="__tweaks__">
+/*EDITMODE-BEGIN*/{
+  "accentColor": "#b8975a",
+  "showPromoBar": true,
+  "promoText": "FREE DELIVERY ON ORDERS OVER PKR 2,500 · LIMITED SUMMER SALE — USE CODE JIGERZ10"
+}/*EDITMODE-END*/
+</script>
+
+<style>
+  :root {
+    --black: #0a0a0a;
+    --off-white: #f5f4f0;
+    --gold: #b8975a;
+    --card-bg: #141414;
+    --border: rgba(255,255,255,0.08);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--black); color: var(--off-white); font-family: 'Barlow', sans-serif; font-weight: 300; overflow-x: hidden; }
+
+  /* PROMO */
+  .promo-bar { background: var(--gold); color: var(--black); text-align: center; padding: 10px 20px; font-size: 11px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; }
+
+  /* NAV */
+  nav { position: sticky; top: 0; z-index: 100; background: rgba(10,10,10,0.97); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; padding: 0 48px; height: 72px; }
+  .nav-links { display: flex; gap: 24px; list-style: none; }
+  .nav-links a { color: var(--off-white); text-decoration: none; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; opacity: 0.7; transition: opacity 0.2s; white-space: nowrap; }
+  .nav-links a:hover { opacity: 1; }
+  .nav-links a.sale-link { color: var(--gold); opacity: 1; }
+  .nav-logo { display: flex; justify-content: center; }
+  .nav-logo img { height: 40px; filter: invert(1); }
+  .nav-actions { display: flex; justify-content: flex-end; gap: 20px; align-items: center; }
+  .nav-actions button { background: none; border: none; color: var(--off-white); cursor: pointer; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; opacity: 0.7; transition: opacity 0.2s; font-family: 'Barlow', sans-serif; }
+  .nav-actions button:hover { opacity: 1; }
+  .cart-btn { background: var(--gold) !important; color: var(--black) !important; padding: 8px 20px !important; opacity: 1 !important; font-weight: 600 !important; }
+  .hamburger { display: none; background: none; border: none; color: var(--off-white); font-size: 22px; cursor: pointer; }
+  .mobile-menu { display: none; position: fixed; inset: 0; background: #0a0a0a; z-index: 200; padding: 80px 40px 40px; flex-direction: column; gap: 28px; }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu-close { position: absolute; top: 24px; right: 24px; background: none; border: none; color: var(--off-white); font-size: 28px; cursor: pointer; }
+  .mobile-menu a { color: var(--off-white); text-decoration: none; font-family: 'Cormorant Garamond', serif; font-size: 36px; font-weight: 300; opacity: 0.8; border-bottom: 1px solid var(--border); padding-bottom: 20px; }
+  .mobile-menu a.sale-link { color: var(--gold); }
+
+  /* HERO */
+  .hero { position: relative; height: 92vh; display: flex; align-items: flex-end; overflow: hidden; }
+  .hero-bg { position: absolute; inset: 0; background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0f0f0f 100%); }
+  .hero-grid-overlay { position: absolute; inset: 0; background-image: linear-gradient(rgba(184,151,90,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(184,151,90,0.04) 1px, transparent 1px); background-size: 80px 80px; }
+
+  .hero-product-placeholder { position: absolute; right: 8%; top: 50%; transform: translateY(-50%); width: 360px; height: 500px; background: #1a1a1a; border: 1px solid var(--border); display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .hero-product-placeholder::before { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(45deg, transparent, transparent 20px, rgba(255,255,255,0.015) 20px, rgba(255,255,255,0.015) 21px); }
+  .placeholder-label { font-family: monospace; font-size: 11px; color: rgba(255,255,255,0.25); letter-spacing: 0.1em; text-align: center; z-index: 1; }
+
+  .hero-tag { position: absolute; top: 80px; left: 60px; font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); opacity: 0.8; }
+  .hero-content { position: relative; z-index: 2; padding: 0 60px 80px; max-width: 600px; margin-top: auto; }
+  .hero-eyebrow { font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; }
+
+  .hero-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(48px, 6vw, 84px); font-weight: 300; line-height: 1.0; letter-spacing: -0.01em; margin-bottom: 16px; color: var(--off-white); }
+  .hero-title em { font-style: italic; color: var(--gold); }
+
+  .hero-tagline { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-style: italic; color: var(--gold); margin-bottom: 12px; opacity: 0.9; }
+  .hero-sub { font-size: 13px; line-height: 1.7; opacity: 0.5; margin-bottom: 36px; max-width: 360px; letter-spacing: 0.02em; }
+
+  .hero-actions { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
+  .btn-primary { background: var(--gold); color: var(--black); border: none; padding: 14px 36px; font-family: 'Barlow', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; cursor: pointer; transition: all 0.2s; }
+  .btn-primary:hover { background: var(--off-white); }
+  .btn-ghost { background: none; color: var(--off-white); border: 1px solid rgba(255,255,255,0.2); padding: 14px 36px; font-family: 'Barlow', sans-serif; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; cursor: pointer; transition: all 0.2s; }
+  .btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
+
+  .hero-scroll { position: absolute; bottom: 40px; right: 60px; writing-mode: vertical-rl; font-size: 9px; letter-spacing: 0.3em; text-transform: uppercase; opacity: 0.3; display: flex; align-items: center; gap: 12px; }
+  .hero-scroll::after { content: ''; width: 1px; height: 60px; background: var(--off-white); opacity: 0.4; }
+
+  /* MARQUEE */
+  .marquee-strip { border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 14px 0; overflow: hidden; background: var(--card-bg); }
+  .marquee-inner { display: flex; gap: 0; animation: marquee 25s linear infinite; width: max-content; }
+  .marquee-item { font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase; opacity: 0.45; padding: 0 40px; white-space: nowrap; }
+  .marquee-dot { color: var(--gold); opacity: 1 !important; }
+  @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+  /* SECTION */
+  section { padding: 100px 60px; }
+  .section-label { font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; }
+  .section-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(36px, 4vw, 56px); font-weight: 300; line-height: 1.1; margin-bottom: 60px; }
+
+  /* CATEGORIES */
+  .categories { display: grid; grid-template-columns: repeat(4, 1fr); gap: 3px; height: 460px; }
+  .cat-card { position: relative; overflow: hidden; cursor: pointer; }
+  .cat-bg { width: 100%; height: 100%; background: #1a1a1a; transition: transform 0.6s ease; display: flex; align-items: center; justify-content: center; position: relative; }
+  .cat-bg::before { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(-45deg, transparent, transparent 20px, rgba(255,255,255,0.015) 20px, rgba(255,255,255,0.015) 21px); }
+  .cat-card:hover .cat-bg { transform: scale(1.04); }
+  .cat-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 55%); display: flex; flex-direction: column; justify-content: flex-end; padding: 24px; z-index: 2; }
+  .cat-name { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 300; margin-bottom: 4px; }
+  .cat-count { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; opacity: 0.5; }
+  .cat-arrow { position: absolute; top: 16px; right: 16px; width: 32px; height: 32px; border: 1px solid rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; font-size: 14px; opacity: 0; transition: opacity 0.3s; }
+  .cat-card:hover .cat-arrow { opacity: 1; }
+  .cat-placeholder-text { font-family: monospace; font-size: 9px; color: rgba(255,255,255,0.2); text-align: center; z-index: 1; position: relative; line-height: 1.6; }
+
+  /* PRODUCTS */
+  .products-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 48px; }
+  .products-header .section-title { margin-bottom: 0; }
+  .view-all { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.2s; padding-bottom: 2px; }
+  .view-all:hover { border-color: var(--gold); }
+  .products-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+  .product-card { cursor: pointer; }
+  .product-img { aspect-ratio: 3/4; background: var(--card-bg); margin-bottom: 14px; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+  .product-img::before { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(45deg, transparent, transparent 16px, rgba(255,255,255,0.012) 16px, rgba(255,255,255,0.012) 17px); }
+  .product-img-label { font-family: monospace; font-size: 9px; color: rgba(255,255,255,0.2); text-align: center; z-index: 1; position: relative; line-height: 1.6; }
+  .product-quick-add { position: absolute; bottom: 0; left: 0; right: 0; background: rgba(10,10,10,0.93); color: var(--off-white); padding: 12px; text-align: center; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; transform: translateY(100%); transition: transform 0.3s ease; border-top: 1px solid var(--border); z-index: 3; }
+  .product-card:hover .product-quick-add { transform: translateY(0); }
+  .product-badge { position: absolute; top: 12px; left: 12px; background: var(--gold); color: var(--black); font-size: 9px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; padding: 4px 10px; z-index: 2; }
+  .product-badge.sale { background: #0a0a0a; color: var(--off-white); border: 1px solid rgba(255,255,255,0.15); }
+  .product-wishlist { position: absolute; top: 12px; right: 12px; width: 30px; height: 30px; background: rgba(10,10,10,0.7); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; cursor: pointer; opacity: 0; transition: opacity 0.3s; z-index: 2; }
+  .product-card:hover .product-wishlist { opacity: 1; }
+  .product-name { font-size: 13px; letter-spacing: 0.05em; margin-bottom: 6px; font-weight: 400; }
+  .product-prices { display: flex; align-items: baseline; gap: 8px; margin-bottom: 6px; }
+  .product-price { font-family: 'Cormorant Garamond', serif; font-size: 19px; font-weight: 600; color: var(--gold); }
+  .product-price-old { font-size: 13px; opacity: 0.35; text-decoration: line-through; }
+  .product-save { font-size: 9px; background: rgba(184,151,90,0.15); color: var(--gold); padding: 2px 7px; letter-spacing: 0.1em; }
+  .product-colors { display: flex; gap: 5px; }
+  .color-dot { width: 10px; height: 10px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.2); }
+
+  /* BRAND STRIP */
+  .brand-strip { background: var(--off-white); color: var(--black); padding: 100px 60px; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+  .brand-strip .section-label { color: #b8975a; }
+  .brand-strip-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(40px, 5vw, 64px); font-weight: 300; line-height: 1.05; color: var(--black); }
+  .brand-strip-title em { font-style: italic; color: var(--gold); }
+  .brand-values { display: flex; flex-direction: column; gap: 28px; }
+  .brand-value { border-top: 1px solid rgba(0,0,0,0.1); padding-top: 20px; display: grid; grid-template-columns: 40px 1fr; gap: 16px; align-items: start; }
+  .brand-value-num { font-family: 'Cormorant Garamond', serif; font-size: 22px; color: var(--gold); font-weight: 600; }
+  .brand-value-title { font-size: 11px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 5px; color: var(--black); }
+  .brand-value-text { font-size: 13px; line-height: 1.7; opacity: 0.6; color: var(--black); }
+
+  /* TESTIMONIALS */
+  .testimonials { background: #0d0d0d; }
+  .testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+  .testimonial-card { background: var(--card-bg); padding: 36px; border: 1px solid var(--border); }
+  .testimonial-stars { color: var(--gold); font-size: 12px; margin-bottom: 16px; letter-spacing: 3px; }
+  .testimonial-text { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-style: italic; line-height: 1.6; margin-bottom: 24px; opacity: 0.85; }
+  .testimonial-author { font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; opacity: 0.4; }
+
+  /* TRUST BAR */
+  .trust-bar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); background: var(--card-bg); }
+  .trust-item { padding: 28px 24px; text-align: center; border-right: 1px solid var(--border); display: flex; flex-direction: column; align-items: center; gap: 10px; }
+  .trust-item:last-child { border-right: none; }
+  .trust-icon { font-size: 22px; opacity: 0.6; }
+  .trust-title { font-size: 11px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; }
+  .trust-desc { font-size: 11px; opacity: 0.4; line-height: 1.5; }
+
+  /* NEWSLETTER */
+  .newsletter { text-align: center; padding: 100px 60px; background: var(--black); border-top: 1px solid var(--border); }
+  .newsletter-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(36px, 4vw, 56px); font-weight: 300; margin-bottom: 12px; }
+  .newsletter-sub { font-size: 13px; opacity: 0.4; margin-bottom: 40px; max-width: 380px; margin-left: auto; margin-right: auto; line-height: 1.7; }
+  .newsletter-form { display: flex; max-width: 420px; margin: 0 auto; }
+  .newsletter-input { flex: 1; background: var(--card-bg); border: 1px solid var(--border); border-right: none; color: var(--off-white); padding: 14px 18px; font-family: 'Barlow', sans-serif; font-size: 13px; outline: none; }
+  .newsletter-input::placeholder { opacity: 0.35; }
+  .newsletter-btn { background: var(--gold); color: var(--black); border: none; padding: 14px 24px; font-family: 'Barlow', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; cursor: pointer; white-space: nowrap; }
+  .newsletter-btn:hover { background: var(--off-white); }
+
+  /* FOOTER */
+  footer { background: #060606; border-top: 1px solid var(--border); padding: 72px 60px 36px; }
+  .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 60px; margin-bottom: 56px; }
+  .footer-logo img { height: 44px; filter: invert(1); margin-bottom: 16px; display: block; }
+  .footer-tagline { font-size: 13px; opacity: 0.35; line-height: 1.7; max-width: 220px; }
+  .footer-col-title { font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); margin-bottom: 20px; }
+  .footer-links { list-style: none; display: flex; flex-direction: column; gap: 11px; }
+  .footer-links a { color: var(--off-white); text-decoration: none; font-size: 13px; opacity: 0.4; transition: opacity 0.2s; }
+  .footer-links a:hover { opacity: 1; }
+  .footer-bottom { border-top: 1px solid var(--border); padding-top: 28px; display: flex; justify-content: space-between; align-items: center; }
+  .footer-copy { font-size: 11px; opacity: 0.25; }
+  .footer-socials { display: flex; gap: 20px; }
+  .footer-socials a { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--off-white); text-decoration: none; opacity: 0.35; transition: opacity 0.2s; }
+  .footer-socials a:hover { opacity: 1; }
+
+  /* TWEAKS */
+  #tweaks-panel { display: none; position: fixed; bottom: 24px; right: 24px; background: #1a1a1a; border: 1px solid var(--border); padding: 24px; z-index: 999; width: 280px; box-shadow: 0 20px 60px rgba(0,0,0,0.5); }
+  #tweaks-panel h3 { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 20px; }
+  .tweak-row { margin-bottom: 16px; }
+  .tweak-label { font-size: 11px; letter-spacing: 0.1em; opacity: 0.5; margin-bottom: 6px; display: block; text-transform: uppercase; }
+  .tweak-row input[type="text"], .tweak-row input[type="color"] { width: 100%; background: #0a0a0a; border: 1px solid var(--border); color: var(--off-white); padding: 8px 12px; font-family: 'Barlow', sans-serif; font-size: 12px; outline: none; }
+  .tweak-row input[type="color"] { height: 36px; padding: 4px; cursor: pointer; }
+  .tweak-toggle { display: flex; gap: 8px; align-items: center; font-size: 12px; opacity: 0.7; cursor: pointer; }
+  .tweak-toggle input { cursor: pointer; }
+
+  /* MOBILE */
+  @media (max-width: 768px) {
+    .promo-bar { font-size: 9px; padding: 8px 12px; }
+    nav { padding: 0 20px; height: 60px; }
+    .nav-links { display: none; }
+    .nav-actions button:not(.cart-btn) { display: none; }
+    .hamburger { display: block; }
+    .cart-btn { padding: 6px 14px !important; font-size: 10px !important; }
+    .nav-logo img { height: 32px; }
+    .hero { height: 85vh; }
+    .hero-content { padding: 0 24px 56px; }
+    .hero-title { font-size: 44px; }
+    .hero-product-placeholder { display: none; }
+    .hero-scroll { display: none; }
+    .hero-actions { flex-direction: column; align-items: flex-start; gap: 10px; }
+    .btn-primary, .btn-ghost { width: 100%; text-align: center; }
+    section { padding: 56px 20px; }
+    .categories { grid-template-columns: repeat(2, 1fr); height: auto; gap: 3px; }
+    .cat-bg { height: 200px; }
+    .products-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .brand-strip { grid-template-columns: 1fr; gap: 40px; padding: 56px 20px; }
+    .testimonials-grid { grid-template-columns: 1fr; }
+    .trust-bar { grid-template-columns: repeat(2, 1fr); }
+    .trust-item { border-bottom: 1px solid var(--border); }
+    .newsletter { padding: 56px 20px; }
+    .newsletter-form { flex-direction: column; }
+    .newsletter-input { border-right: 1px solid var(--border); border-bottom: none; }
+    footer { padding: 56px 20px 28px; }
+    .footer-grid { grid-template-columns: 1fr 1fr; gap: 28px; }
+    .footer-bottom { flex-direction: column; gap: 14px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<div class="promo-bar" id="promo-bar">FREE DELIVERY ON ORDERS OVER PKR 2,500 · LIMITED SUMMER SALE — USE CODE <strong>JIGERZ10</strong></div>
+
+<nav>
+  <ul class="nav-links">
+    <li><a href="#">New In</a></li>
+    <li><a href="JIgerz Collection.html">Shop All</a></li>
+    <li><a href="#">T-Shirts</a></li>
+    <li><a href="#" class="sale-link">Winter Clearance ✦</a></li>
+  </ul>
+  <div class="nav-logo">
+    <img src="uploads/logo-1776684626245.png" alt="JIGERZ">
+  </div>
+  <div class="nav-actions">
+    <button>Search</button>
+    <button>Account</button>
+    <button class="cart-btn">Bag (0)</button>
+    <button class="hamburger" onclick="document.getElementById('mobile-menu').classList.add('open')">☰</button>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobile-menu">
+  <button class="mobile-menu-close" onclick="document.getElementById('mobile-menu').classList.remove('open')">✕</button>
+  <a href="#">New In</a>
+  <a href="JIgerz Collection.html">Shop All</a>
+  <a href="#">T-Shirts</a>
+  <a href="#" class="sale-link">Winter Clearance ✦</a>
+</div>
+
+<!-- HERO -->
+<section class="hero" style="padding:0;">
+  <div class="hero-bg"></div>
+  <div class="hero-grid-overlay"></div>
+  <div class="hero-product-placeholder">
+    <div class="placeholder-label">hero model shot<br>720×960px<br>dark luxury lighting</div>
+  </div>
+  <span class="hero-tag">Summer Essentials 2026</span>
+  <div class="hero-content">
+    <p class="hero-eyebrow">New Collection — Summer 2026</p>
+    <h1 class="hero-title">Summer<br><em>Essentials</em><br>2026</h1>
+    <p class="hero-tagline">Not Just A Brand — It's A Bond.</p>
+    <p class="hero-sub">Premium Popcorn Knit — Built for Comfort & Style. Crafted for the modern Pakistani man.</p>
+    <div class="hero-actions">
+      <button class="btn-primary" onclick="window.location='JIgerz Collection.html'">Shop Now</button>
+      <button class="btn-ghost" onclick="window.location='JIgerz Collection.html'">Explore Collection</button>
+    </div>
+  </div>
+  <div class="hero-scroll">Scroll</div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-strip">
+  <div class="marquee-inner">
+    <span class="marquee-item">Premium Imported Fabric</span><span class="marquee-item marquee-dot">✦</span>
+    <span class="marquee-item">Summer 2026</span><span class="marquee-item marquee-dot">✦</span>
+    <span class="marquee-item">Free Delivery 2500+</span><span class="marquee-item marquee-dot">✦</span>
+    <span class="marquee-item">Cash On Delivery</span><span class="marquee-item marquee-dot">✦</span>
+    <span class="marquee-item">JIGERZ — Not Just A Brand</span><span class="marquee-item marquee-dot">✦</span>
+    <span class="marquee-item">Premium Imported Fabric</span><span class="marquee-item marquee-dot">✦</span>
+    <span class="marquee-item">Summer 2026</span><span class="marquee-item marquee-dot">✦</span>
+    <span class="marquee-item">Free Delivery 2500+</span><span class="marquee-item marquee-dot">✦</span>
+    <span class="marquee-item">Cash On Delivery</span><span class="marquee-item marquee-dot">✦</span>
+    <span class="marquee-item">JIGERZ — Not Just A Brand</span><span class="marquee-item marquee-dot">✦</span>
+  </div>
+</div>
+
+<!-- CATEGORIES -->
+<section style="padding-bottom:0;">
+  <p class="section-label">Browse Collections</p>
+  <h2 class="section-title">Shop by Category</h2>
+  <div class="categories">
+    <div class="cat-card" onclick="window.location='JIgerz Collection.html'">
+      <div class="cat-bg"><div class="cat-placeholder-text">T-Shirts<br>category photo</div></div>
+      <div class="cat-overlay"><div class="cat-name">T-Shirts</div><div class="cat-count">24 Styles</div></div>
+      <div class="cat-arrow">→</div>
+    </div>
+    <div class="cat-card" onclick="window.location='JIgerz Collection.html'">
+      <div class="cat-bg"><div class="cat-placeholder-text">Polo<br>category photo</div></div>
+      <div class="cat-overlay"><div class="cat-name">Polo</div><div class="cat-count">10 Styles</div></div>
+      <div class="cat-arrow">→</div>
+    </div>
+    <div class="cat-card" onclick="window.location='JIgerz Collection.html'">
+      <div class="cat-bg"><div class="cat-placeholder-text">Oversized<br>category photo</div></div>
+      <div class="cat-overlay"><div class="cat-name">Oversized</div><div class="cat-count">14 Styles</div></div>
+      <div class="cat-arrow">→</div>
+    </div>
+    <div class="cat-card" onclick="window.location='JIgerz Collection.html'">
+      <div class="cat-bg"><div class="cat-placeholder-text">Accessories<br>category photo</div></div>
+      <div class="cat-overlay"><div class="cat-name">Accessories</div><div class="cat-count">8 Styles</div></div>
+      <div class="cat-arrow">→</div>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST BAR -->
+<div class="trust-bar">
+  <div class="trust-item"><div class="trust-icon">🚚</div><div class="trust-title">Free Delivery</div><div class="trust-desc">Orders over PKR 2,500</div></div>
+  <div class="trust-item"><div class="trust-icon">💵</div><div class="trust-title">Cash on Delivery</div><div class="trust-desc">Pay when you receive</div></div>
+  <div class="trust-item"><div class="trust-icon">↩</div><div class="trust-title">30-Day Returns</div><div class="trust-desc">Hassle-free returns</div></div>
+  <div class="trust-item"><div class="trust-icon">✓</div><div class="trust-title">Genuine Quality</div><div class="trust-desc">Premium imported fabric</div></div>
+</div>
+
+<!-- PRODUCTS -->
+<section style="padding-top:80px;">
+  <div class="products-header">
+    <div>
+      <p class="section-label">Just Dropped</p>
+      <h2 class="section-title">New Arrivals</h2>
+    </div>
+    <a href="JIgerz Collection.html" class="view-all">View All →</a>
+  </div>
+  <div class="products-grid">
+
+    <div class="product-card" onclick="window.location='JIgerz Product.html'">
+      <div class="product-img">
+        <div class="product-badge">New</div>
+        <div class="product-wishlist">♡</div>
+        <div class="product-img-label">product photo<br>360×480px</div>
+        <div class="product-quick-add">+ Quick Add</div>
+      </div>
+      <div class="product-name">Classic Logo Tee</div>
+      <div class="product-prices">
+        <span class="product-price">PKR 1,800</span>
+        <span class="product-price-old">PKR 2,200</span>
+        <span class="product-save">-18%</span>
+      </div>
+      <div class="product-colors">
+        <div class="color-dot" style="background:#0a0a0a;"></div>
+        <div class="color-dot" style="background:#f5f4f0;border-color:rgba(255,255,255,0.3)"></div>
+        <div class="color-dot" style="background:#b8975a;"></div>
+      </div>
+    </div>
+
+    <div class="product-card" onclick="window.location='JIgerz Product.html'">
+      <div class="product-img">
+        <div class="product-badge sale">Sale</div>
+        <div class="product-wishlist">♡</div>
+        <div class="product-img-label">product photo<br>360×480px</div>
+        <div class="product-quick-add">+ Quick Add</div>
+      </div>
+      <div class="product-name">Popcorn Knit Polo</div>
+      <div class="product-prices">
+        <span class="product-price">PKR 2,500</span>
+        <span class="product-price-old">PKR 3,200</span>
+        <span class="product-save">-22%</span>
+      </div>
+      <div class="product-colors">
+        <div class="color-dot" style="background:#0a0a0a;"></div>
+        <div class="color-dot" style="background:#3a3a3a;"></div>
+      </div>
+    </div>
+
+    <div class="product-card" onclick="window.location='JIgerz Product.html'">
+      <div class="product-img">
+        <div class="product-badge">Best Seller</div>
+        <div class="product-wishlist">♡</div>
+        <div class="product-img-label">product photo<br>360×480px</div>
+        <div class="product-quick-add">+ Quick Add</div>
+      </div>
+      <div class="product-name">Oversized Drop Tee</div>
+      <div class="product-prices">
+        <span class="product-price">PKR 2,200</span>
+        <span class="product-price-old">PKR 2,800</span>
+        <span class="product-save">-21%</span>
+      </div>
+      <div class="product-colors">
+        <div class="color-dot" style="background:#0a0a0a;"></div>
+        <div class="color-dot" style="background:#f5f4f0;border-color:rgba(255,255,255,0.3)"></div>
+      </div>
+    </div>
+
+    <div class="product-card" onclick="window.location='JIgerz Product.html'">
+      <div class="product-img">
+        <div class="product-badge">New</div>
+        <div class="product-wishlist">♡</div>
+        <div class="product-img-label">product photo<br>360×480px</div>
+        <div class="product-quick-add">+ Quick Add</div>
+      </div>
+      <div class="product-name">Summer Essential Tee</div>
+      <div class="product-prices">
+        <span class="product-price">PKR 1,950</span>
+        <span class="product-price-old">PKR 2,400</span>
+        <span class="product-save">-19%</span>
+      </div>
+      <div class="product-colors">
+        <div class="color-dot" style="background:#0a0a0a;"></div>
+        <div class="color-dot" style="background:#b8975a;"></div>
+        <div class="color-dot" style="background:#f5f4f0;border-color:rgba(255,255,255,0.3)"></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- BRAND STRIP -->
+<div class="brand-strip">
+  <div>
+    <p class="section-label">Our Promise</p>
+    <h2 class="brand-strip-title">Built for the<br><em>Modern Man</em></h2>
+  </div>
+  <div class="brand-values">
+    <div class="brand-value">
+      <div class="brand-value-num">01</div>
+      <div><div class="brand-value-title">Premium Fabric</div><div class="brand-value-text">100% premium imported cotton — stretchable, breathable, built to last all day.</div></div>
+    </div>
+    <div class="brand-value">
+      <div class="brand-value-num">02</div>
+      <div><div class="brand-value-title">Modern Fit</div><div class="brand-value-text">Smart fit design engineered for the modern silhouette — confident and versatile.</div></div>
+    </div>
+    <div class="brand-value">
+      <div class="brand-value-num">03</div>
+      <div><div class="brand-value-title">Everyday Comfort</div><div class="brand-value-text">Whether it's the office or the street — JIGERZ moves with you.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials">
+  <p class="section-label" style="text-align:center;">Customer Love</p>
+  <h2 class="section-title" style="text-align:center;max-width:500px;margin:0 auto 48px;">What People Are Saying</h2>
+  <div class="testimonials-grid">
+    <div class="testimonial-card">
+      <div class="testimonial-stars">★★★★★</div>
+      <p class="testimonial-text">"The quality is unreal. I've never felt this good in a basic tee. JIGERZ is my go-to brand now."</p>
+      <div class="testimonial-author">— Ahmed K. · Lahore · Verified Buyer</div>
+    </div>
+    <div class="testimonial-card">
+      <div class="testimonial-stars">★★★★★</div>
+      <p class="testimonial-text">"Ordered via COD, arrived in 3 days. Perfect fit, incredible material. Worth every rupee."</p>
+      <div class="testimonial-author">— Marcus T. · Karachi · Verified Buyer</div>
+    </div>
+    <div class="testimonial-card">
+      <div class="testimonial-stars">★★★★★</div>
+      <p class="testimonial-text">"Finally a brand that understands Pakistani men's fashion. The oversized tee is a masterpiece."</p>
+      <div class="testimonial-author">— Zain R. · Islamabad · Verified Buyer</div>
+    </div>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<section class="newsletter">
+  <p class="section-label">Stay in the Loop</p>
+  <h2 class="newsletter-title">Join the JIGERZ Family</h2>
+  <p class="newsletter-sub">First to know new drops, exclusive deals & style tips. No spam, ever.</p>
+  <form class="newsletter-form" onsubmit="return false">
+    <input class="newsletter-input" type="email" placeholder="Your email address">
+    <button class="newsletter-btn">Subscribe</button>
+  </form>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <img src="uploads/logo-1776684626245.png" class="footer-logo" style="height:44px;filter:invert(1);margin-bottom:16px;display:block;" alt="JIGERZ">
+      <p class="footer-tagline">Not Just A Brand — It's A Bond. Premium men's clothing for the modern Pakistani man.</p>
+    </div>
+    <div>
+      <div class="footer-col-title">Shop</div>
+      <ul class="footer-links">
+        <li><a href="#">New Arrivals</a></li>
+        <li><a href="#">T-Shirts</a></li>
+        <li><a href="#">Polo</a></li>
+        <li><a href="#">Oversized</a></li>
+        <li><a href="#">Accessories</a></li>
+        <li><a href="#">Sale</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Help</div>
+      <ul class="footer-links">
+        <li><a href="#">Size Guide</a></li>
+        <li><a href="#">Delivery Info</a></li>
+        <li><a href="#">Returns</a></li>
+        <li><a href="#">Track Order</a></li>
+        <li><a href="#">FAQ</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Brand</div>
+      <ul class="footer-links">
+        <li><a href="#">Our Story</a></li>
+        <li><a href="#">Quality Promise</a></li>
+        <li><a href="#">Contact Us</a></li>
+        <li><a href="#">Instagram</a></li>
+        <li><a href="#">TikTok</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2026 JIGERZ. All rights reserved. Pakistan.</div>
+    <div class="footer-socials">
+      <a href="#">Instagram</a>
+      <a href="#">TikTok</a>
+      <a href="#">WhatsApp</a>
+    </div>
+  </div>
+</footer>
+
+<!-- TWEAKS PANEL -->
+<div id="tweaks-panel">
+  <h3>Tweaks</h3>
+  <div class="tweak-row">
+    <label class="tweak-label">Accent Color</label>
+    <input type="color" id="tw-accent" value="#b8975a">
+  </div>
+  <div class="tweak-row">
+    <label class="tweak-label">Promo Bar Text</label>
+    <input type="text" id="tw-promo" value="FREE DELIVERY ON ORDERS OVER PKR 2,500 · LIMITED SUMMER SALE — USE CODE JIGERZ10">
+  </div>
+  <div class="tweak-row">
+    <label class="tweak-toggle">
+      <input type="checkbox" id="tw-promo-toggle" checked>
+      Show Promo Bar
+    </label>
+  </div>
+</div>
+
+<script>
+  window.addEventListener('message', e => {
+    if (e.data?.type === '__activate_edit_mode') document.getElementById('tweaks-panel').style.display = 'block';
+    if (e.data?.type === '__deactivate_edit_mode') document.getElementById('tweaks-panel').style.display = 'none';
+  });
+  window.parent.postMessage({type: '__edit_mode_available'}, '*');
+
+  function applyTweaks(t) {
+    document.documentElement.style.setProperty('--gold', t.accentColor);
+    document.getElementById('promo-bar').textContent = t.promoText;
+    document.getElementById('promo-bar').style.display = t.showPromoBar ? '' : 'none';
+  }
+
+  try {
+    const raw = document.getElementById('__tweaks__').textContent;
+    const json = raw.match(/\/\*EDITMODE-BEGIN\*\/([\s\S]*?)\/\*EDITMODE-END\*\//)[1];
+    const t = JSON.parse(json);
+    applyTweaks(t);
+    document.getElementById('tw-accent').value = t.accentColor;
+    document.getElementById('tw-promo').value = t.promoText;
+    document.getElementById('tw-promo-toggle').checked = t.showPromoBar;
+  } catch(e) {}
+
+  document.getElementById('tw-accent').addEventListener('input', e => {
+    document.documentElement.style.setProperty('--gold', e.target.value);
+    window.parent.postMessage({type:'__edit_mode_set_keys', edits:{accentColor: e.target.value}}, '*');
+  });
+  document.getElementById('tw-promo').addEventListener('input', e => {
+    document.getElementById('promo-bar').textContent = e.target.value;
+    window.parent.postMessage({type:'__edit_mode_set_keys', edits:{promoText: e.target.value}}, '*');
+  });
+  document.getElementById('tw-promo-toggle').addEventListener('change', e => {
+    document.getElementById('promo-bar').style.display = e.target.checked ? '' : 'none';
+    window.parent.postMessage({type:'__edit_mode_set_keys', edits:{showPromoBar: e.target.checked}}, '*');
+  });
+</script>
+</body>
+</html>

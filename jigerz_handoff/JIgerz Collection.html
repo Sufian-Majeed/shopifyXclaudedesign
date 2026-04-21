@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JIGERZ — Shop All</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root { --black: #0a0a0a; --off-white: #f5f4f0; --gold: #b8975a; --card-bg: #141414; --border: rgba(255,255,255,0.08); }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--black); color: var(--off-white); font-family: 'Barlow', sans-serif; font-weight: 300; overflow-x: hidden; }
+
+  .promo-bar { background: var(--gold); color: var(--black); text-align: center; padding: 10px 20px; font-size: 11px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; }
+
+  nav { position: sticky; top: 0; z-index: 100; background: rgba(10,10,10,0.97); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; padding: 0 48px; height: 72px; }
+  .nav-links { display: flex; gap: 24px; list-style: none; }
+  .nav-links a { color: var(--off-white); text-decoration: none; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; opacity: 0.7; transition: opacity 0.2s; white-space: nowrap; }
+  .nav-links a:hover, .nav-links a.active { opacity: 1; }
+  .nav-links a.active { border-bottom: 1px solid var(--gold); color: var(--gold); }
+  .nav-links a.sale-link { color: var(--gold); opacity: 1; }
+  .nav-logo img { height: 40px; filter: invert(1); }
+  .nav-actions { display: flex; justify-content: flex-end; gap: 20px; align-items: center; }
+  .nav-actions button { background: none; border: none; color: var(--off-white); cursor: pointer; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; opacity: 0.7; font-family: 'Barlow', sans-serif; }
+  .cart-btn { background: var(--gold) !important; color: var(--black) !important; padding: 8px 20px !important; opacity: 1 !important; font-weight: 600 !important; }
+  .hamburger { display: none; background: none; border: none; color: var(--off-white); font-size: 22px; cursor: pointer; }
+  .mobile-menu { display: none; position: fixed; inset: 0; background: #0a0a0a; z-index: 200; padding: 80px 40px 40px; flex-direction: column; gap: 28px; }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu-close { position: absolute; top: 24px; right: 24px; background: none; border: none; color: var(--off-white); font-size: 28px; cursor: pointer; }
+  .mobile-menu a { color: var(--off-white); text-decoration: none; font-family: 'Cormorant Garamond', serif; font-size: 36px; font-weight: 300; border-bottom: 1px solid var(--border); padding-bottom: 20px; }
+  .mobile-menu a.sale-link { color: var(--gold); }
+
+  /* PAGE HEADER */
+  .page-header { padding: 56px 60px 40px; border-bottom: 1px solid var(--border); }
+  .breadcrumb { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; opacity: 0.35; margin-bottom: 10px; }
+  .breadcrumb a { color: var(--off-white); text-decoration: none; }
+  .breadcrumb a:hover { color: var(--gold); }
+  .page-title { font-family: 'Cormorant Garamond', serif; font-size: 52px; font-weight: 300; line-height: 1; }
+  .page-count { font-size: 11px; opacity: 0.35; margin-top: 6px; letter-spacing: 0.1em; }
+
+  /* FILTER BAR */
+  .filter-bar { display: flex; align-items: center; padding: 0 60px; border-bottom: 1px solid var(--border); background: var(--card-bg); overflow-x: auto; gap: 0; }
+  .filter-tabs { display: flex; gap: 0; }
+  .filter-btn { background: none; border: none; color: var(--off-white); padding: 15px 20px; font-family: 'Barlow', sans-serif; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; cursor: pointer; opacity: 0.5; transition: all 0.2s; white-space: nowrap; position: relative; border-right: 1px solid var(--border); }
+  .filter-btn:hover { opacity: 1; }
+  .filter-btn.active { opacity: 1; color: var(--gold); }
+  .filter-btn.active::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: var(--gold); }
+
+  /* LAYOUT */
+  .shop-layout { display: grid; grid-template-columns: 220px 1fr; min-height: 80vh; }
+
+  /* SIDEBAR */
+  .sidebar { border-right: 1px solid var(--border); padding: 32px 28px; position: sticky; top: 72px; height: calc(100vh - 72px); overflow-y: auto; }
+  .sidebar::-webkit-scrollbar { width: 3px; }
+  .sidebar::-webkit-scrollbar-thumb { background: var(--border); }
+  .filter-section { margin-bottom: 32px; }
+  .filter-section-title { font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; }
+  .filter-option { display: flex; align-items: center; gap: 10px; padding: 5px 0; cursor: pointer; }
+  .filter-option input { accent-color: var(--gold); cursor: pointer; }
+  .filter-option label { font-size: 12px; opacity: 0.6; cursor: pointer; transition: opacity 0.2s; }
+  .filter-option:hover label { opacity: 1; }
+  .filter-option input:checked + label { opacity: 1; color: var(--gold); }
+  .filter-count { margin-left: auto; font-size: 10px; opacity: 0.3; }
+  .price-range input[type="range"] { width: 100%; accent-color: var(--gold); cursor: pointer; margin: 6px 0; }
+  .price-vals { display: flex; justify-content: space-between; font-size: 11px; opacity: 0.4; }
+  .color-swatches { display: flex; flex-wrap: wrap; gap: 8px; }
+  .color-swatch { width: 22px; height: 22px; border-radius: 50%; border: 2px solid transparent; cursor: pointer; transition: border-color 0.2s; }
+  .color-swatch.active, .color-swatch:hover { border-color: var(--gold); }
+  .size-pills { display: flex; flex-wrap: wrap; gap: 6px; }
+  .size-pill { border: 1px solid var(--border); padding: 5px 11px; font-size: 11px; cursor: pointer; transition: all 0.2s; opacity: 0.5; }
+  .size-pill:hover, .size-pill.active { border-color: var(--gold); color: var(--gold); opacity: 1; }
+
+  /* PRODUCTS */
+  .products-area { padding: 32px 44px; }
+  .sort-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 28px; }
+  .sort-left { font-size: 11px; opacity: 0.35; letter-spacing: 0.1em; }
+  .sort-right { display: flex; align-items: center; gap: 12px; }
+  .sort-select { background: var(--card-bg); border: 1px solid var(--border); color: var(--off-white); padding: 8px 14px; font-family: 'Barlow', sans-serif; font-size: 11px; cursor: pointer; outline: none; }
+  .grid-toggle { display: flex; gap: 2px; }
+  .grid-icon { width: 30px; height: 30px; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; cursor: pointer; opacity: 0.4; transition: opacity 0.2s; font-size: 10px; }
+  .grid-icon.active { opacity: 1; border-color: var(--gold); color: var(--gold); }
+
+  .products-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .products-grid.grid-2 { grid-template-columns: repeat(2, 1fr); }
+  .products-grid.grid-4 { grid-template-columns: repeat(4, 1fr); }
+
+  /* PRODUCT CARD */
+  .product-card { cursor: pointer; }
+  .product-img { aspect-ratio: 3/4; background: var(--card-bg); margin-bottom: 14px; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+  .product-img::before { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(45deg, transparent, transparent 16px, rgba(255,255,255,0.012) 16px, rgba(255,255,255,0.012) 17px); }
+  .product-img-label { font-family: monospace; font-size: 9px; color: rgba(255,255,255,0.2); text-align: center; z-index: 1; position: relative; line-height: 1.6; }
+  .product-quick-add { position: absolute; bottom: 0; left: 0; right: 0; background: rgba(10,10,10,0.93); color: var(--off-white); padding: 11px; text-align: center; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; transform: translateY(100%); transition: transform 0.3s; border-top: 1px solid var(--border); z-index: 3; }
+  .product-card:hover .product-quick-add { transform: translateY(0); }
+  .product-badge { position: absolute; top: 10px; left: 10px; font-size: 9px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; padding: 4px 9px; z-index: 2; background: var(--gold); color: var(--black); }
+  .product-badge.sale { background: #0a0a0a; color: var(--off-white); border: 1px solid rgba(255,255,255,0.15); }
+  .product-badge.bestseller { background: var(--off-white); color: var(--black); }
+  .product-wishlist { position: absolute; top: 10px; right: 10px; width: 30px; height: 30px; background: rgba(10,10,10,0.7); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; cursor: pointer; opacity: 0; transition: opacity 0.3s; z-index: 2; font-size: 13px; }
+  .product-card:hover .product-wishlist { opacity: 1; }
+  .product-name { font-size: 13px; margin-bottom: 6px; font-weight: 400; }
+  .product-prices { display: flex; align-items: baseline; gap: 8px; margin-bottom: 6px; flex-wrap: wrap; }
+  .product-price { font-family: 'Cormorant Garamond', serif; font-size: 19px; font-weight: 600; color: var(--gold); }
+  .product-price-old { font-size: 12px; opacity: 0.35; text-decoration: line-through; }
+  .product-save { font-size: 9px; background: rgba(184,151,90,0.15); color: var(--gold); padding: 2px 7px; letter-spacing: 0.1em; white-space: nowrap; }
+  .product-meta { display: flex; justify-content: space-between; align-items: center; }
+  .product-colors { display: flex; gap: 4px; }
+  .color-dot { width: 10px; height: 10px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.2); }
+  .product-sizes { display: flex; gap: 4px; margin-top: 5px; }
+  .size-xs { font-size: 9px; opacity: 0.35; letter-spacing: 0.1em; border: 1px solid var(--border); padding: 2px 5px; }
+
+  /* PAGINATION */
+  .pagination { display: flex; justify-content: center; align-items: center; gap: 4px; padding: 52px 0 16px; }
+  .page-num { width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--border); font-size: 12px; cursor: pointer; transition: all 0.2s; opacity: 0.5; }
+  .page-num:hover { opacity: 1; border-color: var(--gold); }
+  .page-num.active { background: var(--gold); color: var(--black); border-color: var(--gold); opacity: 1; font-weight: 600; }
+  .page-next { width: auto; padding: 0 14px; }
+
+  /* TWEAKS */
+  #tweaks-panel { display: none; position: fixed; bottom: 24px; right: 24px; background: #1a1a1a; border: 1px solid var(--border); padding: 24px; z-index: 999; width: 240px; }
+  #tweaks-panel h3 { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; }
+  .tweak-row { margin-bottom: 12px; }
+  .tweak-label { font-size: 11px; opacity: 0.5; margin-bottom: 5px; display: block; text-transform: uppercase; letter-spacing: 0.1em; }
+  .tweak-row select { width: 100%; background: #0a0a0a; border: 1px solid var(--border); color: var(--off-white); padding: 7px 12px; font-family: 'Barlow', sans-serif; font-size: 12px; outline: none; cursor: pointer; }
+
+  /* MOBILE */
+  @media (max-width: 768px) {
+    nav { padding: 0 20px; height: 60px; }
+    .nav-links { display: none; }
+    .nav-actions button:not(.cart-btn) { display: none; }
+    .hamburger { display: block; }
+    .nav-logo img { height: 32px; }
+    .cart-btn { padding: 6px 14px !important; font-size: 10px !important; }
+    .page-header { padding: 32px 20px 24px; }
+    .page-title { font-size: 36px; }
+    .filter-bar { padding: 0 16px; }
+    .shop-layout { grid-template-columns: 1fr; }
+    .sidebar { display: none; }
+    .products-area { padding: 20px; }
+    .products-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .products-grid.grid-2, .products-grid.grid-4 { grid-template-columns: repeat(2, 1fr); }
+    .sort-row { flex-direction: column; align-items: flex-start; gap: 12px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="promo-bar">FREE DELIVERY ON ORDERS OVER PKR 2,500 · USE CODE: <strong>JIGERZ10</strong> FOR 10% OFF</div>
+
+<nav>
+  <ul class="nav-links">
+    <li><a href="JIgerz Store.html">Home</a></li>
+    <li><a href="#" class="active">Shop All</a></li>
+    <li><a href="#">T-Shirts</a></li>
+    <li><a href="#" class="sale-link">Winter Clearance ✦</a></li>
+  </ul>
+  <div class="nav-logo" style="display:flex;justify-content:center;">
+    <img src="uploads/logo-1776684626245.png" alt="JIGERZ">
+  </div>
+  <div class="nav-actions">
+    <button>Search</button>
+    <button>Account</button>
+    <button class="cart-btn">Bag (0)</button>
+    <button class="hamburger" onclick="document.getElementById('mobile-menu').classList.add('open')">☰</button>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobile-menu">
+  <button class="mobile-menu-close" onclick="document.getElementById('mobile-menu').classList.remove('open')">✕</button>
+  <a href="JIgerz Store.html">Home</a>
+  <a href="#">Shop All</a>
+  <a href="#">T-Shirts</a>
+  <a href="#" class="sale-link">Winter Clearance ✦</a>
+</div>
+
+<div class="page-header">
+  <div class="breadcrumb"><a href="JIgerz Store.html">Home</a> &nbsp;/&nbsp; Shop All</div>
+  <h1 class="page-title">All Products</h1>
+  <div class="page-count">48 items</div>
+</div>
+
+<div class="filter-bar">
+  <div class="filter-tabs">
+    <button class="filter-btn active">All</button>
+    <button class="filter-btn">T-Shirts</button>
+    <button class="filter-btn">Polo</button>
+    <button class="filter-btn">Oversized</button>
+    <button class="filter-btn">Accessories</button>
+    <button class="filter-btn sale-link" style="color:var(--gold);opacity:1;">Sale ✦</button>
+  </div>
+</div>
+
+<div class="shop-layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="filter-section">
+      <div class="filter-section-title">Category</div>
+      <div class="filter-option"><input type="checkbox" id="cat1" checked><label for="cat1">All <span class="filter-count">48</span></label></div>
+      <div class="filter-option"><input type="checkbox" id="cat2"><label for="cat2">T-Shirts <span class="filter-count">24</span></label></div>
+      <div class="filter-option"><input type="checkbox" id="cat3"><label for="cat3">Polo <span class="filter-count">10</span></label></div>
+      <div class="filter-option"><input type="checkbox" id="cat4"><label for="cat4">Oversized <span class="filter-count">8</span></label></div>
+      <div class="filter-option"><input type="checkbox" id="cat5"><label for="cat5">Accessories <span class="filter-count">6</span></label></div>
+    </div>
+
+    <div class="filter-section">
+      <div class="filter-section-title">Size</div>
+      <div class="size-pills">
+        <div class="size-pill">XS</div>
+        <div class="size-pill active">S</div>
+        <div class="size-pill active">M</div>
+        <div class="size-pill">L</div>
+        <div class="size-pill">XL</div>
+        <div class="size-pill">XXL</div>
+      </div>
+    </div>
+
+    <div class="filter-section">
+      <div class="filter-section-title">Color</div>
+      <div class="color-swatches">
+        <div class="color-swatch active" style="background:#0a0a0a;" title="Black"></div>
+        <div class="color-swatch" style="background:#f5f4f0;border:2px solid rgba(255,255,255,0.15);" title="White"></div>
+        <div class="color-swatch" style="background:#b8975a;" title="Gold"></div>
+        <div class="color-swatch" style="background:#3a3a3a;" title="Charcoal"></div>
+        <div class="color-swatch" style="background:#1a2a3a;" title="Navy"></div>
+      </div>
+    </div>
+
+    <div class="filter-section">
+      <div class="filter-section-title">Price Range</div>
+      <input type="range" min="0" max="10000" value="7000" id="price-range">
+      <div class="price-vals"><span>0</span><span id="price-val">PKR 7,000</span></div>
+    </div>
+
+    <div class="filter-section">
+      <div class="filter-section-title">Availability</div>
+      <div class="filter-option"><input type="checkbox" id="av1" checked><label for="av1">In Stock</label></div>
+      <div class="filter-option"><input type="checkbox" id="av2"><label for="av2">Pre-Order</label></div>
+    </div>
+  </aside>
+
+  <!-- PRODUCTS -->
+  <div class="products-area">
+    <div class="sort-row">
+      <span class="sort-left">Showing 48 products</span>
+      <div class="sort-right">
+        <select class="sort-select">
+          <option>Featured</option>
+          <option>Price: Low to High</option>
+          <option>Price: High to Low</option>
+          <option>Newest First</option>
+          <option>Best Selling</option>
+        </select>
+        <div class="grid-toggle">
+          <div class="grid-icon" onclick="setGrid(2,this)">▥</div>
+          <div class="grid-icon active" onclick="setGrid(3,this)">▦</div>
+          <div class="grid-icon" onclick="setGrid(4,this)">⊞</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="products-grid" id="pgrid">
+
+      <div class="product-card" onclick="window.location='JIgerz Product.html'">
+        <div class="product-img">
+          <div class="product-badge">New</div>
+          <div class="product-wishlist">♡</div>
+          <div class="product-img-label">product photo<br>360×480px</div>
+          <div class="product-quick-add">+ Quick Add</div>
+        </div>
+        <div class="product-name">Classic Logo Tee</div>
+        <div class="product-prices">
+          <span class="product-price">PKR 1,800</span>
+          <span class="product-price-old">PKR 2,200</span>
+          <span class="product-save">-18%</span>
+        </div>
+        <div class="product-meta">
+          <div class="product-colors">
+            <div class="color-dot" style="background:#0a0a0a;"></div>
+            <div class="color-dot" style="background:#f5f4f0;border-color:rgba(255,255,255,0.3)"></div>
+            <div class="color-dot" style="background:#b8975a;"></div>
+          </div>
+        </div>
+        <div class="product-sizes"><span class="size-xs">S</span><span class="size-xs">M</span><span class="size-xs">L</span><span class="size-xs">XL</span></div>
+      </div>
+
+      <div class="product-card" onclick="window.location='JIgerz Product.html'">
+        <div class="product-img">
+          <div class="product-badge sale">Sale</div>
+          <div class="product-wishlist">♡</div>
+          <div class="product-img-label">product photo<br>360×480px</div>
+          <div class="product-quick-add">+ Quick Add</div>
+        </div>
+        <div class="product-name">Popcorn Knit Polo</div>
+        <div class="product-prices">
+          <span class="product-price">PKR 2,500</span>
+          <span class="product-price-old">PKR 3,200</span>
+          <span class="product-save">-22%</span>
+        </div>
+        <div class="product-meta">
+          <div class="product-colors">
+            <div class="color-dot" style="background:#0a0a0a;"></div>
+            <div class="color-dot" style="background:#3a3a3a;"></div>
+          </div>
+        </div>
+        <div class="product-sizes"><span class="size-xs">M</span><span class="size-xs">L</span><span class="size-xs">XL</span></div>
+      </div>
+
+      <div class="product-card" onclick="window.location='JIgerz Product.html'">
+        <div class="product-img">
+          <div class="product-wishlist">♡</div>
+          <div class="product-img-label">product photo<br>360×480px</div>
+          <div class="product-quick-add">+ Quick Add</div>
+        </div>
+        <div class="product-name">Essential Crewneck</div>
+        <div class="product-prices">
+          <span class="product-price">PKR 2,500</span>
+          <span class="product-price-old">PKR 3,000</span>
+          <span class="product-save">-17%</span>
+        </div>
+        <div class="product-meta">
+          <div class="product-colors">
+            <div class="color-dot" style="background:#f5f4f0;border-color:rgba(255,255,255,0.3)"></div>
+            <div class="color-dot" style="background:#b8975a;"></div>
+          </div>
+        </div>
+        <div class="product-sizes"><span class="size-xs">S</span><span class="size-xs">M</span><span class="size-xs">L</span></div>
+      </div>
+
+      <div class="product-card" onclick="window.location='JIgerz Product.html'">
+        <div class="product-img">
+          <div class="product-badge bestseller">Best Seller</div>
+          <div class="product-wishlist">♡</div>
+          <div class="product-img-label">product photo<br>360×480px</div>
+          <div class="product-quick-add">+ Quick Add</div>
+        </div>
+        <div class="product-name">Oversized Drop Tee</div>
+        <div class="product-prices">
+          <span class="product-price">PKR 2,200</span>
+          <span class="product-price-old">PKR 2,800</span>
+          <span class="product-save">-21%</span>
+        </div>
+        <div class="product-meta">
+          <div class="product-colors">
+            <div class="color-dot" style="background:#0a0a0a;"></div>
+            <div class="color-dot" style="background:#f5f4f0;border-color:rgba(255,255,255,0.3)"></div>
+          </div>
+        </div>
+        <div class="product-sizes"><span class="size-xs">S</span><span class="size-xs">M</span><span class="size-xs">L</span><span class="size-xs">XL</span><span class="size-xs">XXL</span></div>
+      </div>
+
+      <div class="product-card" onclick="window.location='JIgerz Product.html'">
+        <div class="product-img">
+          <div class="product-badge">New</div>
+          <div class="product-wishlist">♡</div>
+          <div class="product-img-label">product photo<br>360×480px</div>
+          <div class="product-quick-add">+ Quick Add</div>
+        </div>
+        <div class="product-name">Summer Essential Tee</div>
+        <div class="product-prices">
+          <span class="product-price">PKR 1,950</span>
+          <span class="product-price-old">PKR 2,400</span>
+          <span class="product-save">-19%</span>
+        </div>
+        <div class="product-meta">
+          <div class="product-colors">
+            <div class="color-dot" style="background:#0a0a0a;"></div>
+            <div class="color-dot" style="background:#b8975a;"></div>
+          </div>
+        </div>
+        <div class="product-sizes"><span class="size-xs">S</span><span class="size-xs">M</span><span class="size-xs">L</span></div>
+      </div>
+
+      <div class="product-card" onclick="window.location='JIgerz Product.html'">
+        <div class="product-img">
+          <div class="product-wishlist">♡</div>
+          <div class="product-img-label">product photo<br>360×480px</div>
+          <div class="product-quick-add">+ Quick Add</div>
+        </div>
+        <div class="product-name">Graphic Print Tee</div>
+        <div class="product-prices">
+          <span class="product-price">PKR 1,950</span>
+          <span class="product-price-old">PKR 2,500</span>
+          <span class="product-save">-22%</span>
+        </div>
+        <div class="product-meta">
+          <div class="product-colors">
+            <div class="color-dot" style="background:#0a0a0a;"></div>
+            <div class="color-dot" style="background:#f5f4f0;border-color:rgba(255,255,255,0.3)"></div>
+          </div>
+        </div>
+        <div class="product-sizes"><span class="size-xs">S</span><span class="size-xs">M</span><span class="size-xs">L</span></div>
+      </div>
+
+    </div>
+
+    <div class="pagination">
+      <div class="page-num active">1</div>
+      <div class="page-num">2</div>
+      <div class="page-num">3</div>
+      <div class="page-num">4</div>
+      <div class="page-num page-next">Next →</div>
+    </div>
+  </div>
+</div>
+
+<div id="tweaks-panel">
+  <h3>Tweaks</h3>
+  <div class="tweak-row">
+    <label class="tweak-label">Default Sort</label>
+    <select><option>Featured</option><option>Newest First</option><option>Best Selling</option></select>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    });
+  });
+  document.querySelectorAll('.color-swatch').forEach(s => s.addEventListener('click', () => s.classList.toggle('active')));
+  document.querySelectorAll('.size-pill').forEach(p => p.addEventListener('click', () => p.classList.toggle('active')));
+  document.getElementById('price-range').addEventListener('input', e => {
+    document.getElementById('price-val').textContent = 'PKR ' + Number(e.target.value).toLocaleString();
+  });
+  function setGrid(n, el) {
+    document.querySelectorAll('.grid-icon').forEach(i => i.classList.remove('active'));
+    el.classList.add('active');
+    const g = document.getElementById('pgrid');
+    g.className = 'products-grid' + (n===2?' grid-2':n===4?' grid-4':'');
+  }
+  window.addEventListener('message', e => {
+    if (e.data?.type === '__activate_edit_mode') document.getElementById('tweaks-panel').style.display = 'block';
+    if (e.data?.type === '__deactivate_edit_mode') document.getElementById('tweaks-panel').style.display = 'none';
+  });
+  window.parent.postMessage({type: '__edit_mode_available'}, '*');
+</script>
+</body>
+</html>
