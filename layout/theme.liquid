@@ -41,6 +41,7 @@
   </head>
 
   <body class="page-width-{{ settings.page_width }} card-hover-effect-{{ settings.card_hover_effect }}">
+    {% if template.name == 'product' %}<div style="background:red;color:white;text-align:center;padding:12px;font-size:16px;font-weight:bold;position:relative;z-index:9999;">✅ JIGERZ SYNC OK — PRODUCT TEMPLATE ACTIVE</div>{% endif %}
     {% render 'skip-to-content-link', href: '#MainContent', text: 'accessibility.skip_to_text' %}
     <div id="header-group">
       {% sections 'header-group' %}
