@@ -107,17 +107,8 @@
       opacity: 0.7 !important;
     }
 
-    /* Search icon → hide SVG, show text via pseudo */
+    /* Search — hide SVG icon only, text already shows */
     .search-action .svg-wrapper { display: none !important; }
-    .search-action::after {
-      content: 'Search' !important;
-      font-family: 'Barlow', system-ui, sans-serif !important;
-      font-size: 11px !important;
-      letter-spacing: 0.13em !important;
-      text-transform: uppercase !important;
-      color: #f5f4f0 !important;
-      opacity: 0.7 !important;
-    }
 
     /* BAG — gold border box */
     header-actions .header-actions__action:has(cart-icon),
