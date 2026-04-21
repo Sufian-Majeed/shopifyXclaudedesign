@@ -646,7 +646,7 @@
     <div class="jgz-pdp__info">
       <!-- Badges -->
       <div class="jgz-pdp__badges">
-        {%- if product.tags contains 'new-arrival' or product.created_at > 'now' | date: '%s' | minus: 2592000 -%}
+        {%- if product.tags contains 'new-arrival' -%}
           <span class="jgz-pdp__badge jgz-pdp__badge--new-arrival">New Arrival</span>
         {%- endif -%}
         {%- if current_variant.available -%}
@@ -813,35 +813,50 @@
   </div>
 </div>
 
-<!-- Related Products -->
-{%- if recommendations.performed? and recommendations.products_count > 0 -%}
-  <div class="jgz-related">
-    <div class="jgz-related__header">
-      <p class="jgz-section-label">You May Also Like</p>
-      <h2 class="jgz-section-title" style="font-size:36px;">Related Products</h2>
+<!-- Related Products — from same collection -->
+{%- assign related_collection = product.collections.first -%}
+{%- if related_collection != blank -%}
+  {%- assign related_count = 0 -%}
+  {%- for rel in related_collection.products -%}
+    {%- if rel.id != product.id and related_count < 4 -%}
+      {%- assign related_count = related_count | plus: 1 -%}
+    {%- endif -%}
+  {%- endfor -%}
+  {%- if related_count > 0 -%}
+    <div class="jgz-related">
+      <div class="jgz-related__header">
+        <p class="jgz-section-label">You May Also Like</p>
+        <h2 class="jgz-section-title" style="font-size:36px;">Related Products</h2>
+      </div>
+      <div class="jgz-related__grid">
+        {%- assign shown = 0 -%}
+        {%- for rel in related_collection.products -%}
+          {%- if rel.id != product.id and shown < 4 -%}
+            {%- assign shown = shown | plus: 1 -%}
+            <a href="{{ rel.url }}" class="jgz-product-card" style="text-decoration:none;display:block;">
+              <div class="jgz-product-card__image-wrap">
+                {%- if rel.featured_image != blank -%}
+                  <img src="{{ rel.featured_image | image_url: width: 600 }}" alt="{{ rel.title }}" loading="lazy">
+                {%- else -%}
+                  <div style="width:100%;height:100%;background:var(--jgz-card-bg);"></div>
+                {%- endif -%}
+                <div class="jgz-product-card__quick-add">Quick Add +</div>
+              </div>
+              <div class="jgz-product-card__info">
+                <p class="jgz-product-card__name">{{ rel.title }}</p>
+                <div class="jgz-product-card__price-row">
+                  <span class="jgz-product-card__price">{{ rel.price | money }}</span>
+                  {%- if rel.compare_at_price > rel.price -%}
+                    <span class="jgz-product-card__compare">{{ rel.compare_at_price | money }}</span>
+                  {%- endif -%}
+                </div>
+              </div>
+            </a>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
     </div>
-    <div class="jgz-related__grid">
-      {%- for rec_product in recommendations.products limit: 4 -%}
-        <a href="{{ rec_product.url }}" class="jgz-product-card" style="text-decoration:none;display:block;">
-          <div class="jgz-product-card__image-wrap">
-            {%- if rec_product.featured_image != blank -%}
-              <img src="{{ rec_product.featured_image | image_url: width: 600 }}" alt="{{ rec_product.title }}" loading="lazy">
-            {%- endif -%}
-            <div class="jgz-product-card__quick-add">Quick Add +</div>
-          </div>
-          <div class="jgz-product-card__info">
-            <p class="jgz-product-card__name">{{ rec_product.title }}</p>
-            <div class="jgz-product-card__price-row">
-              <span class="jgz-product-card__price">{{ rec_product.price | money }}</span>
-              {%- if rec_product.compare_at_price > rec_product.price -%}
-                <span class="jgz-product-card__compare">{{ rec_product.compare_at_price | money }}</span>
-              {%- endif -%}
-            </div>
-          </div>
-        </a>
-      {%- endfor -%}
-    </div>
-  </div>
+  {%- endif -%}
 {%- endif -%}
 
 <!-- Mobile Sticky CTA -->
