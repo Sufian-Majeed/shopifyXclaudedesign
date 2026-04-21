@@ -41,6 +41,7 @@
   </head>
 
   <body class="page-width-{{ settings.page_width }} card-hover-effect-{{ settings.card_hover_effect }}">
+    {% if template.name == 'product' %}<div style="background:red;color:white;padding:10px;text-align:center;font-size:18px;font-weight:bold;z-index:9999;position:relative;">DEBUG: template={{ template }} | sections={{ content_for_layout | truncate: 50 }}</div>{% endif %}
     {% render 'skip-to-content-link', href: '#MainContent', text: 'accessibility.skip_to_text' %}
     <div id="header-group">
       {% sections 'header-group' %}
