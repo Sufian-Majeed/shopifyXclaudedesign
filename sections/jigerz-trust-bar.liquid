@@ -1,0 +1,100 @@
+<style>
+  .jgz-trust {
+    background: var(--jgz-card-bg);
+    border-top: 1px solid var(--jgz-border);
+    border-bottom: 1px solid var(--jgz-border);
+  }
+
+  .jgz-trust__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .jgz-trust__item {
+    padding: 36px var(--jgz-px);
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    border-right: 1px solid var(--jgz-border);
+  }
+  .jgz-trust__item:last-child { border-right: none; }
+
+  .jgz-trust__icon {
+    font-size: 22px;
+    line-height: 1;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .jgz-trust__text h4 {
+    font-family: var(--jgz-body);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--jgz-off-white);
+    margin: 0 0 6px;
+  }
+
+  .jgz-trust__text p {
+    font-family: var(--jgz-body);
+    font-size: 11px;
+    font-weight: 300;
+    color: var(--jgz-off-white);
+    opacity: 0.4;
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  @media (max-width: 768px) {
+    .jgz-trust__grid { grid-template-columns: repeat(2, 1fr); }
+    .jgz-trust__item {
+      padding: 24px 20px;
+      border-bottom: 1px solid var(--jgz-border);
+    }
+    .jgz-trust__item:nth-child(2) { border-right: none; }
+    .jgz-trust__item:nth-child(3), .jgz-trust__item:nth-child(4) { border-bottom: none; }
+  }
+</style>
+
+<div class="jgz-trust">
+  <div class="jgz-trust__grid">
+    {%- for block in section.blocks -%}
+      <div class="jgz-trust__item" {{ block.shopify_attributes }}>
+        <div class="jgz-trust__icon">{{ block.settings.icon }}</div>
+        <div class="jgz-trust__text">
+          <h4>{{ block.settings.title }}</h4>
+          <p>{{ block.settings.description }}</p>
+        </div>
+      </div>
+    {%- endfor -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "JIGERZ Trust Bar",
+  "blocks": [
+    {
+      "type": "trust_item",
+      "name": "Trust Item",
+      "settings": [
+        { "type": "text", "id": "icon", "label": "Emoji icon", "default": "🚚" },
+        { "type": "text", "id": "title", "label": "Title", "default": "Free Delivery" },
+        { "type": "text", "id": "description", "label": "Description", "default": "On all orders over PKR 2,500" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "JIGERZ Trust Bar",
+      "blocks": [
+        { "type": "trust_item", "settings": { "icon": "🚚", "title": "Free Delivery", "description": "On orders over PKR 2,500" } },
+        { "type": "trust_item", "settings": { "icon": "💵", "title": "Cash on Delivery", "description": "Pay when your order arrives" } },
+        { "type": "trust_item", "settings": { "icon": "↩️", "title": "30-Day Returns", "description": "Hassle-free return policy" } },
+        { "type": "trust_item", "settings": { "icon": "✓", "title": "Genuine Quality", "description": "Premium imported fabrics only" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

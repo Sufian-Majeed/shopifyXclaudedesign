@@ -1,290 +1,123 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */{
+{
   "sections": {
-    "hero_jVaWmY": {
-      "type": "hero",
-      "blocks": {
-        "text_YLPk4p": {
-          "type": "text",
-          "name": "t:names.heading",
-          "settings": {
-            "text": "<p>Browse our latest products</p>",
-            "width": "fit-content",
-            "max_width": "normal",
-            "alignment": "left",
-            "type_preset": "h2",
-            "font": "var(--font-body--family)",
-            "font_size": "1rem",
-            "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
-            "wrap": "pretty",
-            "color": "var(--color-foreground-heading)",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {}
-        },
-        "button_H9gpTf": {
-          "type": "button",
-          "name": "t:names.button",
-          "settings": {
-            "label": "Shop all",
-            "link": "shopify://collections/all",
-            "open_in_new_tab": false,
-            "style_class": "button-secondary",
-            "width": "fit-content",
-            "custom_width": 100,
-            "width_mobile": "fit-content",
-            "custom_width_mobile": 100
-          },
-          "blocks": {}
-        }
-      },
-      "block_order": [
-        "text_YLPk4p",
-        "button_H9gpTf"
-      ],
-      "name": "t:names.hero",
+    "jigerz_promo_bar": {
+      "type": "jigerz-announcement-bar",
       "settings": {
-        "media_type_1": "image",
-        "media_type_2": "image",
-        "stack_media_on_mobile": false,
-        "custom_mobile_media": false,
-        "media_type_1_mobile": "image",
-        "media_type_2_mobile": "image",
-        "open_in_new_tab": false,
-        "content_direction": "column",
-        "vertical_on_mobile": true,
-        "horizontal_alignment": "space-between",
-        "vertical_alignment": "flex-end",
-        "align_baseline": true,
-        "horizontal_alignment_flex_direction_column": "center",
-        "vertical_alignment_flex_direction_column": "flex-end",
-        "gap": 24,
-        "section_width": "page-width",
-        "section_height": "medium",
-        "section_height_custom": 50,
-        "color_scheme": "scheme-6",
-        "toggle_overlay": true,
-        "overlay_color": "#12121266",
-        "overlay_style": "solid",
-        "gradient_direction": "to bottom",
-        "blurred_reflection": false,
-        "reflection_opacity": 75,
-        "padding-block-start": 100,
-        "padding-block-end": 72
+        "promo_text": "FREE DELIVERY ON ORDERS OVER PKR 2,500 · LIMITED SUMMER SALE — USE CODE JIGERZ10"
       }
     },
-    "product_list_fa6P9H": {
-      "type": "product-list",
+    "jigerz_hero": {
+      "type": "jigerz-hero",
+      "settings": {
+        "eyebrow": "New Collection — Summer 2026",
+        "heading": "Summer Essentials 2026",
+        "tagline": "Not Just A Brand — It's A Bond.",
+        "subtext": "Premium imported fabrics. Modern silhouettes. Built for the Pakistani summer.",
+        "cta_primary_label": "Shop Now",
+        "cta_primary_url": "/collections/all",
+        "cta_secondary_label": "Explore Collection",
+        "cta_secondary_url": "/collections/all"
+      }
+    },
+    "jigerz_marquee": {
+      "type": "jigerz-marquee",
+      "settings": {
+        "marquee_text": "Premium Imported Fabric · Summer 2026 · Free Delivery 2500+ · Cash On Delivery · JIGERZ — Not Just A Brand · Limited Summer Sale · New Arrivals Weekly"
+      }
+    },
+    "jigerz_categories": {
+      "type": "jigerz-category-grid",
       "blocks": {
-        "static-header": {
-          "type": "_product-list-content",
-          "name": "t:names.header",
-          "static": true,
-          "settings": {
-            "content_direction": "row",
-            "vertical_on_mobile": false,
-            "horizontal_alignment": "space-between",
-            "vertical_alignment": "flex-end",
-            "align_baseline": true,
-            "horizontal_alignment_flex_direction_column": "flex-start",
-            "vertical_alignment_flex_direction_column": "center",
-            "gap": 12,
-            "width": "fill",
-            "custom_width": 100,
-            "width_mobile": "fill",
-            "custom_width_mobile": 100,
-            "height": "fit",
-            "custom_height": 100,
-            "inherit_color_scheme": true,
-            "color_scheme": "",
-            "background_media": "none",
-            "video_position": "cover",
-            "background_image_position": "cover",
-            "border": "none",
-            "border_width": 1,
-            "border_opacity": 100,
-            "border_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {
-            "product_list_text_YFtzcL": {
-              "type": "_product-list-text",
-              "name": "t:names.collection_title",
-              "settings": {
-                "text": "<h3>{{ closest.collection.title }}</h3>",
-                "width": "fit-content",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "h4",
-                "font": "var(--font-body--family)",
-                "font_size": "",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "color": "var(--color-foreground)",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "product_list_button_MWeP9V": {
-              "type": "_product-list-button",
-              "name": "t:names.product_list_button",
-              "settings": {
-                "label": "View all",
-                "open_in_new_tab": false,
-                "style_class": "link",
-                "width": "fit-content",
-                "custom_width": 100,
-                "width_mobile": "fit-content",
-                "custom_width_mobile": 100
-              },
-              "blocks": {}
-            }
-          },
-          "block_order": [
-            "product_list_text_YFtzcL",
-            "product_list_button_MWeP9V"
-          ]
+        "cat_tshirts": {
+          "type": "category",
+          "settings": { "name": "T-Shirts", "count": "24 Styles", "link": "/collections/t-shirts" }
         },
-        "static-product-card": {
-          "type": "_product-card",
-          "name": "t:names.product_card",
-          "static": true,
-          "settings": {
-            "product_card_gap": 4,
-            "inherit_color_scheme": true,
-            "color_scheme": "",
-            "border": "none",
-            "border_width": 1,
-            "border_opacity": 100,
-            "border_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {
-            "product_card_gallery_677WP3": {
-              "type": "_product-card-gallery",
-              "name": "t:names.product_card_media",
-              "settings": {
-                "image_ratio": "adapt",
-                "border": "none",
-                "border_width": 1,
-                "border_opacity": 100,
-                "border_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "product_title_YXxMTj": {
-              "type": "product-title",
-              "name": "t:names.product_title",
-              "settings": {
-                "width": "100%",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "rte",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "color": "var(--color-foreground)",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 4,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            },
-            "price_JQzVV4": {
-              "type": "price",
-              "name": "t:names.product_price",
-              "settings": {
-                "show_sale_price_first": true,
-                "show_installments": false,
-                "show_tax_info": false,
-                "type_preset": "h6",
-                "width": "100%",
-                "alignment": "left",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "color": "var(--color-foreground)",
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
-            }
-          },
-          "block_order": [
-            "product_card_gallery_677WP3",
-            "product_title_YXxMTj",
-            "price_JQzVV4"
-          ]
+        "cat_polo": {
+          "type": "category",
+          "settings": { "name": "Polo", "count": "10 Styles", "link": "/collections/polo" }
+        },
+        "cat_oversized": {
+          "type": "category",
+          "settings": { "name": "Oversized", "count": "14 Styles", "link": "/collections/oversized" }
+        },
+        "cat_accessories": {
+          "type": "category",
+          "settings": { "name": "Accessories", "count": "8 Styles", "link": "/collections/accessories" }
         }
       },
-      "name": "Featured collection",
+      "block_order": ["cat_tshirts", "cat_polo", "cat_oversized", "cat_accessories"],
       "settings": {
+        "section_label": "Shop by Category",
+        "section_title": "Browse Our Range"
+      }
+    },
+    "jigerz_trust": {
+      "type": "jigerz-trust-bar",
+      "blocks": {
+        "trust_1": { "type": "trust_item", "settings": { "icon": "🚚", "title": "Free Delivery", "description": "On all orders over PKR 2,500" } },
+        "trust_2": { "type": "trust_item", "settings": { "icon": "💵", "title": "Cash on Delivery", "description": "Pay when your order arrives" } },
+        "trust_3": { "type": "trust_item", "settings": { "icon": "↩️", "title": "30-Day Returns", "description": "Hassle-free return policy" } },
+        "trust_4": { "type": "trust_item", "settings": { "icon": "✓", "title": "Genuine Quality", "description": "Premium imported fabrics only" } }
+      },
+      "block_order": ["trust_1", "trust_2", "trust_3", "trust_4"],
+      "settings": {}
+    },
+    "jigerz_new_arrivals": {
+      "type": "jigerz-new-arrivals",
+      "settings": {
+        "section_label": "Just Dropped",
+        "section_title": "New Arrivals",
         "collection": "all",
-        "layout_type": "grid",
-        "carousel_on_mobile": false,
-        "max_products": 8,
-        "columns": 4,
-        "mobile_columns": "2",
-        "mobile_card_size": "60cqw",
-        "columns_gap": 8,
-        "rows_gap": 24,
-        "icons_style": "arrow",
-        "icons_shape": "none",
-        "section_width": "page-width",
-        "horizontal_alignment": "flex-start",
-        "gap": 28,
-        "color_scheme": "scheme-1",
-        "padding-block-start": 48,
-        "padding-block-end": 48
+        "product_count": 8,
+        "view_all_url": "/collections/all"
+      }
+    },
+    "jigerz_values": {
+      "type": "jigerz-brand-values",
+      "blocks": {
+        "val_1": { "type": "value", "settings": { "title": "Premium Fabric", "description": "100% ring-spun cotton from premium mills. Breathable, durable, and built to last." } },
+        "val_2": { "type": "value", "settings": { "title": "Modern Fit", "description": "Smart silhouettes designed for the Pakistani physique. Not too slim, not too loose." } },
+        "val_3": { "type": "value", "settings": { "title": "Everyday Comfort", "description": "Engineered for all-day wear in Pakistan's climate. Light, airy, and sweat-resistant." } }
+      },
+      "block_order": ["val_1", "val_2", "val_3"],
+      "settings": {
+        "kicker": "Why JIGERZ",
+        "heading": "Built on Values That Matter"
+      }
+    },
+    "jigerz_testimonials": {
+      "type": "jigerz-testimonials",
+      "blocks": {
+        "test_1": { "type": "testimonial", "settings": { "quote": "Best quality tee I've found in Pakistan. The fabric is incredibly soft and the fit is perfect.", "author": "Ahmed K., Lahore" } },
+        "test_2": { "type": "testimonial", "settings": { "quote": "Ordered 3 shirts and they arrived in 2 days. The packaging was premium and the quality exceeded expectations.", "author": "Hassan M., Karachi" } },
+        "test_3": { "type": "testimonial", "settings": { "quote": "JIGERZ really is different. The oversized tee has become my daily wear. Just ordered two more.", "author": "Bilal R., Islamabad" } }
+      },
+      "block_order": ["test_1", "test_2", "test_3"],
+      "settings": {
+        "section_label": "Customer Love",
+        "section_title": "What They're Saying"
+      }
+    },
+    "jigerz_newsletter": {
+      "type": "jigerz-newsletter",
+      "settings": {
+        "section_label": "Stay in the Loop",
+        "heading": "Drop Alerts & Exclusive Offers",
+        "subtext": "Be the first to know when new styles drop. No spam, ever.",
+        "placeholder": "Enter your email",
+        "button_label": "Subscribe"
       }
     }
   },
   "order": [
-    "hero_jVaWmY",
-    "product_list_fa6P9H"
+    "jigerz_promo_bar",
+    "jigerz_hero",
+    "jigerz_marquee",
+    "jigerz_categories",
+    "jigerz_trust",
+    "jigerz_new_arrivals",
+    "jigerz_values",
+    "jigerz_testimonials",
+    "jigerz_newsletter"
   ]
 }

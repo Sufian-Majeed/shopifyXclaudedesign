@@ -1,0 +1,462 @@
+<style>
+  .jgz-col-page {
+    background: var(--jgz-black);
+    min-height: 100vh;
+    padding-bottom: 80px;
+  }
+
+  /* ---- Collection Header ---- */
+  .jgz-col-header {
+    padding: 60px var(--jgz-px) 0;
+    border-bottom: 1px solid var(--jgz-border);
+  }
+
+  .jgz-col-header__top {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    padding-bottom: 32px;
+  }
+
+  .jgz-col-header__kicker {
+    font-family: var(--jgz-body);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--jgz-gold);
+    margin: 0 0 10px;
+  }
+
+  .jgz-col-header__title {
+    font-family: var(--jgz-heading);
+    font-size: 64px;
+    font-weight: 300;
+    color: var(--jgz-off-white);
+    margin: 0;
+    line-height: 1;
+  }
+
+  .jgz-col-header__count {
+    font-family: var(--jgz-body);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--jgz-off-white);
+    opacity: 0.35;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  /* ---- Filter Tab Bar ---- */
+  .jgz-filter-tabs {
+    display: flex;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .jgz-filter-tabs::-webkit-scrollbar { display: none; }
+
+  .jgz-filter-tab {
+    font-family: var(--jgz-body);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--jgz-off-white);
+    opacity: 0.55;
+    padding: 16px 24px;
+    white-space: nowrap;
+    cursor: pointer;
+    border-right: 1px solid var(--jgz-border);
+    border-bottom: 2px solid transparent;
+    text-decoration: none;
+    transition: opacity 0.2s, border-color 0.2s, color 0.2s;
+  }
+  .jgz-filter-tab:hover { opacity: 1; }
+  .jgz-filter-tab--active {
+    color: var(--jgz-gold);
+    opacity: 1;
+    border-bottom-color: var(--jgz-gold);
+  }
+  .jgz-filter-tab--sale { color: var(--jgz-sale-red); opacity: 1; }
+
+  /* ---- Layout ---- */
+  .jgz-col-layout {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 0;
+    padding: 0 var(--jgz-px);
+    align-items: start;
+  }
+
+  /* ---- Sidebar ---- */
+  .jgz-sidebar {
+    position: sticky;
+    top: 80px;
+    padding: 32px 32px 32px 0;
+    border-right: 1px solid var(--jgz-border);
+    min-height: 300px;
+  }
+
+  .jgz-sidebar__section {
+    margin-bottom: 32px;
+  }
+
+  .jgz-sidebar__title {
+    font-family: var(--jgz-body);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--jgz-gold);
+    margin: 0 0 16px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--jgz-border);
+  }
+
+  .jgz-sidebar__options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  /* Size pills */
+  .jgz-size-pill {
+    font-family: var(--jgz-body);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    color: var(--jgz-off-white);
+    border: 1px solid var(--jgz-border);
+    padding: 6px 14px;
+    cursor: pointer;
+    min-width: 44px;
+    text-align: center;
+    transition: border-color 0.2s, color 0.2s;
+    background: none;
+  }
+  .jgz-size-pill:hover, .jgz-size-pill--active {
+    border-color: var(--jgz-gold);
+    color: var(--jgz-gold);
+  }
+
+  /* Color swatches */
+  .jgz-color-swatch {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: border-color 0.2s;
+    outline: 1px solid var(--jgz-border);
+  }
+  .jgz-color-swatch:hover, .jgz-color-swatch--active {
+    border-color: var(--jgz-gold);
+    outline-color: var(--jgz-gold);
+  }
+
+  /* Checkbox filter */
+  .jgz-checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--jgz-body);
+    font-size: 12px;
+    color: var(--jgz-off-white);
+    opacity: 0.75;
+    cursor: pointer;
+    margin-bottom: 10px;
+    width: 100%;
+  }
+  .jgz-checkbox-label input[type="checkbox"] {
+    width: 14px;
+    height: 14px;
+    accent-color: var(--jgz-gold);
+    flex-shrink: 0;
+  }
+
+  /* ---- Sort + Products Area ---- */
+  .jgz-col-main {
+    padding: 32px 0 32px 32px;
+  }
+
+  .jgz-sort-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 28px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--jgz-border);
+  }
+
+  .jgz-sort-row__count {
+    font-family: var(--jgz-body);
+    font-size: 12px;
+    color: var(--jgz-off-white);
+    opacity: 0.4;
+    letter-spacing: 0.05em;
+  }
+
+  .jgz-sort-row__controls {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .jgz-sort-select {
+    background: var(--jgz-card-bg);
+    border: 1px solid var(--jgz-border);
+    color: var(--jgz-off-white);
+    font-family: var(--jgz-body);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    padding: 8px 12px;
+    cursor: pointer;
+    outline: none;
+  }
+
+  .jgz-grid-toggle {
+    display: flex;
+    gap: 4px;
+  }
+  .jgz-grid-btn {
+    width: 32px;
+    height: 32px;
+    background: transparent;
+    border: 1px solid var(--jgz-border);
+    color: var(--jgz-off-white);
+    opacity: 0.4;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    transition: opacity 0.2s, border-color 0.2s;
+  }
+  .jgz-grid-btn--active, .jgz-grid-btn:hover {
+    opacity: 1;
+    border-color: var(--jgz-gold);
+    color: var(--jgz-gold);
+  }
+
+  /* ---- Product Grid ---- */
+  .jgz-col-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  .jgz-col-grid--2col { grid-template-columns: repeat(2, 1fr); }
+  .jgz-col-grid--4col { grid-template-columns: repeat(4, 1fr); }
+
+  /* ---- Pagination ---- */
+  .jgz-pagination {
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+    margin-top: 48px;
+  }
+  .jgz-pagination a, .jgz-pagination span {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--jgz-body);
+    font-size: 12px;
+    border: 1px solid var(--jgz-border);
+    color: var(--jgz-off-white);
+    text-decoration: none;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .jgz-pagination a:hover { border-color: var(--jgz-gold); color: var(--jgz-gold); }
+  .jgz-pagination span { color: var(--jgz-gold); border-color: var(--jgz-gold); }
+
+  @media (max-width: 768px) {
+    .jgz-col-header { padding: 40px var(--jgz-px-m) 0; }
+    .jgz-col-header__title { font-size: 40px; }
+    .jgz-col-layout { grid-template-columns: 1fr; padding: 0 var(--jgz-px-m); }
+    .jgz-sidebar { display: none; }
+    .jgz-col-main { padding: 24px 0; }
+    .jgz-col-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  }
+</style>
+
+<div class="jgz-col-page">
+  <!-- Collection Header -->
+  <div class="jgz-col-header">
+    <div class="jgz-col-header__top">
+      <div>
+        <p class="jgz-col-header__kicker">JIGERZ</p>
+        <h1 class="jgz-col-header__title">{{ collection.title }}</h1>
+      </div>
+      <div>
+        <p class="jgz-col-header__count">{{ collection.products_count }} Products</p>
+      </div>
+    </div>
+
+    <!-- Filter Tabs -->
+    <nav class="jgz-filter-tabs">
+      <a href="{{ routes.collections_url }}/all" class="jgz-filter-tab {% if collection.handle == 'all' %}jgz-filter-tab--active{% endif %}">All</a>
+      {%- for link in linklists[section.settings.filter_menu].links -%}
+        <a href="{{ link.url }}" class="jgz-filter-tab {% if link.active %}jgz-filter-tab--active{% endif %} {% if link.title contains 'Sale' %}jgz-filter-tab--sale{% endif %}">
+          {{ link.title }}
+        </a>
+      {%- endfor -%}
+    </nav>
+  </div>
+
+  <!-- Main Layout -->
+  <div class="jgz-col-layout">
+    <!-- Sidebar -->
+    <aside class="jgz-sidebar">
+      <!-- Category Filter -->
+      <div class="jgz-sidebar__section">
+        <h3 class="jgz-sidebar__title">Category</h3>
+        {%- for link in linklists[section.settings.filter_menu].links -%}
+          <label class="jgz-checkbox-label">
+            <input type="checkbox"> {{ link.title }}
+          </label>
+        {%- endfor -%}
+      </div>
+
+      <!-- Size Filter -->
+      <div class="jgz-sidebar__section">
+        <h3 class="jgz-sidebar__title">Size</h3>
+        <div class="jgz-sidebar__options">
+          {%- for size in section.settings.available_sizes | split: ',' -%}
+            <button class="jgz-size-pill">{{ size | strip }}</button>
+          {%- endfor -%}
+        </div>
+      </div>
+
+      <!-- Color Filter -->
+      <div class="jgz-sidebar__section">
+        <h3 class="jgz-sidebar__title">Color</h3>
+        <div class="jgz-sidebar__options" style="gap:8px;">
+          <div class="jgz-color-swatch" style="background:#1a1a1a;" title="Black"></div>
+          <div class="jgz-color-swatch" style="background:#f5f4f0;" title="White"></div>
+          <div class="jgz-color-swatch" style="background:#b8975a;" title="Gold"></div>
+          <div class="jgz-color-swatch" style="background:#2d4a2d;" title="Olive"></div>
+          <div class="jgz-color-swatch" style="background:#3b5998;" title="Navy"></div>
+          <div class="jgz-color-swatch" style="background:#8b0000;" title="Maroon"></div>
+        </div>
+      </div>
+
+      <!-- Availability -->
+      <div class="jgz-sidebar__section">
+        <h3 class="jgz-sidebar__title">Availability</h3>
+        <label class="jgz-checkbox-label"><input type="checkbox" checked> In Stock</label>
+        <label class="jgz-checkbox-label"><input type="checkbox"> Out of Stock</label>
+      </div>
+    </aside>
+
+    <!-- Products Area -->
+    <div class="jgz-col-main">
+      <div class="jgz-sort-row">
+        <span class="jgz-sort-row__count">Showing {{ collection.products_count }} products</span>
+        <div class="jgz-sort-row__controls">
+          <select class="jgz-sort-select" onchange="window.location.href=this.value">
+            {%- for option in collection.sort_options -%}
+              <option value="{{ collection.url }}?sort_by={{ option.value }}" {% if collection.sort_by == option.value %}selected{% endif %}>
+                {{ option.name }}
+              </option>
+            {%- endfor -%}
+          </select>
+          <div class="jgz-grid-toggle">
+            <button class="jgz-grid-btn" onclick="document.querySelector('.jgz-col-grid').className='jgz-col-grid jgz-col-grid--2col'" title="2 columns">▪▪</button>
+            <button class="jgz-grid-btn jgz-grid-btn--active" onclick="document.querySelector('.jgz-col-grid').className='jgz-col-grid'" title="3 columns">▪▪▪</button>
+            <button class="jgz-grid-btn" onclick="document.querySelector('.jgz-col-grid').className='jgz-col-grid jgz-col-grid--4col'" title="4 columns">▪▪▪▪</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="jgz-col-grid">
+        {%- for product in collection.products -%}
+          {%- assign savings_percent = 0 -%}
+          {%- if product.compare_at_price > product.price -%}
+            {%- assign savings = product.compare_at_price | minus: product.price -%}
+            {%- assign savings_percent = savings | times: 100 | divided_by: product.compare_at_price -%}
+          {%- endif -%}
+
+          <a href="{{ product.url }}" class="jgz-product-card" style="text-decoration:none;display:block;">
+            <div class="jgz-product-card__image-wrap">
+              {%- if product.featured_image != blank -%}
+                <img src="{{ product.featured_image | image_url: width: 600 }}" alt="{{ product.title }}" width="600" loading="lazy">
+              {%- else -%}
+                <div style="width:100%;height:100%;background:var(--jgz-card-bg);display:flex;align-items:center;justify-content:center;color:rgba(245,244,240,0.1);font-family:var(--jgz-body);font-size:11px;text-transform:uppercase;letter-spacing:0.1em;">No Image</div>
+              {%- endif -%}
+
+              <div class="jgz-product-card__badges">
+                {%- if product.tags contains 'new-arrival' -%}
+                  <span class="jgz-badge jgz-badge--new">New</span>
+                {%- endif -%}
+                {%- if savings_percent > 0 -%}
+                  <span class="jgz-badge jgz-badge--sale">Sale</span>
+                {%- endif -%}
+                {%- if product.tags contains 'best-seller' -%}
+                  <span class="jgz-badge jgz-badge--bestseller">Best Seller</span>
+                {%- endif -%}
+              </div>
+
+              <button class="jgz-product-card__wishlist" aria-label="Add to wishlist" onclick="event.preventDefault()">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+              </button>
+
+              <div class="jgz-product-card__quick-add">Quick Add +</div>
+            </div>
+
+            <div class="jgz-product-card__info">
+              <p class="jgz-product-card__name">{{ product.title }}</p>
+              <div class="jgz-product-card__price-row">
+                <span class="jgz-product-card__price">{{ product.price | money }}</span>
+                {%- if product.compare_at_price > product.price -%}
+                  <span class="jgz-product-card__compare">{{ product.compare_at_price | money }}</span>
+                  <span class="jgz-product-card__save">−{{ savings_percent }}%</span>
+                {%- endif -%}
+              </div>
+            </div>
+          </a>
+        {%- endfor -%}
+      </div>
+
+      {%- if paginate.pages > 1 -%}
+        <div class="jgz-pagination">
+          {%- if paginate.previous -%}
+            <a href="{{ paginate.previous.url }}">‹</a>
+          {%- endif -%}
+          {%- for part in paginate.parts -%}
+            {%- if part.is_link -%}
+              <a href="{{ part.url }}">{{ part.title }}</a>
+            {%- else -%}
+              <span>{{ part.title }}</span>
+            {%- endif -%}
+          {%- endfor -%}
+          {%- if paginate.next -%}
+            <a href="{{ paginate.next.url }}">›</a>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "JIGERZ Collection",
+  "settings": [
+    {
+      "type": "link_list",
+      "id": "filter_menu",
+      "label": "Filter tab navigation",
+      "default": "main-menu"
+    },
+    {
+      "type": "text",
+      "id": "available_sizes",
+      "label": "Available sizes (comma separated)",
+      "default": "XS, S, M, L, XL, XXL"
+    }
+  ],
+  "presets": [{ "name": "JIGERZ Collection" }]
+}
+{% endschema %}

@@ -1,0 +1,109 @@
+<style>
+  .jgz-testimonials {
+    background: #0d0d0d;
+    padding: 80px var(--jgz-px);
+    border-top: 1px solid var(--jgz-border);
+  }
+
+  .jgz-testimonials__header {
+    text-align: center;
+    margin-bottom: 56px;
+  }
+
+  .jgz-testimonials__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .jgz-testimonial {
+    background: var(--jgz-card-bg);
+    border: 1px solid var(--jgz-border);
+    padding: 32px;
+  }
+
+  .jgz-testimonial__stars {
+    display: flex;
+    gap: 2px;
+    margin-bottom: 20px;
+    color: var(--jgz-gold);
+    font-size: 14px;
+  }
+
+  .jgz-testimonial__quote {
+    font-family: var(--jgz-heading);
+    font-size: 18px;
+    font-style: italic;
+    font-weight: 300;
+    color: var(--jgz-off-white);
+    line-height: 1.6;
+    margin: 0 0 24px;
+  }
+
+  .jgz-testimonial__author {
+    font-family: var(--jgz-body);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--jgz-off-white);
+    opacity: 0.4;
+  }
+
+  @media (max-width: 768px) {
+    .jgz-testimonials {
+      padding: 60px var(--jgz-px-m);
+    }
+    .jgz-testimonials__grid {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+  }
+</style>
+
+<section class="jgz-testimonials">
+  <div class="jgz-testimonials__header">
+    <p class="jgz-section-label" style="text-align:center;">{{ section.settings.section_label }}</p>
+    <h2 class="jgz-section-title" style="font-size:42px;text-align:center;">{{ section.settings.section_title }}</h2>
+  </div>
+
+  <div class="jgz-testimonials__grid">
+    {%- for block in section.blocks -%}
+      <div class="jgz-testimonial" {{ block.shopify_attributes }}>
+        <div class="jgz-testimonial__stars">★★★★★</div>
+        <p class="jgz-testimonial__quote">"{{ block.settings.quote }}"</p>
+        <span class="jgz-testimonial__author">— {{ block.settings.author }}</span>
+      </div>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "JIGERZ Testimonials",
+  "settings": [
+    { "type": "text", "id": "section_label", "label": "Section label", "default": "Customer Love" },
+    { "type": "text", "id": "section_title", "label": "Section title", "default": "What They're Saying" }
+  ],
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "Testimonial",
+      "settings": [
+        { "type": "textarea", "id": "quote", "label": "Quote", "default": "Best quality tee I've found in Pakistan. The fabric is incredibly soft and the fit is perfect." },
+        { "type": "text", "id": "author", "label": "Customer name", "default": "Ahmed K., Lahore" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "JIGERZ Testimonials",
+      "blocks": [
+        { "type": "testimonial", "settings": { "quote": "Best quality tee I've found in Pakistan. The fabric is incredibly soft and the fit is perfect.", "author": "Ahmed K., Lahore" } },
+        { "type": "testimonial", "settings": { "quote": "Ordered 3 shirts and they arrived in 2 days. The packaging was premium and the quality exceeded expectations.", "author": "Hassan M., Karachi" } },
+        { "type": "testimonial", "settings": { "quote": "JIGERZ really is different. The oversized tee has become my daily wear. Just ordered two more.", "author": "Bilal R., Islamabad" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

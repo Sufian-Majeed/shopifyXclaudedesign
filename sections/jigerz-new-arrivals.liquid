@@ -1,0 +1,124 @@
+<style>
+  .jgz-arrivals {
+    background: var(--jgz-black);
+    padding: 80px var(--jgz-px);
+  }
+
+  .jgz-arrivals__header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 36px;
+  }
+
+  .jgz-arrivals__view-all {
+    font-family: var(--jgz-body);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--jgz-gold);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: gap 0.2s;
+  }
+  .jgz-arrivals__view-all:hover { gap: 10px; }
+
+  .jgz-arrivals__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+
+  @media (max-width: 768px) {
+    .jgz-arrivals {
+      padding: 48px var(--jgz-px-m);
+    }
+    .jgz-arrivals__grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+  }
+</style>
+
+<section class="jgz-arrivals">
+  <div class="jgz-arrivals__header">
+    <div>
+      <p class="jgz-section-label">{{ section.settings.section_label }}</p>
+      <h2 class="jgz-section-title" style="font-size: 42px;">{{ section.settings.section_title }}</h2>
+    </div>
+    {%- if section.settings.view_all_url != blank -%}
+      <a href="{{ section.settings.view_all_url }}" class="jgz-arrivals__view-all">
+        View All →
+      </a>
+    {%- endif -%}
+  </div>
+
+  {%- assign collection = collections[section.settings.collection] -%}
+  {%- if collection != blank -%}
+    <div class="jgz-arrivals__grid">
+      {%- for product in collection.products limit: section.settings.product_count -%}
+        {%- assign savings_percent = 0 -%}
+        {%- if product.compare_at_price > product.price -%}
+          {%- assign savings = product.compare_at_price | minus: product.price -%}
+          {%- assign savings_percent = savings | times: 100 | divided_by: product.compare_at_price -%}
+        {%- endif -%}
+
+        <a href="{{ product.url }}" class="jgz-product-card" style="text-decoration:none; display:block;">
+          <div class="jgz-product-card__image-wrap">
+            {%- if product.featured_image != blank -%}
+              <img src="{{ product.featured_image | image_url: width: 600 }}" alt="{{ product.title }}" width="600" loading="lazy">
+            {%- else -%}
+              <div style="width:100%;height:100%;background:var(--jgz-card-bg);display:flex;align-items:center;justify-content:center;color:rgba(245,244,240,0.1);font-family:var(--jgz-body);font-size:11px;text-transform:uppercase;letter-spacing:0.1em;">No Image</div>
+            {%- endif -%}
+
+            <div class="jgz-product-card__badges">
+              {%- if product.tags contains 'new-arrival' or forloop.first -%}
+                <span class="jgz-badge jgz-badge--new">New</span>
+              {%- endif -%}
+              {%- if savings_percent > 0 -%}
+                <span class="jgz-badge jgz-badge--sale">Sale</span>
+              {%- endif -%}
+              {%- if product.tags contains 'best-seller' -%}
+                <span class="jgz-badge jgz-badge--bestseller">Best Seller</span>
+              {%- endif -%}
+            </div>
+
+            <button class="jgz-product-card__wishlist" aria-label="Add to wishlist" onclick="event.preventDefault()">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            </button>
+
+            <div class="jgz-product-card__quick-add">Quick Add +</div>
+          </div>
+
+          <div class="jgz-product-card__info">
+            <p class="jgz-product-card__name">{{ product.title }}</p>
+            <div class="jgz-product-card__price-row">
+              <span class="jgz-product-card__price">{{ product.price | money }}</span>
+              {%- if product.compare_at_price > product.price -%}
+                <span class="jgz-product-card__compare">{{ product.compare_at_price | money }}</span>
+                <span class="jgz-product-card__save">−{{ savings_percent }}%</span>
+              {%- endif -%}
+            </div>
+          </div>
+        </a>
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "JIGERZ New Arrivals",
+  "settings": [
+    { "type": "text", "id": "section_label", "label": "Section label", "default": "Just Dropped" },
+    { "type": "text", "id": "section_title", "label": "Section title", "default": "New Arrivals" },
+    { "type": "collection", "id": "collection", "label": "Collection" },
+    { "type": "range", "id": "product_count", "label": "Number of products", "min": 4, "max": 12, "step": 4, "default": 8 },
+    { "type": "url", "id": "view_all_url", "label": "View all link" }
+  ],
+  "presets": [{ "name": "JIGERZ New Arrivals" }]
+}
+{% endschema %}

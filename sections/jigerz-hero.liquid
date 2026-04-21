@@ -1,0 +1,172 @@
+<style>
+  .jgz-hero {
+    position: relative;
+    height: 92vh;
+    min-height: 600px;
+    background: var(--jgz-black);
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+    padding: 0 var(--jgz-px) 72px;
+  }
+
+  .jgz-hero__grid-overlay {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(184,151,90,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(184,151,90,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+  }
+
+  .jgz-hero__collection-label {
+    position: absolute;
+    top: 40px;
+    left: var(--jgz-px);
+    font-family: var(--jgz-body);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--jgz-gold);
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+  }
+
+  .jgz-hero__inner {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 40px;
+    z-index: 2;
+  }
+
+  .jgz-hero__content {
+    max-width: 560px;
+  }
+
+  .jgz-hero__eyebrow {
+    font-family: var(--jgz-body);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--jgz-gold);
+    margin: 0 0 20px;
+  }
+
+  .jgz-hero__heading {
+    font-family: var(--jgz-heading);
+    font-size: 84px;
+    font-weight: 300;
+    line-height: 0.95;
+    color: var(--jgz-off-white);
+    margin: 0 0 20px;
+  }
+
+  .jgz-hero__tagline {
+    font-family: var(--jgz-heading);
+    font-size: 20px;
+    font-style: italic;
+    color: var(--jgz-gold);
+    margin: 0 0 16px;
+  }
+
+  .jgz-hero__subtext {
+    font-family: var(--jgz-body);
+    font-size: 13px;
+    font-weight: 300;
+    color: var(--jgz-off-white);
+    opacity: 0.5;
+    margin: 0 0 36px;
+    line-height: 1.6;
+  }
+
+  .jgz-hero__ctas {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .jgz-hero__image-placeholder {
+    width: 360px;
+    flex-shrink: 0;
+    aspect-ratio: 360 / 500;
+    background: var(--jgz-card-bg);
+    border: 1px solid var(--jgz-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(245,244,240,0.15);
+    font-family: var(--jgz-body);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .jgz-hero__image-placeholder img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  @media (max-width: 768px) {
+    .jgz-hero {
+      height: auto;
+      min-height: 100svh;
+      padding: 80px var(--jgz-px-m) 60px;
+      align-items: center;
+    }
+    .jgz-hero__inner { flex-direction: column; align-items: flex-start; }
+    .jgz-hero__heading { font-size: 52px; }
+    .jgz-hero__image-placeholder { display: none; }
+    .jgz-hero__collection-label { left: var(--jgz-px-m); }
+  }
+</style>
+
+<section class="jgz-hero">
+  <div class="jgz-hero__grid-overlay"></div>
+  <span class="jgz-hero__collection-label">SS 2026 Collection</span>
+
+  <div class="jgz-hero__inner">
+    <div class="jgz-hero__content">
+      <p class="jgz-hero__eyebrow">{{ section.settings.eyebrow }}</p>
+      <h1 class="jgz-hero__heading">{{ section.settings.heading }}</h1>
+      <p class="jgz-hero__tagline">{{ section.settings.tagline }}</p>
+      <p class="jgz-hero__subtext">{{ section.settings.subtext }}</p>
+      <div class="jgz-hero__ctas">
+        <a href="{{ section.settings.cta_primary_url }}" class="jgz-btn-gold">{{ section.settings.cta_primary_label }}</a>
+        <a href="{{ section.settings.cta_secondary_url }}" class="jgz-btn-ghost">{{ section.settings.cta_secondary_label }}</a>
+      </div>
+    </div>
+
+    <div class="jgz-hero__image-placeholder">
+      {%- if section.settings.hero_image != blank -%}
+        <img src="{{ section.settings.hero_image | image_url: width: 720 }}" alt="{{ section.settings.heading }}" width="360" height="500" loading="eager">
+      {%- else -%}
+        Product Image
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "JIGERZ Hero",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow text", "default": "New Collection — Summer 2026" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Summer Essentials 2026" },
+    { "type": "text", "id": "tagline", "label": "Tagline", "default": "Not Just A Brand — It's A Bond." },
+    { "type": "textarea", "id": "subtext", "label": "Subtext", "default": "Premium imported fabrics. Modern silhouettes. Built for the Pakistani summer." },
+    { "type": "text", "id": "cta_primary_label", "label": "Primary CTA label", "default": "Shop Now" },
+    { "type": "url", "id": "cta_primary_url", "label": "Primary CTA link" },
+    { "type": "text", "id": "cta_secondary_label", "label": "Secondary CTA label", "default": "Explore Collection" },
+    { "type": "url", "id": "cta_secondary_url", "label": "Secondary CTA link" },
+    { "type": "image_picker", "id": "hero_image", "label": "Hero product image" }
+  ],
+  "presets": [{ "name": "JIGERZ Hero" }]
+}
+{% endschema %}

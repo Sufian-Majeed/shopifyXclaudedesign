@@ -1,0 +1,968 @@
+<style>
+  .jgz-pdp {
+    background: var(--jgz-black);
+    padding: 0 var(--jgz-px) 80px;
+  }
+
+  /* ---- 2-col layout ---- */
+  .jgz-pdp__layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    max-width: 1400px;
+    margin: 0 auto;
+    align-items: start;
+  }
+
+  /* ---- Gallery ---- */
+  .jgz-gallery {
+    position: sticky;
+    top: 88px;
+    display: grid;
+    grid-template-columns: 76px 1fr;
+    gap: 12px;
+  }
+
+  .jgz-gallery__thumbs {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .jgz-gallery__thumb {
+    width: 76px;
+    height: 96px;
+    background: var(--jgz-card-bg);
+    border: 1px solid var(--jgz-border);
+    cursor: pointer;
+    overflow: hidden;
+    transition: border-color 0.2s;
+    flex-shrink: 0;
+  }
+  .jgz-gallery__thumb img { width: 100%; height: 100%; object-fit: cover; }
+  .jgz-gallery__thumb--active { border-color: var(--jgz-gold); }
+  .jgz-gallery__thumb:hover { border-color: rgba(184,151,90,0.5); }
+
+  .jgz-gallery__main {
+    position: relative;
+    aspect-ratio: 3 / 4;
+    background: var(--jgz-card-bg);
+    overflow: hidden;
+  }
+  .jgz-gallery__main img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .jgz-gallery__zoom {
+    position: absolute;
+    bottom: 16px;
+    right: 16px;
+    font-family: var(--jgz-body);
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--jgz-off-white);
+    opacity: 0.5;
+    background: rgba(10,10,10,0.7);
+    padding: 6px 10px;
+    cursor: zoom-in;
+  }
+
+  .jgz-gallery__nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 36px;
+    height: 36px;
+    background: rgba(10,10,10,0.7);
+    border: 1px solid var(--jgz-border);
+    color: var(--jgz-off-white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 18px;
+  }
+  .jgz-gallery__nav--prev { left: 12px; }
+  .jgz-gallery__nav--next { right: 12px; }
+
+  /* ---- Product Info ---- */
+  .jgz-pdp__info {
+    padding-top: 40px;
+  }
+
+  .jgz-pdp__badges {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+  }
+
+  .jgz-pdp__badge {
+    font-family: var(--jgz-body);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 5px 12px;
+  }
+  .jgz-pdp__badge--new-arrival { background: var(--jgz-gold); color: #0a0a0a; }
+  .jgz-pdp__badge--in-stock { background: transparent; border: 1px solid var(--jgz-gold); color: var(--jgz-gold); }
+  .jgz-pdp__badge--cod { background: #1a3a1a; color: var(--jgz-cod-green); border: 1px solid rgba(76,175,80,0.3); }
+
+  .jgz-pdp__title {
+    font-family: var(--jgz-heading);
+    font-size: 44px;
+    font-weight: 300;
+    line-height: 1.05;
+    color: var(--jgz-off-white);
+    margin: 0 0 8px;
+  }
+
+  .jgz-pdp__sku {
+    font-family: var(--jgz-body);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--jgz-off-white);
+    opacity: 0.3;
+    margin: 0 0 16px;
+    text-transform: uppercase;
+  }
+
+  /* Rating */
+  .jgz-pdp__rating {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 24px;
+  }
+
+  .jgz-pdp__stars { color: var(--jgz-gold); font-size: 14px; }
+
+  .jgz-pdp__rating-text {
+    font-family: var(--jgz-body);
+    font-size: 12px;
+    color: var(--jgz-off-white);
+    opacity: 0.5;
+  }
+
+  .jgz-pdp__review-count {
+    font-family: var(--jgz-body);
+    font-size: 12px;
+    color: var(--jgz-gold);
+    text-decoration: none;
+  }
+
+  /* Price Box */
+  .jgz-pdp__price-box {
+    background: rgba(184,151,90,0.08);
+    border: 1px solid rgba(184,151,90,0.25);
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+
+  .jgz-pdp__price-label {
+    font-family: var(--jgz-body);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--jgz-off-white);
+    opacity: 0.5;
+    margin: 0 0 6px;
+  }
+
+  .jgz-pdp__price-row {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+  }
+
+  .jgz-pdp__current-price {
+    font-family: var(--jgz-heading);
+    font-size: 32px;
+    font-weight: 600;
+    color: var(--jgz-gold);
+  }
+
+  .jgz-pdp__was-price {
+    font-family: var(--jgz-body);
+    font-size: 16px;
+    color: var(--jgz-off-white);
+    opacity: 0.4;
+    text-decoration: line-through;
+  }
+
+  .jgz-pdp__save-pill {
+    background: var(--jgz-gold);
+    color: #0a0a0a;
+    font-family: var(--jgz-body);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    padding: 5px 12px;
+    text-transform: uppercase;
+    align-self: center;
+  }
+
+  /* Stock indicator */
+  .jgz-pdp__stock {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .jgz-pdp__stock-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--jgz-sale-red);
+    animation: jgzPulse 1.5s ease-in-out infinite;
+    flex-shrink: 0;
+  }
+
+  @keyframes jgzPulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.3); }
+  }
+
+  .jgz-pdp__stock-text {
+    font-family: var(--jgz-body);
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--jgz-sale-red);
+  }
+  .jgz-pdp__stock-sub {
+    font-family: var(--jgz-body);
+    font-size: 12px;
+    color: var(--jgz-off-white);
+    opacity: 0.45;
+  }
+
+  /* Bullets */
+  .jgz-pdp__bullets {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 24px;
+  }
+  .jgz-pdp__bullets li {
+    font-family: var(--jgz-body);
+    font-size: 12px;
+    color: var(--jgz-off-white);
+    opacity: 0.75;
+    padding: 5px 0;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .jgz-pdp__bullets li::before {
+    content: '✓';
+    color: var(--jgz-gold);
+    font-size: 12px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* Divider */
+  .jgz-pdp__divider {
+    height: 1px;
+    background: var(--jgz-border);
+    margin: 20px 0;
+  }
+
+  /* Color picker */
+  .jgz-picker__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+
+  .jgz-picker__label {
+    font-family: var(--jgz-body);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--jgz-off-white);
+    opacity: 0.6;
+  }
+
+  .jgz-picker__selected {
+    font-family: var(--jgz-body);
+    font-size: 12px;
+    color: var(--jgz-gold);
+  }
+
+  .jgz-color-options {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+  }
+
+  .jgz-color-option {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    outline: 1px solid var(--jgz-border);
+    cursor: pointer;
+    transition: outline-color 0.2s, border-color 0.2s, transform 0.15s;
+  }
+  .jgz-color-option:hover { transform: scale(1.1); }
+  .jgz-color-option--active {
+    border-color: var(--jgz-gold);
+    outline-color: var(--jgz-gold);
+  }
+
+  /* Size picker */
+  .jgz-size-options {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+  }
+
+  .jgz-pdp__size-btn {
+    font-family: var(--jgz-body);
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--jgz-off-white);
+    border: 1px solid var(--jgz-border);
+    background: transparent;
+    padding: 8px 16px;
+    min-width: 50px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .jgz-pdp__size-btn:hover { border-color: var(--jgz-gold); color: var(--jgz-gold); }
+  .jgz-pdp__size-btn--active { border-color: var(--jgz-gold); color: var(--jgz-gold); }
+  .jgz-pdp__size-btn--soldout { opacity: 0.2; cursor: not-allowed; text-decoration: line-through; }
+
+  .jgz-size-guide {
+    font-family: var(--jgz-body);
+    font-size: 11px;
+    color: var(--jgz-gold);
+    text-decoration: none;
+    letter-spacing: 0.05em;
+  }
+
+  /* Delivery box */
+  .jgz-pdp__delivery {
+    background: var(--jgz-card-bg);
+    border: 1px solid var(--jgz-border);
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+    font-family: var(--jgz-body);
+    font-size: 12px;
+    color: var(--jgz-off-white);
+    opacity: 0.7;
+    line-height: 1.5;
+  }
+
+  /* Add to cart row */
+  .jgz-pdp__atc-row {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 12px;
+    align-items: stretch;
+  }
+
+  .jgz-pdp__qty {
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--jgz-border);
+    width: 110px;
+    flex-shrink: 0;
+  }
+
+  .jgz-pdp__qty-btn {
+    width: 36px;
+    height: 48px;
+    background: transparent;
+    border: none;
+    color: var(--jgz-off-white);
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s;
+  }
+  .jgz-pdp__qty-btn:hover { color: var(--jgz-gold); }
+
+  .jgz-pdp__qty-val {
+    flex: 1;
+    text-align: center;
+    font-family: var(--jgz-body);
+    font-size: 14px;
+    color: var(--jgz-off-white);
+  }
+
+  .jgz-pdp__atc-btn {
+    flex: 1;
+    height: 48px;
+    background: var(--jgz-gold);
+    color: #0a0a0a;
+    font-family: var(--jgz-body);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .jgz-pdp__atc-btn--added {
+    background: #2e7d32 !important;
+    color: white;
+  }
+
+  .jgz-pdp__buynow {
+    width: 100%;
+    height: 48px;
+    background: transparent;
+    color: var(--jgz-off-white);
+    font-family: var(--jgz-body);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    border: 1px solid var(--jgz-border);
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+    margin-bottom: 24px;
+  }
+  .jgz-pdp__buynow:hover { border-color: var(--jgz-off-white); }
+
+  /* Trust badges */
+  .jgz-pdp__trust {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    border: 1px solid var(--jgz-border);
+    margin-bottom: 28px;
+  }
+
+  .jgz-pdp__trust-item {
+    padding: 16px 10px;
+    text-align: center;
+    border-right: 1px solid var(--jgz-border);
+  }
+  .jgz-pdp__trust-item:last-child { border-right: none; }
+
+  .jgz-pdp__trust-icon { font-size: 18px; margin-bottom: 6px; }
+  .jgz-pdp__trust-label {
+    font-family: var(--jgz-body);
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--jgz-off-white);
+    opacity: 0.55;
+    line-height: 1.4;
+  }
+
+  /* Accordions */
+  .jgz-accordion {
+    border-top: 1px solid var(--jgz-border);
+  }
+  .jgz-accordion:last-child { border-bottom: 1px solid var(--jgz-border); }
+
+  .jgz-accordion__trigger {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 0;
+    cursor: pointer;
+    list-style: none;
+  }
+  .jgz-accordion__trigger::-webkit-details-marker { display: none; }
+
+  .jgz-accordion__title {
+    font-family: var(--jgz-body);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--jgz-off-white);
+  }
+
+  .jgz-accordion__icon {
+    font-size: 18px;
+    color: var(--jgz-off-white);
+    opacity: 0.5;
+    transition: transform 0.25s;
+    line-height: 1;
+  }
+  details[open] .jgz-accordion__icon { transform: rotate(45deg); }
+
+  .jgz-accordion__body {
+    padding: 0 0 20px;
+    font-family: var(--jgz-body);
+    font-size: 13px;
+    font-weight: 300;
+    color: var(--jgz-off-white);
+    opacity: 0.65;
+    line-height: 1.7;
+  }
+
+  /* ---- Related Products ---- */
+  .jgz-related {
+    padding: 60px var(--jgz-px);
+    border-top: 1px solid var(--jgz-border);
+  }
+
+  .jgz-related__header {
+    margin-bottom: 32px;
+  }
+
+  .jgz-related__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+
+  /* ---- Mobile Sticky CTA ---- */
+  .jgz-sticky-cta {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(10,10,10,0.97);
+    border-top: 1px solid var(--jgz-border);
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 20px;
+    z-index: 100;
+    backdrop-filter: blur(8px);
+  }
+
+  .jgz-sticky-cta__name {
+    font-family: var(--jgz-body);
+    font-size: 12px;
+    color: var(--jgz-off-white);
+    margin: 0 0 4px;
+    font-weight: 500;
+  }
+
+  .jgz-sticky-cta__price {
+    font-family: var(--jgz-heading);
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--jgz-gold);
+  }
+
+  .jgz-sticky-cta__btn {
+    background: var(--jgz-gold);
+    color: #0a0a0a;
+    font-family: var(--jgz-body);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    border: none;
+    padding: 12px 20px;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+
+  @media (max-width: 768px) {
+    .jgz-pdp { padding: 0 var(--jgz-px-m) 100px; }
+    .jgz-pdp__layout { grid-template-columns: 1fr; gap: 32px; }
+    .jgz-gallery {
+      position: static;
+      grid-template-columns: 1fr;
+    }
+    .jgz-gallery__thumbs {
+      flex-direction: row;
+      overflow-x: auto;
+      order: 2;
+    }
+    .jgz-gallery__main { order: 1; max-height: 400px; }
+    .jgz-pdp__info { padding-top: 0; }
+    .jgz-pdp__title { font-size: 32px; }
+    .jgz-pdp__trust { grid-template-columns: repeat(2, 1fr); }
+    .jgz-pdp__trust-item:nth-child(2) { border-right: none; }
+    .jgz-pdp__trust-item:nth-child(3) { border-right: 1px solid var(--jgz-border); }
+    .jgz-sticky-cta { display: flex; }
+    .jgz-related { padding: 40px var(--jgz-px-m); }
+    .jgz-related__grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  }
+</style>
+
+{%- assign product = product -%}
+{%- assign current_variant = product.selected_or_first_available_variant -%}
+{%- assign savings_percent = 0 -%}
+{%- if product.compare_at_price > product.price -%}
+  {%- assign savings = product.compare_at_price | minus: product.price -%}
+  {%- assign savings_percent = savings | times: 100 | divided_by: product.compare_at_price -%}
+{%- endif -%}
+
+<div class="jgz-pdp">
+  <div class="jgz-pdp__layout">
+    <!-- Gallery -->
+    <div class="jgz-gallery" id="jgzGallery">
+      <div class="jgz-gallery__thumbs">
+        {%- for image in product.images limit: 8 -%}
+          <div class="jgz-gallery__thumb {% if forloop.first %}jgz-gallery__thumb--active{% endif %}"
+               onclick="jgzSelectImage(this, '{{ image | image_url: width: 1200 }}')"
+               data-index="{{ forloop.index0 }}">
+            <img src="{{ image | image_url: width: 160 }}" alt="{{ product.title }} - {{ forloop.index }}" loading="lazy">
+          </div>
+        {%- else -%}
+          <div class="jgz-gallery__thumb jgz-gallery__thumb--active">
+            <div style="width:100%;height:100%;background:var(--jgz-card-bg);"></div>
+          </div>
+        {%- endfor -%}
+      </div>
+
+      <div class="jgz-gallery__main" id="jgzMainImage">
+        {%- if product.featured_image != blank -%}
+          <img id="jgzMainImg" src="{{ product.featured_image | image_url: width: 1200 }}" alt="{{ product.title }}" loading="eager" width="1200">
+        {%- else -%}
+          <div style="width:100%;height:100%;background:var(--jgz-card-bg);display:flex;align-items:center;justify-content:center;color:rgba(245,244,240,0.1);font-family:var(--jgz-body);font-size:11px;text-transform:uppercase;letter-spacing:0.1em;">No Image</div>
+        {%- endif -%}
+        <button class="jgz-gallery__nav jgz-gallery__nav--prev" onclick="jgzGalleryNav(-1)">‹</button>
+        <button class="jgz-gallery__nav jgz-gallery__nav--next" onclick="jgzGalleryNav(1)">›</button>
+        <span class="jgz-gallery__zoom">⊕ Zoom</span>
+      </div>
+    </div>
+
+    <!-- Product Info -->
+    <div class="jgz-pdp__info">
+      <!-- Badges -->
+      <div class="jgz-pdp__badges">
+        {%- if product.tags contains 'new-arrival' or product.created_at > 'now' | date: '%s' | minus: 2592000 -%}
+          <span class="jgz-pdp__badge jgz-pdp__badge--new-arrival">New Arrival</span>
+        {%- endif -%}
+        {%- if current_variant.available -%}
+          <span class="jgz-pdp__badge jgz-pdp__badge--in-stock">In Stock</span>
+        {%- endif -%}
+        <span class="jgz-pdp__badge jgz-pdp__badge--cod">💵 Cash on Delivery</span>
+      </div>
+
+      <h1 class="jgz-pdp__title">{{ product.title }}</h1>
+      {%- if product.variants.first.sku != blank -%}
+        <p class="jgz-pdp__sku">SKU: {{ product.variants.first.sku }}</p>
+      {%- endif -%}
+
+      <!-- Rating -->
+      <div class="jgz-pdp__rating">
+        <span class="jgz-pdp__stars">★★★★★</span>
+        <span class="jgz-pdp__rating-text">4.9 / 5</span>
+        <a href="#reviews" class="jgz-pdp__review-count">48 Reviews</a>
+      </div>
+
+      <!-- Price Box -->
+      <div class="jgz-pdp__price-box">
+        <div>
+          <p class="jgz-pdp__price-label">Compare at Price</p>
+          <div class="jgz-pdp__price-row">
+            <span class="jgz-pdp__current-price" id="jgzCurrentPrice">{{ current_variant.price | money }}</span>
+            {%- if product.compare_at_price > product.price -%}
+              <span class="jgz-pdp__was-price">{{ product.compare_at_price | money }}</span>
+            {%- endif -%}
+          </div>
+        </div>
+        {%- if savings_percent > 0 -%}
+          <span class="jgz-pdp__save-pill">SAVE {{ savings_percent }}%</span>
+        {%- endif -%}
+      </div>
+
+      <!-- Stock Indicator -->
+      {%- if current_variant.inventory_quantity > 0 and current_variant.inventory_quantity < 10 -%}
+        <div class="jgz-pdp__stock">
+          <div class="jgz-pdp__stock-dot"></div>
+          <span class="jgz-pdp__stock-text">Only {{ current_variant.inventory_quantity }} pieces left!</span>
+          <span class="jgz-pdp__stock-sub">— Order soon</span>
+        </div>
+      {%- endif -%}
+
+      <!-- Bullets -->
+      <ul class="jgz-pdp__bullets">
+        <li>Premium Imported Fabric — 100% Ring-Spun Cotton</li>
+        <li>Stretchable &amp; Breathable — Perfect for Summer</li>
+        <li>Smart Fit Design — Modern Relaxed Silhouette</li>
+      </ul>
+
+      <div class="jgz-pdp__divider"></div>
+
+      {%- assign product_form_id = 'jgz-product-form-' | append: section.id -%}
+      {%- form 'product', product, id: product_form_id -%}
+        <input type="hidden" name="id" id="jgzVariantId" value="{{ current_variant.id }}">
+
+        {%- for option in product.options_with_values -%}
+          <div style="margin-bottom:20px;">
+            <div class="jgz-picker__header">
+              <span class="jgz-picker__label">{{ option.name }}</span>
+              <span class="jgz-picker__selected" id="jgzSelected{{ option.position }}">{{ option.selected_value }}</span>
+            </div>
+
+            {%- if option.name == 'Color' or option.name == 'Colour' -%}
+              <div class="jgz-color-options">
+                {%- for value in option.values -%}
+                  <div class="jgz-color-option {% if option.selected_value == value %}jgz-color-option--active{% endif %}"
+                       title="{{ value }}"
+                       style="background: {{ value | downcase }};"
+                       onclick="jgzSelectOption(this, {{ option.position }}, '{{ value }}')">
+                  </div>
+                {%- endfor -%}
+              </div>
+
+            {%- else -%}
+              <div class="jgz-size-options">
+                {%- for value in option.values -%}
+                  <button type="button"
+                          class="jgz-pdp__size-btn {% if option.selected_value == value %}jgz-pdp__size-btn--active{% endif %}"
+                          onclick="jgzSelectOption(this, {{ option.position }}, '{{ value }}')">
+                    {{ value }}
+                  </button>
+                {%- endfor -%}
+              </div>
+            {%- endif -%}
+          </div>
+        {%- endfor -%}
+
+        {%- if product.has_only_default_variant == false -%}
+          <div style="text-align:right; margin-bottom:16px;">
+            <a href="#" class="jgz-size-guide">Size Guide →</a>
+          </div>
+        {%- endif -%}
+
+        <!-- Delivery box -->
+        <div class="jgz-pdp__delivery">
+          <span>🚚</span>
+          <span>Order now &amp; get delivery in 3–5 business days · Free on orders PKR 2,500+</span>
+        </div>
+
+        <!-- Add to Cart Row -->
+        <div class="jgz-pdp__atc-row">
+          <div class="jgz-pdp__qty">
+            <button type="button" class="jgz-pdp__qty-btn" onclick="jgzQty(-1)">−</button>
+            <span class="jgz-pdp__qty-val" id="jgzQtyDisplay">1</span>
+            <input type="hidden" name="quantity" id="jgzQtyInput" value="1">
+            <button type="button" class="jgz-pdp__qty-btn" onclick="jgzQty(1)">+</button>
+          </div>
+          <button type="submit" class="jgz-pdp__atc-btn" id="jgzAtcBtn" name="add">
+            {%- if current_variant.available -%}Add to Bag{%- else -%}Sold Out{%- endif -%}
+          </button>
+        </div>
+
+        <!-- Buy Now -->
+        <button type="button" class="jgz-pdp__buynow" onclick="document.getElementById('{{ product_form_id }}').submit()">
+          Buy Now
+        </button>
+
+      {%- endform -%}
+
+      <!-- Trust Badges -->
+      <div class="jgz-pdp__trust">
+        <div class="jgz-pdp__trust-item"><div class="jgz-pdp__trust-icon">🚚</div><div class="jgz-pdp__trust-label">Free Shipping</div></div>
+        <div class="jgz-pdp__trust-item"><div class="jgz-pdp__trust-icon">💵</div><div class="jgz-pdp__trust-label">Cash on Delivery</div></div>
+        <div class="jgz-pdp__trust-item"><div class="jgz-pdp__trust-icon">↩️</div><div class="jgz-pdp__trust-label">30-Day Returns</div></div>
+        <div class="jgz-pdp__trust-item"><div class="jgz-pdp__trust-icon">✓</div><div class="jgz-pdp__trust-label">Genuine Quality</div></div>
+      </div>
+
+      <!-- Accordions -->
+      <details class="jgz-accordion" open>
+        <summary class="jgz-accordion__trigger">
+          <span class="jgz-accordion__title">Description</span>
+          <span class="jgz-accordion__icon">+</span>
+        </summary>
+        <div class="jgz-accordion__body">{{ product.description }}</div>
+      </details>
+
+      <details class="jgz-accordion">
+        <summary class="jgz-accordion__trigger">
+          <span class="jgz-accordion__title">Fabric &amp; Care</span>
+          <span class="jgz-accordion__icon">+</span>
+        </summary>
+        <div class="jgz-accordion__body">{{ section.settings.fabric_care | newline_to_br }}</div>
+      </details>
+
+      <details class="jgz-accordion">
+        <summary class="jgz-accordion__trigger">
+          <span class="jgz-accordion__title">Shipping &amp; Returns</span>
+          <span class="jgz-accordion__icon">+</span>
+        </summary>
+        <div class="jgz-accordion__body">{{ section.settings.shipping_returns | newline_to_br }}</div>
+      </details>
+
+      <details class="jgz-accordion">
+        <summary class="jgz-accordion__trigger">
+          <span class="jgz-accordion__title">Size &amp; Fit</span>
+          <span class="jgz-accordion__icon">+</span>
+        </summary>
+        <div class="jgz-accordion__body">{{ section.settings.size_fit | newline_to_br }}</div>
+      </details>
+    </div>
+  </div>
+</div>
+
+<!-- Related Products -->
+{%- if recommendations.performed? and recommendations.products_count > 0 -%}
+  <div class="jgz-related">
+    <div class="jgz-related__header">
+      <p class="jgz-section-label">You May Also Like</p>
+      <h2 class="jgz-section-title" style="font-size:36px;">Related Products</h2>
+    </div>
+    <div class="jgz-related__grid">
+      {%- for rec_product in recommendations.products limit: 4 -%}
+        <a href="{{ rec_product.url }}" class="jgz-product-card" style="text-decoration:none;display:block;">
+          <div class="jgz-product-card__image-wrap">
+            {%- if rec_product.featured_image != blank -%}
+              <img src="{{ rec_product.featured_image | image_url: width: 600 }}" alt="{{ rec_product.title }}" loading="lazy">
+            {%- endif -%}
+            <div class="jgz-product-card__quick-add">Quick Add +</div>
+          </div>
+          <div class="jgz-product-card__info">
+            <p class="jgz-product-card__name">{{ rec_product.title }}</p>
+            <div class="jgz-product-card__price-row">
+              <span class="jgz-product-card__price">{{ rec_product.price | money }}</span>
+              {%- if rec_product.compare_at_price > rec_product.price -%}
+                <span class="jgz-product-card__compare">{{ rec_product.compare_at_price | money }}</span>
+              {%- endif -%}
+            </div>
+          </div>
+        </a>
+      {%- endfor -%}
+    </div>
+  </div>
+{%- endif -%}
+
+<!-- Mobile Sticky CTA -->
+<div class="jgz-sticky-cta">
+  <div>
+    <p class="jgz-sticky-cta__name">{{ product.title | truncate: 32 }}</p>
+    <span class="jgz-sticky-cta__price">{{ product.price | money }}</span>
+  </div>
+  <button class="jgz-sticky-cta__btn" onclick="document.getElementById('jgzAtcBtn').click()">Add to Bag</button>
+</div>
+
+<script>
+  // Gallery
+  (function() {
+    var images = {{ product.images | map: 'src' | json }};
+    var current = 0;
+
+    window.jgzSelectImage = function(thumb, src) {
+      document.querySelectorAll('.jgz-gallery__thumb').forEach(function(t) { t.classList.remove('jgz-gallery__thumb--active'); });
+      thumb.classList.add('jgz-gallery__thumb--active');
+      var img = document.getElementById('jgzMainImg');
+      if (img) { img.src = src; }
+      current = parseInt(thumb.dataset.index || 0);
+    };
+
+    window.jgzGalleryNav = function(dir) {
+      var thumbs = document.querySelectorAll('.jgz-gallery__thumb');
+      if (!thumbs.length) return;
+      current = (current + dir + thumbs.length) % thumbs.length;
+      thumbs[current].click();
+    };
+  })();
+
+  // Qty
+  (function() {
+    var qty = 1;
+    window.jgzQty = function(delta) {
+      qty = Math.max(1, qty + delta);
+      document.getElementById('jgzQtyDisplay').textContent = qty;
+      document.getElementById('jgzQtyInput').value = qty;
+    };
+  })();
+
+  // Option selection
+  window.jgzSelectedOptions = {
+    {%- for option in product.options_with_values -%}
+      {{ option.position }}: '{{ option.selected_value }}',
+    {%- endfor -%}
+  };
+
+  window.jgzSelectOption = function(el, position, value) {
+    jgzSelectedOptions[position] = value;
+    // update label
+    var label = document.getElementById('jgzSelected' + position);
+    if (label) label.textContent = value;
+
+    // update active state for the group
+    var parent = el.parentElement;
+    parent.querySelectorAll('.jgz-pdp__size-btn, .jgz-color-option').forEach(function(b) {
+      b.classList.remove('jgz-pdp__size-btn--active', 'jgz-color-option--active');
+    });
+    el.classList.add(el.classList.contains('jgz-color-option') ? 'jgz-color-option--active' : 'jgz-pdp__size-btn--active');
+
+    // find matching variant
+    var variants = {{ product.variants | json }};
+    var match = variants.find(function(v) {
+      return Object.keys(jgzSelectedOptions).every(function(pos) {
+        return v['option' + pos] === jgzSelectedOptions[pos];
+      });
+    });
+
+    if (match) {
+      document.getElementById('jgzVariantId').value = match.id;
+      var priceEl = document.getElementById('jgzCurrentPrice');
+      if (priceEl) {
+        priceEl.textContent = (match.price / 100).toLocaleString('en-PK', { style: 'currency', currency: 'PKR', minimumFractionDigits: 0 });
+      }
+    }
+  };
+
+  // Add to cart feedback
+  var atcForm = document.getElementById('{{ product_form_id }}');
+  if (atcForm) {
+    atcForm.addEventListener('submit', function(e) {
+      var btn = document.getElementById('jgzAtcBtn');
+      if (!btn) return;
+      setTimeout(function() {
+        btn.textContent = '✓ Added!';
+        btn.classList.add('jgz-pdp__atc-btn--added');
+        setTimeout(function() {
+          btn.textContent = 'Add to Bag';
+          btn.classList.remove('jgz-pdp__atc-btn--added');
+        }, 2000);
+      }, 100);
+    });
+  }
+</script>
+
+{% schema %}
+{
+  "name": "JIGERZ Product Detail",
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "fabric_care",
+      "label": "Fabric & Care text",
+      "default": "100% Ring-Spun Cotton\nMachine wash cold, gentle cycle\nDo not bleach\nTumble dry low\nCool iron if needed"
+    },
+    {
+      "type": "textarea",
+      "id": "shipping_returns",
+      "label": "Shipping & Returns text",
+      "default": "Free delivery on orders over PKR 2,500\nStandard delivery: 3–5 business days\nExpress available at checkout\n30-day hassle-free returns\nItems must be unworn with tags attached"
+    },
+    {
+      "type": "textarea",
+      "id": "size_fit",
+      "label": "Size & Fit text",
+      "default": "Model is 6'0\" wearing size M\nRegular fit — true to size\nChest: S=36\", M=38\", L=40\", XL=42\", XXL=44\"\nIf between sizes, size up for a relaxed fit"
+    }
+  ],
+  "presets": [{ "name": "JIGERZ Product Detail" }]
+}
+{% endschema %}
