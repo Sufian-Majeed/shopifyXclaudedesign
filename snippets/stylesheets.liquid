@@ -43,27 +43,29 @@
   @media screen and (min-width: 750px) {
     .header__row--top .header__columns {
       display: flex !important;
-      justify-content: space-between !important;
       align-items: center !important;
       padding: 0 48px !important;
       height: 72px !important;
-      position: relative !important;
       gap: 0 !important;
     }
-    /* Logo: absolute center */
-    .header__row--top .header-logo,
-    .header__row--top header-logo-block {
-      position: absolute !important;
-      left: 50% !important;
-      transform: translateX(-50%) !important;
-      z-index: 2 !important;
+    .header__column--left {
+      flex: 1 !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: flex-start !important;
     }
-    /* Left col (menu) */
-    .header__column--left { order: 1 !important; flex: 1 !important; }
-    /* Right col (actions) */
-    .header__column--right { order: 3 !important; flex: 1 !important; justify-content: flex-end !important; }
-    /* Center col (if exists) */
-    .header__column--center { order: 2 !important; }
+    .header__column--center {
+      flex: 0 0 auto !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+    }
+    .header__column--right {
+      flex: 1 !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: flex-end !important;
+    }
   }
 
   /* Nav links */
