@@ -350,36 +350,6 @@
   </div>
 </div>
 
-<!-- RELATED -->
-{%- assign related_collection = product.collections.first -%}
-{%- if related_collection != blank -%}
-  <div class="jgz-related">
-    <div class="jgz-related-label">You May Also Like</div>
-    <div class="jgz-related-title">Complete the Look</div>
-    <div class="jgz-related-grid">
-      {%- assign shown = 0 -%}
-      {%- for rel in related_collection.products -%}
-        {%- if rel.id != product.id and shown < 4 -%}
-          {%- assign shown = shown | plus: 1 -%}
-          <a href="{{ rel.url }}" class="jgz-r-card">
-            <div class="jgz-r-img">
-              {%- if rel.featured_image -%}
-                <img src="{{ rel.featured_image | image_url: width: 600 }}" alt="{{ rel.title }}" loading="lazy">
-              {%- endif -%}
-            </div>
-            <div class="jgz-r-name">{{ rel.title }}</div>
-            <div class="jgz-r-prices">
-              <span class="jgz-r-price">{{ rel.price | money }}</span>
-              {%- if rel.compare_at_price > rel.price -%}
-                <span class="jgz-r-price-old">{{ rel.compare_at_price | money }}</span>
-              {%- endif -%}
-            </div>
-          </a>
-        {%- endif -%}
-      {%- endfor -%}
-    </div>
-  </div>
-{%- endif -%}
 
 <!-- STICKY MOBILE CTA -->
 <div class="jgz-sticky-cta">

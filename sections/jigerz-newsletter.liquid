@@ -1,8 +1,8 @@
 <style>
   .jgz-newsletter {
-    background: var(--jgz-black);
-    padding: 80px var(--jgz-px);
-    border-top: 1px solid var(--jgz-border);
+    background: #0a0a0a;
+    padding: 80px 60px;
+    border-top: 1px solid rgba(255,255,255,0.08);
     text-align: center;
   }
 
@@ -11,20 +11,29 @@
     margin: 0 auto;
   }
 
+  .jgz-newsletter__label {
+    font-family: 'Barlow', system-ui, sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: #b8975a;
+    margin: 0 0 16px;
+  }
+
   .jgz-newsletter__heading {
-    font-family: var(--jgz-heading);
+    font-family: 'Cormorant Garamond', Georgia, serif;
     font-size: 48px;
     font-weight: 300;
-    color: var(--jgz-off-white);
+    color: #f5f4f0;
     margin: 0 0 12px;
     line-height: 1.05;
   }
 
   .jgz-newsletter__sub {
-    font-family: var(--jgz-body);
+    font-family: 'Barlow', system-ui, sans-serif;
     font-size: 13px;
     font-weight: 300;
-    color: var(--jgz-off-white);
+    color: #f5f4f0;
     opacity: 0.5;
     margin: 0 0 36px;
   }
@@ -39,28 +48,28 @@
   .jgz-newsletter__input {
     flex: 1;
     height: 48px;
-    background: var(--jgz-card-bg);
-    border: 1px solid var(--jgz-border);
+    background: #141414;
+    border: 1px solid rgba(255,255,255,0.08);
     border-right: none;
-    color: var(--jgz-off-white);
-    font-family: var(--jgz-body);
+    color: #f5f4f0;
+    font-family: 'Barlow', system-ui, sans-serif;
     font-size: 13px;
     padding: 0 16px;
     outline: none;
   }
   .jgz-newsletter__input::placeholder {
-    color: var(--jgz-off-white);
+    color: #f5f4f0;
     opacity: 0.35;
   }
   .jgz-newsletter__input:focus {
-    border-color: var(--jgz-gold);
+    border-color: #b8975a;
   }
 
   .jgz-newsletter__btn {
     height: 48px;
-    background: var(--jgz-gold);
+    background: #b8975a;
     color: #0a0a0a;
-    font-family: var(--jgz-body);
+    font-family: 'Barlow', system-ui, sans-serif;
     font-size: 11px;
     font-weight: 600;
     letter-spacing: 0.15em;
@@ -75,18 +84,18 @@
 
   @media (max-width: 768px) {
     .jgz-newsletter {
-      padding: 60px var(--jgz-px-m);
+      padding: 60px 20px;
     }
     .jgz-newsletter__heading { font-size: 36px; }
     .jgz-newsletter__form { flex-direction: column; gap: 8px; }
-    .jgz-newsletter__input { border-right: 1px solid var(--jgz-border); }
+    .jgz-newsletter__input { border-right: 1px solid rgba(255,255,255,0.08); }
     .jgz-newsletter__btn { width: 100%; }
   }
 </style>
 
 <section class="jgz-newsletter">
   <div class="jgz-newsletter__inner">
-    <p class="jgz-section-label">{{ section.settings.section_label }}</p>
+    <p class="jgz-newsletter__label">{{ section.settings.section_label }}</p>
     <h2 class="jgz-newsletter__heading">{{ section.settings.heading }}</h2>
     <p class="jgz-newsletter__sub">{{ section.settings.subtext }}</p>
 
@@ -103,7 +112,7 @@
         <button type="submit" class="jgz-newsletter__btn">{{ section.settings.button_label }}</button>
       </div>
       {%- if form.posted_successfully? -%}
-        <p style="margin-top:16px;font-family:var(--jgz-body);font-size:13px;color:var(--jgz-gold);">You're in! Watch your inbox.</p>
+        <p style="margin-top:16px;font-family:'Barlow',system-ui,sans-serif;font-size:13px;color:#b8975a;">You're in! Watch your inbox.</p>
       {%- endif -%}
     {%- endform -%}
   </div>
