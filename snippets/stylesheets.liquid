@@ -19,61 +19,91 @@
     --jgz-px-m: 20px;
   }
 
-  /* ── JIGERZ HEADER OVERRIDES ── */
-  #header-group,
-  #header-component,
+  /* ══════════════════════════════════════
+     JIGERZ HEADER — dark bg, blur, border
+     ══════════════════════════════════════ */
   header-component,
+  #header-component,
   .header__row,
   .header__row--top,
-  .color-scheme-1,
-  [class*="color-scheme"] {
+  .header__underlay,
+  .header__underlay-closed,
+  .header-section {
     background: rgba(10,10,10,0.97) !important;
     background-color: rgba(10,10,10,0.97) !important;
-    border-bottom-color: rgba(255,255,255,0.08) !important;
     color: #f5f4f0 !important;
   }
   header-component {
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
     border-bottom: 1px solid rgba(255,255,255,0.08) !important;
   }
+
+  /* 3-column layout: nav | LOGO CENTER | actions */
+  @media screen and (min-width: 750px) {
+    .header__row--top .header__columns {
+      display: flex !important;
+      justify-content: space-between !important;
+      align-items: center !important;
+      padding: 0 48px !important;
+      height: 72px !important;
+      position: relative !important;
+      gap: 0 !important;
+    }
+    /* Logo: absolute center */
+    .header__row--top .header-logo,
+    .header__row--top header-logo-block {
+      position: absolute !important;
+      left: 50% !important;
+      transform: translateX(-50%) !important;
+      z-index: 2 !important;
+    }
+    /* Left col (menu) */
+    .header__column--left { order: 1 !important; flex: 1 !important; }
+    /* Right col (actions) */
+    .header__column--right { order: 3 !important; flex: 1 !important; justify-content: flex-end !important; }
+    /* Center col (if exists) */
+    .header__column--center { order: 2 !important; }
+  }
+
   /* Nav links */
   .header__row a,
   .menu-list__link,
   .header__row button,
-  .header__row [role="button"],
   .header-menu a {
     color: #f5f4f0 !important;
     font-family: 'Barlow', system-ui, sans-serif !important;
     font-size: 11px !important;
-    letter-spacing: 0.12em !important;
+    letter-spacing: 0.13em !important;
     text-transform: uppercase !important;
-    opacity: 0.7;
-    transition: opacity 0.2s;
+    opacity: 0.7 !important;
+    transition: opacity 0.2s !important;
+    text-decoration: none !important;
   }
-  .header__row a:hover,
-  .menu-list__link:hover,
-  .header__row button:hover { opacity: 1 !important; }
-  /* Logo */
-  .header__row img { filter: brightness(0) invert(1); }
-  /* Icons (search, cart, account) */
+  .header__row a:hover, .menu-list__link:hover, .header__row button:hover { opacity: 1 !important; }
+
+  /* Logo image white */
+  .header__row img { filter: brightness(0) invert(1) !important; }
+  /* Icons */
   .header__row svg, .header__row .icon { color: #f5f4f0 !important; fill: #f5f4f0 !important; stroke: #f5f4f0 !important; }
-  /* Cart button — gold like reference */
-  .header__row a[href="/cart"],
-  .header__row button[data-action="open-cart"],
-  .cart-count-bubble, [data-cart-count],
-  a[aria-label*="cart" i], a[aria-label*="bag" i],
-  button[aria-label*="cart" i], button[aria-label*="bag" i] {
+
+  /* Cart/Bag button — gold */
+  header-actions a[href*="cart"],
+  .header__row a[href*="cart"],
+  header-actions button[aria-label*="art" i],
+  .cart-notification-button {
     background: #b8975a !important;
     color: #0a0a0a !important;
     padding: 8px 18px !important;
     font-weight: 600 !important;
     opacity: 1 !important;
   }
-  /* Announcement bar */
-  .header-announcements, .announcement-bar { background: #b8975a !important; color: #0a0a0a !important; border-bottom: none !important; }
-  .header-announcements a, .announcement-bar a { color: #0a0a0a !important; }
-  .header-announcements *, .announcement-bar * { color: #0a0a0a !important; font-family: 'Barlow', system-ui, sans-serif !important; font-size: 11px !important; font-weight: 600 !important; letter-spacing: 0.15em !important; text-transform: uppercase !important; }
+  header-actions a[href*="cart"] svg,
+  header-actions button[aria-label*="art" i] svg { fill: #0a0a0a !important; stroke: #0a0a0a !important; color: #0a0a0a !important; }
+
+  /* Announcement bar (header-announcements section) */
+  .announcement-bar, .header-announcements, aside.announcement-bar { background: #b8975a !important; border-bottom: none !important; }
+  .announcement-bar *, .header-announcements * { color: #0a0a0a !important; font-family: 'Barlow', system-ui, sans-serif !important; font-size: 11px !important; font-weight: 600 !important; letter-spacing: 0.15em !important; text-transform: uppercase !important; }
 
   /* ── JIGERZ FOOTER OVERRIDE ── */
   footer, .shopify-section--footer, #footer-group, #footer-group .shopify-section { background: #060606 !important; }
