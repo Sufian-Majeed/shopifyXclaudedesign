@@ -1,610 +1,142 @@
 <style>
-  .jgz-pdp {
-    background: var(--jgz-black);
-    padding: 0 var(--jgz-px) 80px;
-  }
+  body { background: var(--jgz-black) !important; color: var(--jgz-off-white) !important; }
 
-  /* ---- 2-col layout ---- */
-  .jgz-pdp__layout {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 64px;
-    max-width: 1400px;
-    margin: 0 auto;
-    align-items: start;
-  }
+  .jgz-breadcrumb { padding: 18px 60px; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; opacity: 0.35; border-bottom: 1px solid var(--jgz-border); font-family: var(--jgz-body); }
+  .jgz-breadcrumb a { color: var(--jgz-off-white); text-decoration: none; }
+  .jgz-breadcrumb a:hover { color: var(--jgz-gold); }
 
-  /* ---- Gallery ---- */
-  .jgz-gallery {
-    position: sticky;
-    top: 88px;
-    display: grid;
-    grid-template-columns: 76px 1fr;
-    gap: 12px;
-  }
+  .jgz-pdp { display: grid; grid-template-columns: 1fr 1fr; min-height: 90vh; background: var(--jgz-black); }
 
-  .jgz-gallery__thumbs {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
+  /* GALLERY */
+  .jgz-gallery { display: grid; grid-template-columns: 76px 1fr; gap: 3px; padding: 40px 0 40px 60px; position: sticky; top: 72px; height: calc(100vh - 72px); }
+  .jgz-gallery-thumbs { display: flex; flex-direction: column; gap: 3px; overflow-y: auto; }
+  .jgz-gallery-thumb { aspect-ratio: 3/4; background: var(--jgz-card-bg); cursor: pointer; border: 2px solid transparent; transition: border-color 0.2s; overflow: hidden; flex-shrink: 0; }
+  .jgz-gallery-thumb img { width: 100%; height: 100%; object-fit: cover; }
+  .jgz-gallery-thumb.active { border-color: var(--jgz-gold); }
+  .jgz-gallery-thumb:hover { border-color: rgba(184,151,90,0.5); }
+  .jgz-gallery-main { background: var(--jgz-card-bg); position: relative; overflow: hidden; }
+  .jgz-gallery-main img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .jgz-gallery-zoom { position: absolute; bottom: 20px; right: 20px; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; opacity: 0.3; cursor: pointer; color: var(--jgz-off-white); font-family: var(--jgz-body); }
+  .jgz-gallery-nav { position: absolute; top: 50%; transform: translateY(-50%); display: flex; justify-content: space-between; width: 100%; padding: 0 16px; pointer-events: none; }
+  .jgz-gallery-nav-btn { width: 40px; height: 40px; border: 1px solid var(--jgz-border); background: rgba(10,10,10,0.7); color: var(--jgz-off-white); display: flex; align-items: center; justify-content: center; cursor: pointer; pointer-events: all; font-size: 16px; transition: all 0.2s; }
+  .jgz-gallery-nav-btn:hover { border-color: var(--jgz-gold); color: var(--jgz-gold); }
 
-  .jgz-gallery__thumb {
-    width: 76px;
-    height: 96px;
-    background: var(--jgz-card-bg);
-    border: 1px solid var(--jgz-border);
-    cursor: pointer;
-    overflow: hidden;
-    transition: border-color 0.2s;
-    flex-shrink: 0;
-  }
-  .jgz-gallery__thumb img { width: 100%; height: 100%; object-fit: cover; }
-  .jgz-gallery__thumb--active { border-color: var(--jgz-gold); }
-  .jgz-gallery__thumb:hover { border-color: rgba(184,151,90,0.5); }
+  /* INFO */
+  .jgz-product-info { padding: 40px 60px 100px 48px; overflow-y: auto; background: var(--jgz-black); }
 
-  .jgz-gallery__main {
-    position: relative;
-    aspect-ratio: 3 / 4;
-    background: var(--jgz-card-bg);
-    overflow: hidden;
-  }
-  .jgz-gallery__main img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-  }
+  .jgz-product-badge-row { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+  .jgz-p-badge { font-size: 9px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; padding: 5px 12px; border: 1px solid var(--jgz-gold); color: var(--jgz-gold); font-family: var(--jgz-body); }
+  .jgz-p-badge.filled { background: var(--jgz-gold); color: var(--jgz-black); }
+  .jgz-p-badge.cod { background: #1a3a1a; color: #4caf50; border-color: #4caf50; }
 
-  .jgz-gallery__zoom {
-    position: absolute;
-    bottom: 16px;
-    right: 16px;
-    font-family: var(--jgz-body);
-    font-size: 9px;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--jgz-off-white);
-    opacity: 0.5;
-    background: rgba(10,10,10,0.7);
-    padding: 6px 10px;
-    cursor: zoom-in;
-  }
+  .jgz-product-title { font-family: var(--jgz-heading); font-size: 44px; font-weight: 300; line-height: 1.05; margin-bottom: 6px; color: var(--jgz-off-white); }
+  .jgz-product-sku { font-size: 10px; opacity: 0.3; letter-spacing: 0.2em; margin-bottom: 16px; color: var(--jgz-off-white); font-family: var(--jgz-body); text-transform: uppercase; }
 
-  .jgz-gallery__nav {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 36px;
-    height: 36px;
-    background: rgba(10,10,10,0.7);
-    border: 1px solid var(--jgz-border);
-    color: var(--jgz-off-white);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    font-size: 18px;
-  }
-  .jgz-gallery__nav--prev { left: 12px; }
-  .jgz-gallery__nav--next { right: 12px; }
+  .jgz-rating-row { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid var(--jgz-border); flex-wrap: wrap; }
+  .jgz-stars { color: var(--jgz-gold); font-size: 13px; letter-spacing: 2px; }
+  .jgz-rating-count { font-size: 11px; opacity: 0.4; color: var(--jgz-off-white); font-family: var(--jgz-body); }
+  .jgz-rating-link { font-size: 11px; color: var(--jgz-gold); text-decoration: none; opacity: 0.7; border-bottom: 1px solid transparent; transition: all 0.2s; font-family: var(--jgz-body); }
+  .jgz-rating-link:hover { opacity: 1; border-color: var(--jgz-gold); }
 
-  /* ---- Product Info ---- */
-  .jgz-pdp__info {
-    padding-top: 40px;
-  }
+  .jgz-compare-price-box { background: rgba(184,151,90,0.08); border: 1px solid rgba(184,151,90,0.25); padding: 16px 20px; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+  .jgz-compare-label { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; opacity: 0.5; margin-bottom: 4px; color: var(--jgz-off-white); font-family: var(--jgz-body); }
+  .jgz-compare-prices { display: flex; align-items: baseline; gap: 12px; }
+  .jgz-compare-now { font-family: var(--jgz-heading); font-size: 32px; font-weight: 600; color: var(--jgz-gold); }
+  .jgz-compare-was { font-size: 16px; opacity: 0.4; text-decoration: line-through; color: var(--jgz-off-white); }
+  .jgz-compare-save-pill { background: var(--jgz-gold); color: var(--jgz-black); font-size: 10px; font-weight: 700; letter-spacing: 0.1em; padding: 6px 14px; font-family: var(--jgz-body); }
 
-  .jgz-pdp__badges {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-    margin-bottom: 20px;
-  }
+  .jgz-stock-indicator { display: flex; align-items: center; gap: 8px; margin-bottom: 20px; font-size: 12px; font-family: var(--jgz-body); }
+  .jgz-stock-dot { width: 8px; height: 8px; border-radius: 50%; background: #e85d04; animation: jgzPulse 1.5s infinite; flex-shrink: 0; }
+  @keyframes jgzPulse { 0%,100%{opacity:1;}50%{opacity:0.4;} }
+  .jgz-stock-text { color: #e85d04; font-weight: 500; letter-spacing: 0.05em; }
+  .jgz-stock-sub { opacity: 0.45; font-size: 11px; color: var(--jgz-off-white); }
 
-  .jgz-pdp__badge {
-    font-family: var(--jgz-body);
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    padding: 5px 12px;
-  }
-  .jgz-pdp__badge--new-arrival { background: var(--jgz-gold); color: #0a0a0a; }
-  .jgz-pdp__badge--in-stock { background: transparent; border: 1px solid var(--jgz-gold); color: var(--jgz-gold); }
-  .jgz-pdp__badge--cod { background: #1a3a1a; color: var(--jgz-cod-green); border: 1px solid rgba(76,175,80,0.3); }
+  .jgz-product-bullets { margin-bottom: 24px; display: flex; flex-direction: column; gap: 8px; }
+  .jgz-bullet-item { display: flex; align-items: center; gap: 10px; font-size: 12px; opacity: 0.75; color: var(--jgz-off-white); font-family: var(--jgz-body); }
+  .jgz-bullet-check { color: var(--jgz-gold); font-size: 14px; flex-shrink: 0; }
 
-  .jgz-pdp__title {
-    font-family: var(--jgz-heading);
-    font-size: 44px;
-    font-weight: 300;
-    line-height: 1.05;
-    color: var(--jgz-off-white);
-    margin: 0 0 8px;
-  }
+  .jgz-option-section { margin-bottom: 24px; }
+  .jgz-option-label { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; opacity: 0.5; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; color: var(--jgz-off-white); font-family: var(--jgz-body); }
+  .jgz-option-selected { color: var(--jgz-gold); opacity: 1; font-weight: 500; }
+  .jgz-color-options { display: flex; gap: 10px; }
+  .jgz-color-opt { width: 30px; height: 30px; border-radius: 50%; cursor: pointer; border: 2px solid transparent; transition: all 0.2s; outline: 1px solid var(--jgz-border); }
+  .jgz-color-opt.active { border-color: var(--jgz-gold); outline-color: var(--jgz-gold); }
+  .jgz-color-opt:hover { transform: scale(1.1); }
 
-  .jgz-pdp__sku {
-    font-family: var(--jgz-body);
-    font-size: 10px;
-    letter-spacing: 0.1em;
-    color: var(--jgz-off-white);
-    opacity: 0.3;
-    margin: 0 0 16px;
-    text-transform: uppercase;
-  }
+  .jgz-size-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+  .jgz-size-opt { min-width: 50px; padding: 9px 14px; border: 1px solid var(--jgz-border); font-size: 12px; letter-spacing: 0.1em; text-align: center; cursor: pointer; transition: all 0.2s; opacity: 0.55; background: none; color: var(--jgz-off-white); font-family: var(--jgz-body); }
+  .jgz-size-opt:hover { border-color: rgba(255,255,255,0.3); opacity: 1; }
+  .jgz-size-opt.active { border-color: var(--jgz-gold); color: var(--jgz-gold); opacity: 1; }
+  .jgz-size-opt.soldout { opacity: 0.2; text-decoration: line-through; cursor: not-allowed; }
+  .jgz-size-guide-link { font-size: 10px; color: var(--jgz-gold); text-decoration: none; letter-spacing: 0.1em; font-family: var(--jgz-body); }
+  .jgz-size-guide-link:hover { border-bottom: 1px solid var(--jgz-gold); }
 
-  /* Rating */
-  .jgz-pdp__rating {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 24px;
-  }
+  .jgz-delivery-line { display: flex; align-items: center; gap: 10px; background: rgba(255,255,255,0.03); border: 1px solid var(--jgz-border); padding: 12px 16px; margin-bottom: 20px; font-size: 12px; opacity: 0.75; color: var(--jgz-off-white); font-family: var(--jgz-body); }
 
-  .jgz-pdp__stars { color: var(--jgz-gold); font-size: 14px; }
+  .jgz-add-row { display: grid; grid-template-columns: 110px 1fr; gap: 10px; margin-bottom: 12px; }
+  .jgz-qty-control { display: flex; align-items: center; border: 1px solid var(--jgz-border); background: var(--jgz-card-bg); }
+  .jgz-qty-btn { width: 34px; height: 48px; background: none; border: none; color: var(--jgz-off-white); font-size: 18px; cursor: pointer; opacity: 0.5; transition: opacity 0.2s; font-family: var(--jgz-body); }
+  .jgz-qty-btn:hover { opacity: 1; }
+  .jgz-qty-val { flex: 1; text-align: center; font-size: 14px; color: var(--jgz-off-white); }
+  .jgz-add-to-cart { background: var(--jgz-gold); color: var(--jgz-black); border: none; font-family: var(--jgz-body); font-size: 12px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; cursor: pointer; transition: all 0.2s; height: 48px; }
+  .jgz-add-to-cart:hover { background: var(--jgz-off-white); }
+  .jgz-add-to-cart.added { background: #2e7d32 !important; color: white !important; }
+  .jgz-buy-now { width: 100%; background: none; border: 1px solid var(--jgz-border); color: var(--jgz-off-white); font-family: var(--jgz-body); font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; cursor: pointer; height: 48px; transition: all 0.2s; margin-bottom: 20px; }
+  .jgz-buy-now:hover { border-color: var(--jgz-gold); color: var(--jgz-gold); }
 
-  .jgz-pdp__rating-text {
-    font-family: var(--jgz-body);
-    font-size: 12px;
-    color: var(--jgz-off-white);
-    opacity: 0.5;
-  }
+  .jgz-trust-badges { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; padding: 20px 0; border-top: 1px solid var(--jgz-border); border-bottom: 1px solid var(--jgz-border); margin-bottom: 28px; }
+  .jgz-trust-badge { text-align: center; }
+  .jgz-trust-badge-icon { font-size: 18px; margin-bottom: 5px; opacity: 0.6; }
+  .jgz-trust-badge-text { font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.45; line-height: 1.5; color: var(--jgz-off-white); font-family: var(--jgz-body); }
 
-  .jgz-pdp__review-count {
-    font-family: var(--jgz-body);
-    font-size: 12px;
-    color: var(--jgz-gold);
-    text-decoration: none;
-  }
+  .jgz-accordion { border-top: 1px solid var(--jgz-border); }
+  .jgz-accordion-item { border-bottom: 1px solid var(--jgz-border); }
+  .jgz-accordion-header { width: 100%; background: none; border: none; color: var(--jgz-off-white); font-family: var(--jgz-body); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; padding: 16px 0; display: flex; justify-content: space-between; align-items: center; cursor: pointer; opacity: 0.7; transition: opacity 0.2s; }
+  .jgz-accordion-header:hover { opacity: 1; }
+  .jgz-accordion-icon { font-size: 18px; transition: transform 0.3s; }
+  .jgz-accordion-item.open .jgz-accordion-icon { transform: rotate(45deg); }
+  .jgz-accordion-body { display: none; padding-bottom: 18px; font-size: 13px; line-height: 1.8; opacity: 0.55; color: var(--jgz-off-white); font-family: var(--jgz-body); }
+  .jgz-accordion-item.open .jgz-accordion-body { display: block; }
+  .jgz-accordion-body ul { list-style: none; display: flex; flex-direction: column; gap: 6px; padding: 0; }
+  .jgz-accordion-body li::before { content: '— '; color: var(--jgz-gold); }
 
-  /* Price Box */
-  .jgz-pdp__price-box {
-    background: rgba(184,151,90,0.08);
-    border: 1px solid rgba(184,151,90,0.25);
-    padding: 16px 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 20px;
-  }
+  .jgz-related { padding: 72px 60px; border-top: 1px solid var(--jgz-border); background: var(--jgz-black); }
+  .jgz-related-label { font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--jgz-gold); margin-bottom: 12px; font-family: var(--jgz-body); }
+  .jgz-related-title { font-family: var(--jgz-heading); font-size: 38px; font-weight: 300; margin-bottom: 40px; color: var(--jgz-off-white); }
+  .jgz-related-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+  .jgz-r-card { cursor: pointer; text-decoration: none; display: block; }
+  .jgz-r-img { aspect-ratio: 3/4; background: var(--jgz-card-bg); margin-bottom: 12px; overflow: hidden; }
+  .jgz-r-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s; }
+  .jgz-r-card:hover .jgz-r-img img { transform: scale(1.04); }
+  .jgz-r-name { font-size: 13px; margin-bottom: 5px; color: var(--jgz-off-white); font-family: var(--jgz-body); }
+  .jgz-r-prices { display: flex; gap: 8px; align-items: baseline; }
+  .jgz-r-price { font-family: var(--jgz-heading); font-size: 17px; color: var(--jgz-gold); }
+  .jgz-r-price-old { font-size: 12px; opacity: 0.35; text-decoration: line-through; color: var(--jgz-off-white); }
 
-  .jgz-pdp__price-label {
-    font-family: var(--jgz-body);
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--jgz-off-white);
-    opacity: 0.5;
-    margin: 0 0 6px;
-  }
-
-  .jgz-pdp__price-row {
-    display: flex;
-    align-items: baseline;
-    gap: 12px;
-  }
-
-  .jgz-pdp__current-price {
-    font-family: var(--jgz-heading);
-    font-size: 32px;
-    font-weight: 600;
-    color: var(--jgz-gold);
-  }
-
-  .jgz-pdp__was-price {
-    font-family: var(--jgz-body);
-    font-size: 16px;
-    color: var(--jgz-off-white);
-    opacity: 0.4;
-    text-decoration: line-through;
-  }
-
-  .jgz-pdp__save-pill {
-    background: var(--jgz-gold);
-    color: #0a0a0a;
-    font-family: var(--jgz-body);
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    padding: 5px 12px;
-    text-transform: uppercase;
-    align-self: center;
-  }
-
-  /* Stock indicator */
-  .jgz-pdp__stock {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 20px;
-  }
-
-  .jgz-pdp__stock-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--jgz-sale-red);
-    animation: jgzPulse 1.5s ease-in-out infinite;
-    flex-shrink: 0;
-  }
-
-  @keyframes jgzPulse {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.5; transform: scale(1.3); }
-  }
-
-  .jgz-pdp__stock-text {
-    font-family: var(--jgz-body);
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--jgz-sale-red);
-  }
-  .jgz-pdp__stock-sub {
-    font-family: var(--jgz-body);
-    font-size: 12px;
-    color: var(--jgz-off-white);
-    opacity: 0.45;
-  }
-
-  /* Bullets */
-  .jgz-pdp__bullets {
-    list-style: none;
-    padding: 0;
-    margin: 0 0 24px;
-  }
-  .jgz-pdp__bullets li {
-    font-family: var(--jgz-body);
-    font-size: 12px;
-    color: var(--jgz-off-white);
-    opacity: 0.75;
-    padding: 5px 0;
-    display: flex;
-    gap: 10px;
-    align-items: flex-start;
-  }
-  .jgz-pdp__bullets li::before {
-    content: '✓';
-    color: var(--jgz-gold);
-    font-size: 12px;
-    flex-shrink: 0;
-    margin-top: 1px;
-  }
-
-  /* Divider */
-  .jgz-pdp__divider {
-    height: 1px;
-    background: var(--jgz-border);
-    margin: 20px 0;
-  }
-
-  /* Color picker */
-  .jgz-picker__header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 12px;
-  }
-
-  .jgz-picker__label {
-    font-family: var(--jgz-body);
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--jgz-off-white);
-    opacity: 0.6;
-  }
-
-  .jgz-picker__selected {
-    font-family: var(--jgz-body);
-    font-size: 12px;
-    color: var(--jgz-gold);
-  }
-
-  .jgz-color-options {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-    margin-bottom: 24px;
-  }
-
-  .jgz-color-option {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    border: 2px solid transparent;
-    outline: 1px solid var(--jgz-border);
-    cursor: pointer;
-    transition: outline-color 0.2s, border-color 0.2s, transform 0.15s;
-  }
-  .jgz-color-option:hover { transform: scale(1.1); }
-  .jgz-color-option--active {
-    border-color: var(--jgz-gold);
-    outline-color: var(--jgz-gold);
-  }
-
-  /* Size picker */
-  .jgz-size-options {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-    margin-bottom: 8px;
-  }
-
-  .jgz-pdp__size-btn {
-    font-family: var(--jgz-body);
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--jgz-off-white);
-    border: 1px solid var(--jgz-border);
-    background: transparent;
-    padding: 8px 16px;
-    min-width: 50px;
-    text-align: center;
-    cursor: pointer;
-    transition: border-color 0.2s, color 0.2s;
-  }
-  .jgz-pdp__size-btn:hover { border-color: var(--jgz-gold); color: var(--jgz-gold); }
-  .jgz-pdp__size-btn--active { border-color: var(--jgz-gold); color: var(--jgz-gold); }
-  .jgz-pdp__size-btn--soldout { opacity: 0.2; cursor: not-allowed; text-decoration: line-through; }
-
-  .jgz-size-guide {
-    font-family: var(--jgz-body);
-    font-size: 11px;
-    color: var(--jgz-gold);
-    text-decoration: none;
-    letter-spacing: 0.05em;
-  }
-
-  /* Delivery box */
-  .jgz-pdp__delivery {
-    background: var(--jgz-card-bg);
-    border: 1px solid var(--jgz-border);
-    padding: 12px 16px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 24px;
-    font-family: var(--jgz-body);
-    font-size: 12px;
-    color: var(--jgz-off-white);
-    opacity: 0.7;
-    line-height: 1.5;
-  }
-
-  /* Add to cart row */
-  .jgz-pdp__atc-row {
-    display: flex;
-    gap: 12px;
-    margin-bottom: 12px;
-    align-items: stretch;
-  }
-
-  .jgz-pdp__qty {
-    display: flex;
-    align-items: center;
-    border: 1px solid var(--jgz-border);
-    width: 110px;
-    flex-shrink: 0;
-  }
-
-  .jgz-pdp__qty-btn {
-    width: 36px;
-    height: 48px;
-    background: transparent;
-    border: none;
-    color: var(--jgz-off-white);
-    font-size: 18px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: color 0.2s;
-  }
-  .jgz-pdp__qty-btn:hover { color: var(--jgz-gold); }
-
-  .jgz-pdp__qty-val {
-    flex: 1;
-    text-align: center;
-    font-family: var(--jgz-body);
-    font-size: 14px;
-    color: var(--jgz-off-white);
-  }
-
-  .jgz-pdp__atc-btn {
-    flex: 1;
-    height: 48px;
-    background: var(--jgz-gold);
-    color: #0a0a0a;
-    font-family: var(--jgz-body);
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    border: none;
-    cursor: pointer;
-    transition: background 0.2s;
-  }
-  .jgz-pdp__atc-btn--added {
-    background: #2e7d32 !important;
-    color: white;
-  }
-
-  .jgz-pdp__buynow {
-    width: 100%;
-    height: 48px;
-    background: transparent;
-    color: var(--jgz-off-white);
-    font-family: var(--jgz-body);
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    border: 1px solid var(--jgz-border);
-    cursor: pointer;
-    transition: border-color 0.2s, color 0.2s;
-    margin-bottom: 24px;
-  }
-  .jgz-pdp__buynow:hover { border-color: var(--jgz-off-white); }
-
-  /* Trust badges */
-  .jgz-pdp__trust {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 0;
-    border: 1px solid var(--jgz-border);
-    margin-bottom: 28px;
-  }
-
-  .jgz-pdp__trust-item {
-    padding: 16px 10px;
-    text-align: center;
-    border-right: 1px solid var(--jgz-border);
-  }
-  .jgz-pdp__trust-item:last-child { border-right: none; }
-
-  .jgz-pdp__trust-icon { font-size: 18px; margin-bottom: 6px; }
-  .jgz-pdp__trust-label {
-    font-family: var(--jgz-body);
-    font-size: 9px;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--jgz-off-white);
-    opacity: 0.55;
-    line-height: 1.4;
-  }
-
-  /* Accordions */
-  .jgz-accordion {
-    border-top: 1px solid var(--jgz-border);
-  }
-  .jgz-accordion:last-child { border-bottom: 1px solid var(--jgz-border); }
-
-  .jgz-accordion__trigger {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 18px 0;
-    cursor: pointer;
-    list-style: none;
-  }
-  .jgz-accordion__trigger::-webkit-details-marker { display: none; }
-
-  .jgz-accordion__title {
-    font-family: var(--jgz-body);
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--jgz-off-white);
-  }
-
-  .jgz-accordion__icon {
-    font-size: 18px;
-    color: var(--jgz-off-white);
-    opacity: 0.5;
-    transition: transform 0.25s;
-    line-height: 1;
-  }
-  details[open] .jgz-accordion__icon { transform: rotate(45deg); }
-
-  .jgz-accordion__body {
-    padding: 0 0 20px;
-    font-family: var(--jgz-body);
-    font-size: 13px;
-    font-weight: 300;
-    color: var(--jgz-off-white);
-    opacity: 0.65;
-    line-height: 1.7;
-  }
-
-  /* ---- Related Products ---- */
-  .jgz-related {
-    padding: 60px var(--jgz-px);
-    border-top: 1px solid var(--jgz-border);
-  }
-
-  .jgz-related__header {
-    margin-bottom: 32px;
-  }
-
-  .jgz-related__grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 24px;
-  }
-
-  /* ---- Mobile Sticky CTA ---- */
-  .jgz-sticky-cta {
-    display: none;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: rgba(10,10,10,0.97);
-    border-top: 1px solid var(--jgz-border);
-    align-items: center;
-    justify-content: space-between;
-    padding: 12px 20px;
-    z-index: 100;
-    backdrop-filter: blur(8px);
-  }
-
-  .jgz-sticky-cta__name {
-    font-family: var(--jgz-body);
-    font-size: 12px;
-    color: var(--jgz-off-white);
-    margin: 0 0 4px;
-    font-weight: 500;
-  }
-
-  .jgz-sticky-cta__price {
-    font-family: var(--jgz-heading);
-    font-size: 18px;
-    font-weight: 600;
-    color: var(--jgz-gold);
-  }
-
-  .jgz-sticky-cta__btn {
-    background: var(--jgz-gold);
-    color: #0a0a0a;
-    font-family: var(--jgz-body);
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    border: none;
-    padding: 12px 20px;
-    cursor: pointer;
-    white-space: nowrap;
-  }
+  .jgz-sticky-cta { display: none; position: fixed; bottom: 0; left: 0; right: 0; z-index: 50; background: rgba(10,10,10,0.97); border-top: 1px solid var(--jgz-border); padding: 12px 20px; gap: 12px; align-items: center; backdrop-filter: blur(10px); }
+  .jgz-sticky-cta-info { flex: 1; }
+  .jgz-sticky-cta-name { font-size: 13px; font-weight: 400; color: var(--jgz-off-white); font-family: var(--jgz-body); }
+  .jgz-sticky-cta-price { font-family: var(--jgz-heading); font-size: 18px; color: var(--jgz-gold); }
+  .jgz-sticky-cta-btn { background: var(--jgz-gold); color: var(--jgz-black); border: none; padding: 12px 28px; font-family: var(--jgz-body); font-size: 11px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; cursor: pointer; }
 
   @media (max-width: 768px) {
-    .jgz-pdp { padding: 0 var(--jgz-px-m) 100px; }
-    .jgz-pdp__layout { grid-template-columns: 1fr; gap: 32px; }
-    .jgz-gallery {
-      position: static;
-      grid-template-columns: 1fr;
-    }
-    .jgz-gallery__thumbs {
-      flex-direction: row;
-      overflow-x: auto;
-      order: 2;
-    }
-    .jgz-gallery__main { order: 1; max-height: 400px; }
-    .jgz-pdp__info { padding-top: 0; }
-    .jgz-pdp__title { font-size: 32px; }
-    .jgz-pdp__trust { grid-template-columns: repeat(2, 1fr); }
-    .jgz-pdp__trust-item:nth-child(2) { border-right: none; }
-    .jgz-pdp__trust-item:nth-child(3) { border-right: 1px solid var(--jgz-border); }
+    .jgz-breadcrumb { padding: 12px 20px; }
+    .jgz-pdp { grid-template-columns: 1fr; }
+    .jgz-gallery { grid-template-columns: 1fr; padding: 0; position: relative; top: auto; height: auto; }
+    .jgz-gallery-thumbs { flex-direction: row; padding: 8px 16px; gap: 6px; overflow-x: auto; overflow-y: visible; }
+    .jgz-gallery-thumb { width: 56px; height: 75px; aspect-ratio: unset; flex-shrink: 0; }
+    .jgz-gallery-main { height: 400px; }
+    .jgz-product-info { padding: 24px 20px 120px; }
+    .jgz-product-title { font-size: 34px; }
+    .jgz-trust-badges { grid-template-columns: repeat(2, 1fr); }
+    .jgz-add-row { grid-template-columns: 90px 1fr; }
+    .jgz-related { padding: 48px 20px; }
+    .jgz-related-title { font-size: 28px; margin-bottom: 24px; }
+    .jgz-related-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
     .jgz-sticky-cta { display: flex; }
-    .jgz-related { padding: 40px var(--jgz-px-m); }
-    .jgz-related__grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
   }
 </style>
 
-{%- assign product = product -%}
 {%- assign current_variant = product.selected_or_first_available_variant -%}
 {%- assign savings_percent = 0 -%}
 {%- if product.compare_at_price > product.price -%}
@@ -612,345 +144,326 @@
   {%- assign savings_percent = savings | times: 100 | divided_by: product.compare_at_price -%}
 {%- endif -%}
 
+<!-- Breadcrumb -->
+<div class="jgz-breadcrumb">
+  <a href="/">Home</a> &nbsp;/&nbsp;
+  {%- if product.collections.first -%}
+    <a href="{{ product.collections.first.url }}">{{ product.collections.first.title }}</a> &nbsp;/&nbsp;
+  {%- endif -%}
+  {{ product.title }}
+</div>
+
 <div class="jgz-pdp">
-  <div class="jgz-pdp__layout">
-    <!-- Gallery -->
-    <div class="jgz-gallery" id="jgzGallery">
-      <div class="jgz-gallery__thumbs">
-        {%- for image in product.images limit: 8 -%}
-          <div class="jgz-gallery__thumb {% if forloop.first %}jgz-gallery__thumb--active{% endif %}"
-               onclick="jgzSelectImage(this, '{{ image | image_url: width: 1200 }}')"
-               data-index="{{ forloop.index0 }}">
-            <img src="{{ image | image_url: width: 160 }}" alt="{{ product.title }} - {{ forloop.index }}" loading="lazy">
-          </div>
-        {%- else -%}
-          <div class="jgz-gallery__thumb jgz-gallery__thumb--active">
-            <div style="width:100%;height:100%;background:var(--jgz-card-bg);"></div>
-          </div>
-        {%- endfor -%}
-      </div>
 
-      <div class="jgz-gallery__main" id="jgzMainImage">
-        {%- if product.featured_image != blank -%}
-          <img id="jgzMainImg" src="{{ product.featured_image | image_url: width: 1200 }}" alt="{{ product.title }}" loading="eager" width="1200">
-        {%- else -%}
-          <div style="width:100%;height:100%;background:var(--jgz-card-bg);display:flex;align-items:center;justify-content:center;color:rgba(245,244,240,0.1);font-family:var(--jgz-body);font-size:11px;text-transform:uppercase;letter-spacing:0.1em;">No Image</div>
-        {%- endif -%}
-        <button class="jgz-gallery__nav jgz-gallery__nav--prev" onclick="jgzGalleryNav(-1)">‹</button>
-        <button class="jgz-gallery__nav jgz-gallery__nav--next" onclick="jgzGalleryNav(1)">›</button>
-        <span class="jgz-gallery__zoom">⊕ Zoom</span>
+  <!-- GALLERY -->
+  <div class="jgz-gallery">
+    <div class="jgz-gallery-thumbs">
+      {%- for image in product.images limit: 8 -%}
+        <div class="jgz-gallery-thumb {% if forloop.first %}active{% endif %}"
+             onclick="jgzThumb(this, '{{ image | image_url: width: 1200 }}')"
+             data-idx="{{ forloop.index0 }}">
+          <img src="{{ image | image_url: width: 160 }}" alt="{{ product.title }}" loading="lazy">
+        </div>
+      {%- else -%}
+        <div class="jgz-gallery-thumb active" style="background:var(--jgz-card-bg);"></div>
+      {%- endfor -%}
+    </div>
+    <div class="jgz-gallery-main">
+      {%- if product.featured_image -%}
+        <img id="jgzMainImg" src="{{ product.featured_image | image_url: width: 1200 }}" alt="{{ product.title }}" loading="eager">
+      {%- else -%}
+        <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.15);font-family:var(--jgz-body);font-size:11px;letter-spacing:0.1em;">No Image</div>
+      {%- endif -%}
+      <div class="jgz-gallery-zoom">+ Zoom</div>
+      <div class="jgz-gallery-nav">
+        <button class="jgz-gallery-nav-btn" onclick="jgzNavImg(-1)">‹</button>
+        <button class="jgz-gallery-nav-btn" onclick="jgzNavImg(1)">›</button>
       </div>
     </div>
+  </div>
 
-    <!-- Product Info -->
-    <div class="jgz-pdp__info">
-      <!-- Badges -->
-      <div class="jgz-pdp__badges">
-        {%- if product.tags contains 'new-arrival' -%}
-          <span class="jgz-pdp__badge jgz-pdp__badge--new-arrival">New Arrival</span>
-        {%- endif -%}
-        {%- if current_variant.available -%}
-          <span class="jgz-pdp__badge jgz-pdp__badge--in-stock">In Stock</span>
-        {%- endif -%}
-        <span class="jgz-pdp__badge jgz-pdp__badge--cod">💵 Cash on Delivery</span>
-      </div>
+  <!-- PRODUCT INFO -->
+  <div class="jgz-product-info">
 
-      <h1 class="jgz-pdp__title">{{ product.title }}</h1>
-      {%- if product.variants.first.sku != blank -%}
-        <p class="jgz-pdp__sku">SKU: {{ product.variants.first.sku }}</p>
+    <div class="jgz-product-badge-row">
+      {%- if product.tags contains 'new-arrival' -%}
+        <span class="jgz-p-badge filled">New Arrival</span>
       {%- endif -%}
-
-      <!-- Rating -->
-      <div class="jgz-pdp__rating">
-        <span class="jgz-pdp__stars">★★★★★</span>
-        <span class="jgz-pdp__rating-text">4.9 / 5</span>
-        <a href="#reviews" class="jgz-pdp__review-count">48 Reviews</a>
-      </div>
-
-      <!-- Price Box -->
-      <div class="jgz-pdp__price-box">
-        <div>
-          <p class="jgz-pdp__price-label">Compare at Price</p>
-          <div class="jgz-pdp__price-row">
-            <span class="jgz-pdp__current-price" id="jgzCurrentPrice">{{ current_variant.price | money }}</span>
-            {%- if product.compare_at_price > product.price -%}
-              <span class="jgz-pdp__was-price">{{ product.compare_at_price | money }}</span>
-            {%- endif -%}
-          </div>
-        </div>
-        {%- if savings_percent > 0 -%}
-          <span class="jgz-pdp__save-pill">SAVE {{ savings_percent }}%</span>
-        {%- endif -%}
-      </div>
-
-      <!-- Stock Indicator -->
-      {%- if current_variant.inventory_quantity > 0 and current_variant.inventory_quantity < 10 -%}
-        <div class="jgz-pdp__stock">
-          <div class="jgz-pdp__stock-dot"></div>
-          <span class="jgz-pdp__stock-text">Only {{ current_variant.inventory_quantity }} pieces left!</span>
-          <span class="jgz-pdp__stock-sub">— Order soon</span>
-        </div>
+      {%- if current_variant.available -%}
+        <span class="jgz-p-badge">In Stock</span>
       {%- endif -%}
+      <span class="jgz-p-badge cod">💵 Cash on Delivery</span>
+    </div>
 
-      <!-- Bullets -->
-      <ul class="jgz-pdp__bullets">
-        <li>Premium Imported Fabric — 100% Ring-Spun Cotton</li>
-        <li>Stretchable &amp; Breathable — Perfect for Summer</li>
-        <li>Smart Fit Design — Modern Relaxed Silhouette</li>
-      </ul>
+    <h1 class="jgz-product-title">{{ product.title }}</h1>
+    {%- if current_variant.sku != blank -%}
+      <div class="jgz-product-sku">SKU: {{ current_variant.sku }}</div>
+    {%- endif -%}
 
-      <div class="jgz-pdp__divider"></div>
+    <div class="jgz-rating-row">
+      <div class="jgz-stars">★★★★★</div>
+      <span class="jgz-rating-count">4.9 / 5</span>
+      <a href="#reviews" class="jgz-rating-link">48 Reviews</a>
+    </div>
 
-      {%- assign product_form_id = 'jgz-product-form-' | append: section.id -%}
-      {%- form 'product', product, id: product_form_id -%}
-        <input type="hidden" name="id" id="jgzVariantId" value="{{ current_variant.id }}">
+    <!-- PRICE BOX -->
+    <div class="jgz-compare-price-box">
+      <div>
+        <div class="jgz-compare-label">Compare at Price</div>
+        <div class="jgz-compare-prices">
+          <span class="jgz-compare-now" id="jgzPrice">{{ current_variant.price | money }}</span>
+          {%- if product.compare_at_price > product.price -%}
+            <span class="jgz-compare-was">{{ product.compare_at_price | money }}</span>
+          {%- endif -%}
+        </div>
+      </div>
+      {%- if savings_percent > 0 -%}
+        <span class="jgz-compare-save-pill">SAVE {{ savings_percent }}%</span>
+      {%- endif -%}
+    </div>
 
-        {%- for option in product.options_with_values -%}
-          <div style="margin-bottom:20px;">
-            <div class="jgz-picker__header">
-              <span class="jgz-picker__label">{{ option.name }}</span>
-              <span class="jgz-picker__selected" id="jgzSelected{{ option.position }}">{{ option.selected_value }}</span>
+    <!-- STOCK -->
+    {%- if current_variant.inventory_management == 'shopify' and current_variant.inventory_quantity > 0 and current_variant.inventory_quantity < 10 -%}
+      <div class="jgz-stock-indicator">
+        <div class="jgz-stock-dot"></div>
+        <span class="jgz-stock-text">Only {{ current_variant.inventory_quantity }} pieces left!</span>
+        <span class="jgz-stock-sub">— Order soon</span>
+      </div>
+    {%- endif -%}
+
+    <!-- BULLETS -->
+    <div class="jgz-product-bullets">
+      <div class="jgz-bullet-item"><span class="jgz-bullet-check">✓</span> Premium Imported Fabric — 100% Ring-Spun Cotton</div>
+      <div class="jgz-bullet-item"><span class="jgz-bullet-check">✓</span> Stretchable &amp; Breathable — Perfect for Summer</div>
+      <div class="jgz-bullet-item"><span class="jgz-bullet-check">✓</span> Smart Fit Design — Modern Relaxed Silhouette</div>
+    </div>
+
+    {%- form 'product', product, id: 'jgz-product-form' -%}
+      <input type="hidden" name="id" id="jgzVariantId" value="{{ current_variant.id }}">
+      <input type="hidden" name="quantity" id="jgzQtyHidden" value="1">
+
+      {%- for option in product.options_with_values -%}
+        <div class="jgz-option-section">
+          {%- if option.name == 'Color' or option.name == 'Colour' -%}
+            <div class="jgz-option-label">
+              {{ option.name }}
+              <span class="jgz-option-selected" id="jgzColorName">{{ option.selected_value }}</span>
             </div>
-
-            {%- if option.name == 'Color' or option.name == 'Colour' -%}
-              <div class="jgz-color-options">
-                {%- for value in option.values -%}
-                  <div class="jgz-color-option {% if option.selected_value == value %}jgz-color-option--active{% endif %}"
-                       title="{{ value }}"
-                       style="background: {{ value | downcase }};"
-                       onclick="jgzSelectOption(this, {{ option.position }}, '{{ value }}')">
-                  </div>
-                {%- endfor -%}
-              </div>
-
-            {%- else -%}
-              <div class="jgz-size-options">
-                {%- for value in option.values -%}
-                  <button type="button"
-                          class="jgz-pdp__size-btn {% if option.selected_value == value %}jgz-pdp__size-btn--active{% endif %}"
-                          onclick="jgzSelectOption(this, {{ option.position }}, '{{ value }}')">
-                    {{ value }}
-                  </button>
-                {%- endfor -%}
-              </div>
-            {%- endif -%}
-          </div>
-        {%- endfor -%}
-
-        {%- if product.has_only_default_variant == false -%}
-          <div style="text-align:right; margin-bottom:16px;">
-            <a href="#" class="jgz-size-guide">Size Guide →</a>
-          </div>
-        {%- endif -%}
-
-        <!-- Delivery box -->
-        <div class="jgz-pdp__delivery">
-          <span>🚚</span>
-          <span>Order now &amp; get delivery in 3–5 business days · Free on orders PKR 2,500+</span>
+            <div class="jgz-color-options">
+              {%- for value in option.values -%}
+                <div class="jgz-color-opt {% if option.selected_value == value %}active{% endif %}"
+                     style="background: {{ value | downcase }};"
+                     title="{{ value }}"
+                     onclick="jgzSelectColor(this, {{ option.position }}, '{{ value }}')">
+                </div>
+              {%- endfor -%}
+            </div>
+          {%- else -%}
+            <div class="jgz-option-label">
+              {{ option.name }}
+              {%- if option.name == 'Size' -%}
+                <a href="#" class="jgz-size-guide-link">Size Guide →</a>
+              {%- endif -%}
+            </div>
+            <div class="jgz-size-grid">
+              {%- for value in option.values -%}
+                <div class="jgz-size-opt {% if option.selected_value == value %}active{% endif %}"
+                     onclick="jgzSelectSize(this, {{ option.position }}, '{{ value }}')">
+                  {{ value }}
+                </div>
+              {%- endfor -%}
+            </div>
+          {%- endif -%}
         </div>
+      {%- endfor -%}
 
-        <!-- Add to Cart Row -->
-        <div class="jgz-pdp__atc-row">
-          <div class="jgz-pdp__qty">
-            <button type="button" class="jgz-pdp__qty-btn" onclick="jgzQty(-1)">−</button>
-            <span class="jgz-pdp__qty-val" id="jgzQtyDisplay">1</span>
-            <input type="hidden" name="quantity" id="jgzQtyInput" value="1">
-            <button type="button" class="jgz-pdp__qty-btn" onclick="jgzQty(1)">+</button>
-          </div>
-          <button type="submit" class="jgz-pdp__atc-btn" id="jgzAtcBtn" name="add">
-            {%- if current_variant.available -%}Add to Bag{%- else -%}Sold Out{%- endif -%}
-          </button>
-        </div>
-
-        <!-- Buy Now -->
-        <button type="button" class="jgz-pdp__buynow" onclick="document.getElementById('{{ product_form_id }}').submit()">
-          Buy Now
-        </button>
-
-      {%- endform -%}
-
-      <!-- Trust Badges -->
-      <div class="jgz-pdp__trust">
-        <div class="jgz-pdp__trust-item"><div class="jgz-pdp__trust-icon">🚚</div><div class="jgz-pdp__trust-label">Free Shipping</div></div>
-        <div class="jgz-pdp__trust-item"><div class="jgz-pdp__trust-icon">💵</div><div class="jgz-pdp__trust-label">Cash on Delivery</div></div>
-        <div class="jgz-pdp__trust-item"><div class="jgz-pdp__trust-icon">↩️</div><div class="jgz-pdp__trust-label">30-Day Returns</div></div>
-        <div class="jgz-pdp__trust-item"><div class="jgz-pdp__trust-icon">✓</div><div class="jgz-pdp__trust-label">Genuine Quality</div></div>
+      <!-- DELIVERY -->
+      <div class="jgz-delivery-line">
+        <span>🚚</span>
+        <span>Order now &amp; get delivery in <strong>3–5 business days</strong> · Free on orders PKR 2,500+</span>
       </div>
 
-      <!-- Accordions -->
-      <details class="jgz-accordion" open>
-        <summary class="jgz-accordion__trigger">
-          <span class="jgz-accordion__title">Description</span>
-          <span class="jgz-accordion__icon">+</span>
-        </summary>
-        <div class="jgz-accordion__body">{{ product.description }}</div>
-      </details>
+      <!-- ADD TO CART -->
+      <div class="jgz-add-row">
+        <div class="jgz-qty-control">
+          <button type="button" class="jgz-qty-btn" onclick="jgzQty(-1)">−</button>
+          <span class="jgz-qty-val" id="jgzQtyDisplay">1</span>
+          <button type="button" class="jgz-qty-btn" onclick="jgzQty(1)">+</button>
+        </div>
+        <button type="submit" name="add" class="jgz-add-to-cart" id="jgzAtcBtn">
+          {%- if current_variant.available -%}Add to Bag{%- else -%}Sold Out{%- endif -%}
+        </button>
+      </div>
 
-      <details class="jgz-accordion">
-        <summary class="jgz-accordion__trigger">
-          <span class="jgz-accordion__title">Fabric &amp; Care</span>
-          <span class="jgz-accordion__icon">+</span>
-        </summary>
-        <div class="jgz-accordion__body">{{ section.settings.fabric_care | newline_to_br }}</div>
-      </details>
+      <button type="button" class="jgz-buy-now">Buy Now — {{ current_variant.price | money }}</button>
 
-      <details class="jgz-accordion">
-        <summary class="jgz-accordion__trigger">
-          <span class="jgz-accordion__title">Shipping &amp; Returns</span>
-          <span class="jgz-accordion__icon">+</span>
-        </summary>
-        <div class="jgz-accordion__body">{{ section.settings.shipping_returns | newline_to_br }}</div>
-      </details>
+    {%- endform -%}
 
-      <details class="jgz-accordion">
-        <summary class="jgz-accordion__trigger">
-          <span class="jgz-accordion__title">Size &amp; Fit</span>
-          <span class="jgz-accordion__icon">+</span>
-        </summary>
-        <div class="jgz-accordion__body">{{ section.settings.size_fit | newline_to_br }}</div>
-      </details>
+    <!-- TRUST -->
+    <div class="jgz-trust-badges">
+      <div class="jgz-trust-badge"><div class="jgz-trust-badge-icon">🚚</div><div class="jgz-trust-badge-text">Free<br>Shipping</div></div>
+      <div class="jgz-trust-badge"><div class="jgz-trust-badge-icon">💵</div><div class="jgz-trust-badge-text">Cash on<br>Delivery</div></div>
+      <div class="jgz-trust-badge"><div class="jgz-trust-badge-icon">↩</div><div class="jgz-trust-badge-text">30-Day<br>Returns</div></div>
+      <div class="jgz-trust-badge"><div class="jgz-trust-badge-icon">✓</div><div class="jgz-trust-badge-text">Genuine<br>Quality</div></div>
     </div>
+
+    <!-- ACCORDION -->
+    <div class="jgz-accordion">
+      <div class="jgz-accordion-item open">
+        <button class="jgz-accordion-header" onclick="jgzToggle(this)">Description <span class="jgz-accordion-icon">+</span></button>
+        <div class="jgz-accordion-body">{{ product.description }}</div>
+      </div>
+      <div class="jgz-accordion-item">
+        <button class="jgz-accordion-header" onclick="jgzToggle(this)">Fabric &amp; Care <span class="jgz-accordion-icon">+</span></button>
+        <div class="jgz-accordion-body"><ul>
+          <li>100% Premium Ring-Spun Cotton</li>
+          <li>180 GSM — lightweight summer weight</li>
+          <li>Stretchable &amp; breathable fabric</li>
+          <li>Machine wash cold, tumble dry low</li>
+          <li>Do not bleach or iron on print</li>
+        </ul></div>
+      </div>
+      <div class="jgz-accordion-item">
+        <button class="jgz-accordion-header" onclick="jgzToggle(this)">Shipping &amp; Returns <span class="jgz-accordion-icon">+</span></button>
+        <div class="jgz-accordion-body"><ul>
+          <li>Standard delivery: 3–5 business days</li>
+          <li>Express: 1–2 business days</li>
+          <li>Free shipping on orders PKR 2,500+</li>
+          <li>Cash on Delivery available nationwide</li>
+          <li>Free returns within 30 days</li>
+        </ul></div>
+      </div>
+      <div class="jgz-accordion-item">
+        <button class="jgz-accordion-header" onclick="jgzToggle(this)">Size &amp; Fit <span class="jgz-accordion-icon">+</span></button>
+        <div class="jgz-accordion-body"><ul>
+          <li>Smart relaxed fit</li>
+          <li>Model is 6'0" wearing size M</li>
+          <li>Chest: S=36" · M=38" · L=40" · XL=42"</li>
+          <li>Length: S=27" · M=28" · L=29" · XL=30"</li>
+        </ul></div>
+      </div>
+    </div>
+
   </div>
 </div>
 
-<!-- Related Products — from same collection -->
+<!-- RELATED -->
 {%- assign related_collection = product.collections.first -%}
 {%- if related_collection != blank -%}
-  {%- assign related_count = 0 -%}
-  {%- for rel in related_collection.products -%}
-    {%- if rel.id != product.id and related_count < 4 -%}
-      {%- assign related_count = related_count | plus: 1 -%}
-    {%- endif -%}
-  {%- endfor -%}
-  {%- if related_count > 0 -%}
-    <div class="jgz-related">
-      <div class="jgz-related__header">
-        <p class="jgz-section-label">You May Also Like</p>
-        <h2 class="jgz-section-title" style="font-size:36px;">Related Products</h2>
-      </div>
-      <div class="jgz-related__grid">
-        {%- assign shown = 0 -%}
-        {%- for rel in related_collection.products -%}
-          {%- if rel.id != product.id and shown < 4 -%}
-            {%- assign shown = shown | plus: 1 -%}
-            <a href="{{ rel.url }}" class="jgz-product-card" style="text-decoration:none;display:block;">
-              <div class="jgz-product-card__image-wrap">
-                {%- if rel.featured_image != blank -%}
-                  <img src="{{ rel.featured_image | image_url: width: 600 }}" alt="{{ rel.title }}" loading="lazy">
-                {%- else -%}
-                  <div style="width:100%;height:100%;background:var(--jgz-card-bg);"></div>
-                {%- endif -%}
-                <div class="jgz-product-card__quick-add">Quick Add +</div>
-              </div>
-              <div class="jgz-product-card__info">
-                <p class="jgz-product-card__name">{{ rel.title }}</p>
-                <div class="jgz-product-card__price-row">
-                  <span class="jgz-product-card__price">{{ rel.price | money }}</span>
-                  {%- if rel.compare_at_price > rel.price -%}
-                    <span class="jgz-product-card__compare">{{ rel.compare_at_price | money }}</span>
-                  {%- endif -%}
-                </div>
-              </div>
-            </a>
-          {%- endif -%}
-        {%- endfor -%}
-      </div>
+  <div class="jgz-related">
+    <div class="jgz-related-label">You May Also Like</div>
+    <div class="jgz-related-title">Complete the Look</div>
+    <div class="jgz-related-grid">
+      {%- assign shown = 0 -%}
+      {%- for rel in related_collection.products -%}
+        {%- if rel.id != product.id and shown < 4 -%}
+          {%- assign shown = shown | plus: 1 -%}
+          <a href="{{ rel.url }}" class="jgz-r-card">
+            <div class="jgz-r-img">
+              {%- if rel.featured_image -%}
+                <img src="{{ rel.featured_image | image_url: width: 600 }}" alt="{{ rel.title }}" loading="lazy">
+              {%- endif -%}
+            </div>
+            <div class="jgz-r-name">{{ rel.title }}</div>
+            <div class="jgz-r-prices">
+              <span class="jgz-r-price">{{ rel.price | money }}</span>
+              {%- if rel.compare_at_price > rel.price -%}
+                <span class="jgz-r-price-old">{{ rel.compare_at_price | money }}</span>
+              {%- endif -%}
+            </div>
+          </a>
+        {%- endif -%}
+      {%- endfor -%}
     </div>
-  {%- endif -%}
+  </div>
 {%- endif -%}
 
-<!-- Mobile Sticky CTA -->
+<!-- STICKY MOBILE CTA -->
 <div class="jgz-sticky-cta">
-  <div>
-    <p class="jgz-sticky-cta__name">{{ product.title | truncate: 32 }}</p>
-    <span class="jgz-sticky-cta__price">{{ product.price | money }}</span>
+  <div class="jgz-sticky-cta-info">
+    <div class="jgz-sticky-cta-name">{{ product.title | truncate: 36 }}</div>
+    <div class="jgz-sticky-cta-price">{{ product.price | money }}</div>
   </div>
-  <button class="jgz-sticky-cta__btn" onclick="document.getElementById('jgzAtcBtn').click()">Add to Bag</button>
+  <button class="jgz-sticky-cta-btn" onclick="document.getElementById('jgzAtcBtn').click()">Add to Bag</button>
 </div>
 
 <script>
-  // Gallery
-  (function() {
-    var images = {{ product.images | map: 'src' | json }};
-    var current = 0;
+  var jgzCurrentIdx = 0;
+  var jgzThumbs = document.querySelectorAll('.jgz-gallery-thumb');
+  var jgzMainImg = document.getElementById('jgzMainImg');
 
-    window.jgzSelectImage = function(thumb, src) {
-      document.querySelectorAll('.jgz-gallery__thumb').forEach(function(t) { t.classList.remove('jgz-gallery__thumb--active'); });
-      thumb.classList.add('jgz-gallery__thumb--active');
-      var img = document.getElementById('jgzMainImg');
-      if (img) { img.src = src; }
-      current = parseInt(thumb.dataset.index || 0);
-    };
-
-    window.jgzGalleryNav = function(dir) {
-      var thumbs = document.querySelectorAll('.jgz-gallery__thumb');
-      if (!thumbs.length) return;
-      current = (current + dir + thumbs.length) % thumbs.length;
-      thumbs[current].click();
-    };
-  })();
-
-  // Qty
-  (function() {
-    var qty = 1;
-    window.jgzQty = function(delta) {
-      qty = Math.max(1, qty + delta);
-      document.getElementById('jgzQtyDisplay').textContent = qty;
-      document.getElementById('jgzQtyInput').value = qty;
-    };
-  })();
-
-  // Option selection
-  window.jgzSelectedOptions = {
-    {%- for option in product.options_with_values -%}
-      {{ option.position }}: '{{ option.selected_value }}',
-    {%- endfor -%}
+  window.jgzThumb = function(el, src) {
+    jgzThumbs.forEach(function(t){ t.classList.remove('active'); });
+    el.classList.add('active');
+    jgzCurrentIdx = parseInt(el.dataset.idx || 0);
+    if (jgzMainImg) jgzMainImg.src = src;
   };
 
-  window.jgzSelectOption = function(el, position, value) {
-    jgzSelectedOptions[position] = value;
-    // update label
-    var label = document.getElementById('jgzSelected' + position);
-    if (label) label.textContent = value;
+  window.jgzNavImg = function(dir) {
+    if (!jgzThumbs.length) return;
+    jgzCurrentIdx = (jgzCurrentIdx + dir + jgzThumbs.length) % jgzThumbs.length;
+    jgzThumbs[jgzCurrentIdx].click();
+  };
 
-    // update active state for the group
-    var parent = el.parentElement;
-    parent.querySelectorAll('.jgz-pdp__size-btn, .jgz-color-option').forEach(function(b) {
-      b.classList.remove('jgz-pdp__size-btn--active', 'jgz-color-option--active');
+  var jgzQtyVal = 1;
+  window.jgzQty = function(d) {
+    jgzQtyVal = Math.max(1, jgzQtyVal + d);
+    document.getElementById('jgzQtyDisplay').textContent = jgzQtyVal;
+    document.getElementById('jgzQtyHidden').value = jgzQtyVal;
+  };
+
+  var jgzOpts = {};
+  {%- for option in product.options_with_values -%}
+    jgzOpts[{{ option.position }}] = '{{ option.selected_value | escape }}';
+  {%- endfor -%}
+  var jgzVariants = {{ product.variants | json }};
+
+  function jgzUpdateVariant() {
+    var match = jgzVariants.find(function(v) {
+      return Object.keys(jgzOpts).every(function(p) { return v['option' + p] === jgzOpts[p]; });
     });
-    el.classList.add(el.classList.contains('jgz-color-option') ? 'jgz-color-option--active' : 'jgz-pdp__size-btn--active');
-
-    // find matching variant
-    var variants = {{ product.variants | json }};
-    var match = variants.find(function(v) {
-      return Object.keys(jgzSelectedOptions).every(function(pos) {
-        return v['option' + pos] === jgzSelectedOptions[pos];
-      });
-    });
-
     if (match) {
       document.getElementById('jgzVariantId').value = match.id;
-      var priceEl = document.getElementById('jgzCurrentPrice');
-      if (priceEl) {
-        priceEl.textContent = (match.price / 100).toLocaleString('en-PK', { style: 'currency', currency: 'PKR', minimumFractionDigits: 0 });
-      }
+      var priceEl = document.getElementById('jgzPrice');
+      if (priceEl) priceEl.textContent = 'Rs.' + (match.price / 100).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     }
+  }
+
+  window.jgzSelectColor = function(el, pos, val) {
+    el.parentElement.querySelectorAll('.jgz-color-opt').forEach(function(c){ c.classList.remove('active'); });
+    el.classList.add('active');
+    var nameEl = document.getElementById('jgzColorName');
+    if (nameEl) nameEl.textContent = val;
+    jgzOpts[pos] = val;
+    jgzUpdateVariant();
   };
 
-  // Add to cart feedback
-  var atcForm = document.getElementById('{{ product_form_id }}');
-  if (atcForm) {
-    atcForm.addEventListener('submit', function(e) {
+  window.jgzSelectSize = function(el, pos, val) {
+    if (el.classList.contains('soldout')) return;
+    el.parentElement.querySelectorAll('.jgz-size-opt').forEach(function(s){ s.classList.remove('active'); });
+    el.classList.add('active');
+    jgzOpts[pos] = val;
+    jgzUpdateVariant();
+  };
+
+  window.jgzToggle = function(btn) {
+    var item = btn.parentElement;
+    item.classList.toggle('open');
+  };
+
+  var form = document.getElementById('jgz-product-form');
+  if (form) {
+    form.addEventListener('submit', function() {
       var btn = document.getElementById('jgzAtcBtn');
       if (!btn) return;
       setTimeout(function() {
         btn.textContent = '✓ Added!';
-        btn.classList.add('jgz-pdp__atc-btn--added');
+        btn.classList.add('added');
         setTimeout(function() {
           btn.textContent = 'Add to Bag';
-          btn.classList.remove('jgz-pdp__atc-btn--added');
+          btn.classList.remove('added');
         }, 2000);
-      }, 100);
+      }, 200);
     });
   }
 </script>
@@ -958,26 +471,6 @@
 {% schema %}
 {
   "name": "JIGERZ Product Detail",
-  "settings": [
-    {
-      "type": "textarea",
-      "id": "fabric_care",
-      "label": "Fabric & Care text",
-      "default": "100% Ring-Spun Cotton\nMachine wash cold, gentle cycle\nDo not bleach\nTumble dry low\nCool iron if needed"
-    },
-    {
-      "type": "textarea",
-      "id": "shipping_returns",
-      "label": "Shipping & Returns text",
-      "default": "Free delivery on orders over PKR 2,500\nStandard delivery: 3–5 business days\nExpress available at checkout\n30-day hassle-free returns\nItems must be unworn with tags attached"
-    },
-    {
-      "type": "textarea",
-      "id": "size_fit",
-      "label": "Size & Fit text",
-      "default": "Model is 6'0\" wearing size M\nRegular fit — true to size\nChest: S=36\", M=38\", L=40\", XL=42\", XXL=44\"\nIf between sizes, size up for a relaxed fit"
-    }
-  ],
   "presets": [{ "name": "JIGERZ Product Detail" }]
 }
 {% endschema %}
