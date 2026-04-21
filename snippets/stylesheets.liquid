@@ -18,4 +18,50 @@
     --jgz-px: 60px;
     --jgz-px-m: 20px;
   }
+
+  /* ── JIGERZ HEADER OVERRIDES ── */
+  #header-group,
+  #header-component,
+  header-component,
+  .header__row,
+  .header__row--top,
+  .color-scheme-1,
+  [class*="color-scheme"] {
+    background: rgba(10,10,10,0.97) !important;
+    background-color: rgba(10,10,10,0.97) !important;
+    border-bottom-color: rgba(255,255,255,0.08) !important;
+    color: #f5f4f0 !important;
+  }
+  header-component {
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255,255,255,0.08) !important;
+  }
+  /* Nav links */
+  .header__row a,
+  .menu-list__link,
+  .header__row button,
+  .header__row [role="button"],
+  .header-menu a {
+    color: #f5f4f0 !important;
+    font-family: 'Barlow', system-ui, sans-serif !important;
+    font-size: 11px !important;
+    letter-spacing: 0.12em !important;
+    text-transform: uppercase !important;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+  }
+  .header__row a:hover,
+  .menu-list__link:hover,
+  .header__row button:hover { opacity: 1 !important; }
+  /* Logo */
+  .header__row img { filter: brightness(0) invert(1); }
+  /* Icons (search, cart, account) */
+  .header__row svg, .header__row .icon { color: #f5f4f0 !important; fill: #f5f4f0 !important; stroke: #f5f4f0 !important; }
+  /* Announcement bar */
+  .header-announcements, .announcement-bar { background: #0a0a0a !important; color: #f5f4f0 !important; border-bottom: 1px solid rgba(255,255,255,0.08) !important; }
+  .header-announcements a, .announcement-bar a { color: #b8975a !important; }
+
+  /* ── JIGERZ FOOTER OVERRIDE ── */
+  footer, .shopify-section--footer, #footer-group { background: #060606 !important; }
 </style>

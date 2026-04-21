@@ -1,258 +1,196 @@
-
-
-<div class="section-background color-{{ section.settings.color_scheme }}"></div>
-<div
-  class="section section--{{ section.settings.section_width }} color-{{ section.settings.color_scheme }}"
->
-  {% liquid
-    assign total_blocks = section.blocks.size
-
-    # Grid layout calculations
-    assign grid_columns = total_blocks | at_most: 4
-
-    # Calculate last row counts using modulo arithmetic
-    # last_row_count = (total_blocks - 1) % N + 1
-    assign last_row_count = total_blocks | minus: 1 | modulo: 4 | plus: 1
-    assign tablet_last_row_count = total_blocks | minus: 1 | modulo: 2 | plus: 1
-
-    # Check if there are orphaned elements (single item in last row)
-    assign has_isolated_grid_item_desktop = false
-    assign has_isolated_grid_item_tablet = false
-
-    if total_blocks > 4 and last_row_count == 1
-      assign has_isolated_grid_item_desktop = true
-    endif
-
-    if total_blocks == 5
-      assign has_isolated_grid_item_tablet = true
-    endif
-  %}
-  <div
-    class="
-      footer-content
-      spacing-style
-      {% if has_isolated_grid_item_desktop %}footer-content--isolated-grid-item-desktop{% endif %}
-      {% if has_isolated_grid_item_tablet %}footer-content--isolated-grid-item-tablet{% endif %}
-    "
-    style="
-      {%  render 'spacing-style', settings: section.settings %}
-      --footer-gap: {{ section.settings.gap }}px;
-      --grid-columns: {{ grid_columns }};
-      --last-row-count: {{ last_row_count }};
-      --tablet-last-row-count: {{ tablet_last_row_count }};
-    "
-  >
-    {% content_for 'blocks' %}
-  </div>
-</div>
-
-{% stylesheet %}
-  .footer-content {
-    contain: content;
-    content-visibility: auto;
+<style>
+  .jgz-footer {
+    background: #060606;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    padding: 72px 60px 0;
+    font-family: 'Barlow', system-ui, sans-serif;
+  }
+  .jgz-footer-grid {
     display: grid;
-    grid-template-columns: 1fr;
-    gap: var(--footer-gap);
-    align-items: start;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 60px;
+    margin-bottom: 56px;
   }
-
-  .footer-content .menu__heading__default {
-    font-weight: var(--font-heading--weight);
+  .jgz-footer-logo {
+    height: 44px;
+    filter: invert(1);
+    margin-bottom: 16px;
+    display: block;
   }
-
-  @media screen and (min-width: 750px) and (max-width: 989px) {
-    .footer-content {
-      grid-template-columns: repeat(min(var(--grid-columns), 3), 1fr);
-      grid-auto-flow: row;
-    }
-
-    .footer-content[style*='--grid-columns: 4'] {
-      grid-template-columns: repeat(2, 1fr);
-    }
-
-    .footer-content--isolated-grid-item-tablet > :last-child {
-      grid-column: 1 / -1;
-    }
+  .jgz-footer-tagline {
+    font-size: 13px;
+    color: #f5f4f0;
+    opacity: 0.35;
+    line-height: 1.7;
+    max-width: 220px;
   }
-
-  @media screen and (min-width: 990px) {
-    .footer-content {
-      grid-template-columns: repeat(var(--grid-columns), 1fr);
-    }
-
-    /* Single item centered */
-    .footer-content[style*='--grid-columns: 1'] {
-      justify-items: center;
-    }
-
-    .footer-content--isolated-grid-item-desktop > :last-child {
-      grid-column: 1 / -1;
-    }
+  .jgz-footer-col-title {
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: #b8975a;
+    margin-bottom: 20px;
   }
-{% endstylesheet %}
+  .jgz-footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+  }
+  .jgz-footer-links a {
+    color: #f5f4f0;
+    text-decoration: none;
+    font-size: 13px;
+    opacity: 0.4;
+    transition: opacity 0.2s;
+  }
+  .jgz-footer-links a:hover { opacity: 1; }
+
+  .jgz-footer-bottom {
+    border-top: 1px solid rgba(255,255,255,0.08);
+    padding: 28px 0 36px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .jgz-footer-copy {
+    font-size: 11px;
+    color: #f5f4f0;
+    opacity: 0.25;
+  }
+  .jgz-footer-socials {
+    display: flex;
+    gap: 20px;
+  }
+  .jgz-footer-socials a {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #f5f4f0;
+    text-decoration: none;
+    opacity: 0.35;
+    transition: opacity 0.2s;
+  }
+  .jgz-footer-socials a:hover { opacity: 1; }
+
+  @media (max-width: 768px) {
+    .jgz-footer { padding: 56px 20px 0; }
+    .jgz-footer-grid { grid-template-columns: 1fr 1fr; gap: 28px; }
+    .jgz-footer-bottom { flex-direction: column; gap: 14px; text-align: center; }
+  }
+</style>
+
+<footer class="jgz-footer">
+  <div class="jgz-footer-grid">
+    <div>
+      {%- if section.settings.logo != blank -%}
+        <img src="{{ section.settings.logo | image_url: height: 88 }}" alt="{{ shop.name }}" class="jgz-footer-logo">
+      {%- else -%}
+        <div style="font-family:'Cormorant Garamond',Georgia,serif;font-size:28px;font-weight:300;color:#f5f4f0;letter-spacing:0.15em;margin-bottom:16px;">{{ shop.name | upcase }}</div>
+      {%- endif -%}
+      <p class="jgz-footer-tagline">Not Just A Brand — It's A Bond. Premium men's clothing for the modern Pakistani man.</p>
+    </div>
+
+    <div>
+      <div class="jgz-footer-col-title">Shop</div>
+      <ul class="jgz-footer-links">
+        {%- for link in linklists[section.settings.shop_menu].links -%}
+          <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+        {%- else -%}
+          <li><a href="/collections/new-arrivals">New Arrivals</a></li>
+          <li><a href="/collections/t-shirts">T-Shirts</a></li>
+          <li><a href="/collections/polo">Polo</a></li>
+          <li><a href="/collections/oversized">Oversized</a></li>
+          <li><a href="/collections/sale">Sale</a></li>
+        {%- endfor -%}
+      </ul>
+    </div>
+
+    <div>
+      <div class="jgz-footer-col-title">Help</div>
+      <ul class="jgz-footer-links">
+        {%- for link in linklists[section.settings.help_menu].links -%}
+          <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+        {%- else -%}
+          <li><a href="/pages/size-guide">Size Guide</a></li>
+          <li><a href="/pages/delivery">Delivery Info</a></li>
+          <li><a href="/pages/returns">Returns</a></li>
+          <li><a href="/pages/track-order">Track Order</a></li>
+          <li><a href="/pages/faq">FAQ</a></li>
+        {%- endfor -%}
+      </ul>
+    </div>
+
+    <div>
+      <div class="jgz-footer-col-title">Brand</div>
+      <ul class="jgz-footer-links">
+        {%- for link in linklists[section.settings.brand_menu].links -%}
+          <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+        {%- else -%}
+          <li><a href="/pages/our-story">Our Story</a></li>
+          <li><a href="/pages/quality">Quality Promise</a></li>
+          <li><a href="/pages/contact">Contact Us</a></li>
+          <li><a href="{{ section.settings.instagram_url }}">Instagram</a></li>
+          <li><a href="{{ section.settings.tiktok_url }}">TikTok</a></li>
+        {%- endfor -%}
+      </ul>
+    </div>
+  </div>
+
+  <div class="jgz-footer-bottom">
+    <div class="jgz-footer-copy">© {{ 'now' | date: '%Y' }} {{ shop.name | upcase }}. All rights reserved. Pakistan.</div>
+    <div class="jgz-footer-socials">
+      {%- if section.settings.instagram_url != blank -%}
+        <a href="{{ section.settings.instagram_url }}">Instagram</a>
+      {%- endif -%}
+      {%- if section.settings.tiktok_url != blank -%}
+        <a href="{{ section.settings.tiktok_url }}">TikTok</a>
+      {%- endif -%}
+      {%- if section.settings.whatsapp_url != blank -%}
+        <a href="{{ section.settings.whatsapp_url }}">WhatsApp</a>
+      {%- endif -%}
+    </div>
+  </div>
+</footer>
 
 {% schema %}
 {
   "name": "t:names.footer",
   "class": "section-wrapper",
   "blocks": [
-    {
-      "type": "_divider"
-    },
-    {
-      "type": "@app"
-    },
-    {
-      "type": "button"
-    },
-    {
-      "type": "follow-on-shop"
-    },
-    {
-      "type": "group"
-    },
-    {
-      "type": "icon"
-    },
-    {
-      "type": "image"
-    },
-    {
-      "type": "menu"
-    },
-    {
-      "type": "payment-icons"
-    },
-    {
-      "type": "text"
-    },
-    {
-      "type": "logo"
-    },
-    {
-      "type": "jumbo-text"
-    },
-    {
-      "type": "social-links"
-    },
-    {
-      "type": "email-signup"
-    }
+    { "type": "_divider" },
+    { "type": "@app" },
+    { "type": "button" },
+    { "type": "follow-on-shop" },
+    { "type": "group" },
+    { "type": "icon" },
+    { "type": "image" },
+    { "type": "menu" },
+    { "type": "payment-icons" },
+    { "type": "text" },
+    { "type": "logo" },
+    { "type": "jumbo-text" },
+    { "type": "social-links" },
+    { "type": "email-signup" }
   ],
-  "enabled_on": {
-    "groups": ["footer"]
-  },
+  "enabled_on": { "groups": ["footer"] },
   "settings": [
-    {
-      "type": "select",
-      "id": "section_width",
-      "label": "t:settings.width",
-      "options": [
-        {
-          "value": "page-width",
-          "label": "t:options.page"
-        },
-        {
-          "value": "full-width",
-          "label": "t:options.full"
-        }
-      ],
-      "default": "page-width"
-    },
-    {
-      "type": "range",
-      "id": "gap",
-      "label": "t:settings.gap",
-      "min": 0,
-      "max": 100,
-      "step": 1,
-      "unit": "px",
-      "default": 0
-    },
-    {
-      "type": "color_scheme",
-      "id": "color_scheme",
-      "label": "t:settings.color_scheme",
-      "default": "scheme-1"
-    },
-    {
-      "type": "header",
-      "content": "t:content.padding"
-    },
-    {
-      "type": "range",
-      "id": "padding-block-start",
-      "label": "t:settings.top",
-      "min": 0,
-      "max": 100,
-      "step": 1,
-      "unit": "px",
-      "default": 20
-    },
-    {
-      "type": "range",
-      "id": "padding-block-end",
-      "label": "t:settings.bottom",
-      "min": 0,
-      "max": 100,
-      "step": 1,
-      "unit": "px",
-      "default": 20
-    }
+    { "type": "image_picker", "id": "logo", "label": "Logo" },
+    { "type": "text", "id": "shop_menu", "label": "Shop menu handle", "default": "footer-shop" },
+    { "type": "text", "id": "help_menu", "label": "Help menu handle", "default": "footer-help" },
+    { "type": "text", "id": "brand_menu", "label": "Brand menu handle", "default": "footer-brand" },
+    { "type": "url", "id": "instagram_url", "label": "Instagram URL" },
+    { "type": "url", "id": "tiktok_url", "label": "TikTok URL" },
+    { "type": "url", "id": "whatsapp_url", "label": "WhatsApp URL" },
+    { "type": "select", "id": "section_width", "label": "t:settings.width", "options": [{ "value": "page-width", "label": "t:options.page" }, { "value": "full-width", "label": "t:options.full" }], "default": "page-width" },
+    { "type": "range", "id": "gap", "label": "t:settings.gap", "min": 0, "max": 100, "step": 1, "unit": "px", "default": 0 },
+    { "type": "color_scheme", "id": "color_scheme", "label": "t:settings.color_scheme", "default": "scheme-1" },
+    { "type": "header", "content": "t:content.padding" },
+    { "type": "range", "id": "padding-block-start", "label": "t:settings.top", "min": 0, "max": 100, "step": 1, "unit": "px", "default": 20 },
+    { "type": "range", "id": "padding-block-end", "label": "t:settings.bottom", "min": 0, "max": 100, "step": 1, "unit": "px", "default": 20 }
   ],
-  "presets": [
-    {
-      "name": "t:names.footer",
-      "category": "t:categories.footer",
-      "settings": {
-        "gap": 20,
-        "color_scheme": "scheme-1",
-        "padding-block-start": 36,
-        "padding-block-end": 36
-      },
-      "blocks": {
-        "newsletter-group": {
-          "type": "group",
-          "settings": {
-            "content_direction": "column",
-            "vertical_on_mobile": true,
-            "horizontal_alignment": "flex-start",
-            "vertical_alignment": "center",
-            "gap": 6,
-            "width": "fill",
-            "inherit_color_scheme": true
-          },
-          "blocks": {
-            "newsletter-heading": {
-              "type": "text",
-              "settings": {
-                "text": "t:html_defaults.join_our_email_list",
-                "width": "100%",
-                "alignment": "left",
-                "type_preset": "h3"
-              }
-            },
-            "newsletter-text": {
-              "type": "text",
-              "settings": {
-                "text": "t:html_defaults.get_exclusive_deals_and_early_access_to_new_products",
-                "width": "100%",
-                "alignment": "left",
-                "type_preset": "rte"
-              }
-            }
-          },
-          "block_order": ["newsletter-heading", "newsletter-text"]
-        },
-        "newsletter-form": {
-          "type": "email-signup",
-          "settings": {
-            "width": "fill"
-          }
-        }
-      },
-      "block_order": ["newsletter-group", "newsletter-form"]
-    }
-  ]
+  "presets": [{ "name": "t:names.footer", "category": "t:categories.footer" }]
 }
 {% endschema %}
