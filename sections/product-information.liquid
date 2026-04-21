@@ -381,6 +381,98 @@
   </div>
 {%- endif -%}
 
+<!-- REVIEWS SECTION -->
+<div class="jgz-reviews" id="reviews">
+  <style>
+    .jgz-reviews { background: #0a0a0a; padding: 72px 60px; border-top: 1px solid rgba(255,255,255,0.08); }
+    .jgz-reviews-header { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start; margin-bottom: 40px; }
+    .jgz-reviews-label { font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: #b8975a; margin-bottom: 10px; font-family: 'Barlow', system-ui, sans-serif; }
+    .jgz-reviews-title { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 36px; font-weight: 300; color: #f5f4f0; margin-bottom: 20px; }
+    .jgz-reviews-summary { display: flex; align-items: center; gap: 20px; }
+    .jgz-reviews-big-score { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 64px; font-weight: 300; color: #b8975a; line-height: 1; }
+    .jgz-reviews-stars-big { color: #b8975a; font-size: 18px; letter-spacing: 3px; margin-bottom: 4px; }
+    .jgz-reviews-total { font-size: 11px; opacity: 0.4; font-family: 'Barlow', system-ui, sans-serif; }
+    .jgz-rating-bars { display: flex; flex-direction: column; gap: 8px; }
+    .jgz-rating-bar-row { display: flex; align-items: center; gap: 10px; }
+    .jgz-rating-bar-label { font-size: 11px; opacity: 0.5; width: 8px; font-family: 'Barlow', system-ui, sans-serif; }
+    .jgz-rating-bar-track { flex: 1; height: 3px; background: rgba(255,255,255,0.08); max-width: 200px; }
+    .jgz-rating-bar-fill { height: 100%; background: #b8975a; }
+    .jgz-rating-bar-count { font-size: 11px; opacity: 0.35; width: 20px; font-family: 'Barlow', system-ui, sans-serif; }
+    .jgz-write-review-bar { display: flex; align-items: center; justify-content: space-between; padding: 20px 0; border-top: 1px solid rgba(255,255,255,0.08); border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 32px; flex-wrap: wrap; gap: 12px; }
+    .jgz-write-review-text { font-size: 12px; opacity: 0.5; font-family: 'Barlow', system-ui, sans-serif; }
+    .jgz-write-review-btn { border: 1px solid #b8975a; color: #b8975a; background: none; padding: 10px 24px; font-family: 'Barlow', system-ui, sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; cursor: pointer; transition: all 0.2s; }
+    .jgz-write-review-btn:hover { background: #b8975a; color: #0a0a0a; }
+    .jgz-review-filter-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 32px; }
+    .jgz-review-filter-btn { border: 1px solid rgba(255,255,255,0.08); color: #f5f4f0; background: none; padding: 7px 14px; font-family: 'Barlow', system-ui, sans-serif; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; opacity: 0.5; transition: all 0.2s; }
+    .jgz-review-filter-btn.active, .jgz-review-filter-btn:hover { opacity: 1; border-color: #b8975a; color: #b8975a; }
+    .jgz-reviews-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .jgz-review-card { background: #141414; border: 1px solid rgba(255,255,255,0.08); padding: 28px; }
+    .jgz-review-card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+    .jgz-review-stars { color: #b8975a; font-size: 13px; letter-spacing: 2px; }
+    .jgz-review-verified { font-size: 10px; color: #4caf50; letter-spacing: 0.1em; font-family: 'Barlow', system-ui, sans-serif; }
+    .jgz-review-text { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 16px; font-style: italic; line-height: 1.6; opacity: 0.85; margin-bottom: 20px; color: #f5f4f0; }
+    .jgz-review-author-row { display: flex; justify-content: space-between; margin-bottom: 8px; }
+    .jgz-review-author { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.5; font-family: 'Barlow', system-ui, sans-serif; }
+    .jgz-review-date { font-size: 11px; opacity: 0.3; font-family: 'Barlow', system-ui, sans-serif; }
+    .jgz-review-product-tag { font-size: 10px; color: #b8975a; opacity: 0.6; font-family: 'Barlow', system-ui, sans-serif; }
+    .jgz-reviews-load-more { text-align: center; margin-top: 40px; }
+    .jgz-load-more-btn { border: 1px solid rgba(255,255,255,0.08); color: #f5f4f0; background: none; padding: 14px 40px; font-family: 'Barlow', system-ui, sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; cursor: pointer; transition: all 0.2s; }
+    .jgz-load-more-btn:hover { border-color: #b8975a; color: #b8975a; }
+    @media (max-width: 768px) {
+      .jgz-reviews { padding: 48px 20px; }
+      .jgz-reviews-header { grid-template-columns: 1fr; gap: 28px; }
+      .jgz-reviews-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+
+  <div class="jgz-reviews-label">Judge.me Reviews</div>
+  <div class="jgz-reviews-header">
+    <div>
+      <div class="jgz-reviews-title">Customer Reviews</div>
+      <div class="jgz-reviews-summary">
+        <div class="jgz-reviews-big-score">4.9</div>
+        <div>
+          <div class="jgz-reviews-stars-big">★★★★★</div>
+          <div class="jgz-reviews-total">Based on 48 reviews</div>
+        </div>
+      </div>
+    </div>
+    <div class="jgz-rating-bars">
+      <div class="jgz-rating-bar-row"><span class="jgz-rating-bar-label">5</span><div class="jgz-rating-bar-track"><div class="jgz-rating-bar-fill" style="width:88%"></div></div><span class="jgz-rating-bar-count">42</span></div>
+      <div class="jgz-rating-bar-row"><span class="jgz-rating-bar-label">4</span><div class="jgz-rating-bar-track"><div class="jgz-rating-bar-fill" style="width:10%"></div></div><span class="jgz-rating-bar-count">5</span></div>
+      <div class="jgz-rating-bar-row"><span class="jgz-rating-bar-label">3</span><div class="jgz-rating-bar-track"><div class="jgz-rating-bar-fill" style="width:2%"></div></div><span class="jgz-rating-bar-count">1</span></div>
+      <div class="jgz-rating-bar-row"><span class="jgz-rating-bar-label">2</span><div class="jgz-rating-bar-track"><div class="jgz-rating-bar-fill" style="width:0%"></div></div><span class="jgz-rating-bar-count">0</span></div>
+      <div class="jgz-rating-bar-row"><span class="jgz-rating-bar-label">1</span><div class="jgz-rating-bar-track"><div class="jgz-rating-bar-fill" style="width:0%"></div></div><span class="jgz-rating-bar-count">0</span></div>
+    </div>
+  </div>
+
+  <div class="jgz-write-review-bar">
+    <span class="jgz-write-review-text">Bought this product? Share your experience with the community.</span>
+    <button class="jgz-write-review-btn">Write a Review</button>
+  </div>
+
+  <div class="jgz-review-filter-row">
+    <button class="jgz-review-filter-btn active" onclick="jgzReviewFilter(this)">All (48)</button>
+    <button class="jgz-review-filter-btn" onclick="jgzReviewFilter(this)">★★★★★ (42)</button>
+    <button class="jgz-review-filter-btn" onclick="jgzReviewFilter(this)">★★★★ (5)</button>
+    <button class="jgz-review-filter-btn" onclick="jgzReviewFilter(this)">With Photos</button>
+    <button class="jgz-review-filter-btn" onclick="jgzReviewFilter(this)">Verified Only</button>
+  </div>
+
+  <div class="jgz-reviews-grid">
+    <div class="jgz-review-card"><div class="jgz-review-card-header"><div class="jgz-review-stars">★★★★★</div><span class="jgz-review-verified">✓ Verified</span></div><p class="jgz-review-text">"Quality is absolutely unreal. I've ordered from many brands but JIGERZ hits different. The fabric feels premium and the fit is perfect. Will definitely order again!"</p><div class="jgz-review-author-row"><span class="jgz-review-author">Ahmed K. · Lahore</span><span class="jgz-review-date">Apr 15, 2026</span></div><div class="jgz-review-product-tag">{{ product.title }} · Black / M</div></div>
+    <div class="jgz-review-card"><div class="jgz-review-card-header"><div class="jgz-review-stars">★★★★★</div><span class="jgz-review-verified">✓ Verified</span></div><p class="jgz-review-text">"Ordered via COD, arrived in 3 days. Packaging was premium, tee feels breathable and stretchable. Exactly what you need for Pakistani summer. 10/10!"</p><div class="jgz-review-author-row"><span class="jgz-review-author">Zain R. · Karachi</span><span class="jgz-review-date">Apr 10, 2026</span></div><div class="jgz-review-product-tag">{{ product.title }} · White / L</div></div>
+    <div class="jgz-review-card"><div class="jgz-review-card-header"><div class="jgz-review-stars">★★★★★</div><span class="jgz-review-verified">✓ Verified</span></div><p class="jgz-review-text">"JIGERZ is not just a brand it's a bond — literally their tagline and I felt it. Customer service was great, product quality is top tier. Bought 3 already!"</p><div class="jgz-review-author-row"><span class="jgz-review-author">Bilal M. · Islamabad</span><span class="jgz-review-date">Apr 3, 2026</span></div><div class="jgz-review-product-tag">{{ product.title }} · Black / XL</div></div>
+    <div class="jgz-review-card"><div class="jgz-review-card-header"><div class="jgz-review-stars">★★★★★</div><span class="jgz-review-verified">✓ Verified</span></div><p class="jgz-review-text">"Smart fit design is real — not too tight not too loose. Love the gold logo detail. Wore it to a dinner and got so many compliments. JIGERZ gang!"</p><div class="jgz-review-author-row"><span class="jgz-review-author">Hassan T. · Faisalabad</span><span class="jgz-review-date">Mar 28, 2026</span></div><div class="jgz-review-product-tag">{{ product.title }} · Gold / S</div></div>
+    <div class="jgz-review-card"><div class="jgz-review-card-header"><div class="jgz-review-stars">★★★★☆</div><span class="jgz-review-verified">✓ Verified</span></div><p class="jgz-review-text">"Very good quality for the price. Delivery was quick and packaging was nice. Only feedback — would love more color options. Overall very satisfied."</p><div class="jgz-review-author-row"><span class="jgz-review-author">Usman A. · Rawalpindi</span><span class="jgz-review-date">Mar 20, 2026</span></div><div class="jgz-review-product-tag">{{ product.title }} · Charcoal / M</div></div>
+    <div class="jgz-review-card"><div class="jgz-review-card-header"><div class="jgz-review-stars">★★★★★</div><span class="jgz-review-verified">✓ Verified</span></div><p class="jgz-review-text">"First time ordering from JIGERZ and I'm impressed. The compare-at-price deal is real — got 18% off and the quality is way better than brands charging double."</p><div class="jgz-review-author-row"><span class="jgz-review-author">Saad F. · Multan</span><span class="jgz-review-date">Mar 14, 2026</span></div><div class="jgz-review-product-tag">{{ product.title }} · Black / M</div></div>
+  </div>
+
+  <div class="jgz-reviews-load-more">
+    <button class="jgz-load-more-btn">Load More Reviews</button>
+  </div>
+</div>
+
 <!-- STICKY MOBILE CTA -->
 <div class="jgz-sticky-cta">
   <div class="jgz-sticky-cta-info">
@@ -452,6 +544,11 @@
   window.jgzToggle = function(btn) {
     var item = btn.parentElement;
     item.classList.toggle('open');
+  };
+
+  window.jgzReviewFilter = function(btn) {
+    document.querySelectorAll('.jgz-review-filter-btn').forEach(function(b){ b.classList.remove('active'); });
+    btn.classList.add('active');
   };
 
   var form = document.getElementById('jgz-product-form');
