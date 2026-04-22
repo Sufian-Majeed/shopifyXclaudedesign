@@ -1,72 +1,62 @@
 
 
 <style>
-  body.template-collection { background: #0a0a0a !important; }
+  html, body { background: #0a0a0a !important; }
 
-  body.template-collection .shopify-section,
-  body.template-collection results-list,
-  body.template-collection .section-background,
-  body.template-collection .product-grid-container,
-  body.template-collection .collection-wrapper,
-  body.template-collection [class*="color-"] {
+  .shopify-section,
+  results-list,
+  .section-background,
+  .product-grid-container,
+  .collection-wrapper,
+  [class*="color-scheme"] {
     background: #0a0a0a !important;
     color: #f5f4f0 !important;
   }
 
-  /* product-card is a custom HTML element — target by tag name */
-  body.template-collection product-card {
+  product-card {
     background: #141414 !important;
     color: #f5f4f0 !important;
-    --color-background: 20, 20, 20 !important;
-    --color-foreground: 245, 244, 240 !important;
-  }
-  body.template-collection product-card *,
-  body.template-collection product-card a,
-  body.template-collection product-card span,
-  body.template-collection product-card p {
-    color: #f5f4f0 !important;
-    background-color: transparent !important;
   }
 
-  /* Headings */
-  body.template-collection h1 {
-    color: #f5f4f0 !important;
+  h1, h2, h3, p, span, a, li { color: #f5f4f0 !important; }
+
+  h1 {
     font-family: 'Cormorant Garamond', Georgia, serif !important;
     font-weight: 300 !important;
   }
-  body.template-collection h2, body.template-collection h3,
-  body.template-collection p, body.template-collection span, body.template-collection a {
-    color: #f5f4f0 !important;
-  }
 
-  /* Filters */
-  body.template-collection summary,
-  body.template-collection details,
-  body.template-collection button,
-  body.template-collection select,
-  body.template-collection [class*="filter"] {
+  summary, details, select, [class*="filter"] {
     background: #141414 !important;
     color: #f5f4f0 !important;
     border-color: rgba(255,255,255,0.15) !important;
   }
 
-  /* Price */
-  body.template-collection [class*="price"]:not(s) {
-    color: #b8975a !important;
-  }
-  body.template-collection s { color: rgba(245,244,240,0.35) !important; }
+  [class*="price"]:not(s) { color: #b8975a !important; }
+  s { color: rgba(245,244,240,0.35) !important; }
 
-  /* Badge */
-  body.template-collection [class*="badge"] {
+  [class*="badge"] {
     background: #b8975a !important;
     color: #0a0a0a !important;
     border-radius: 0 !important;
   }
 </style>
 
-<div id="jgz-debug" style="background:#b8975a;color:#000;padding:10px;font-size:12px;text-align:center;"></div>
 <script>
-  document.getElementById('jgz-debug').textContent = 'Body classes: ' + document.body.className;
+  document.addEventListener('DOMContentLoaded', function() {
+    // Force dark bg on everything
+    var els = document.querySelectorAll('product-card, results-list, .product-grid-container, .collection-wrapper, .section-background, [class*="color-scheme"]');
+    els.forEach(function(el) {
+      el.style.setProperty('background', '#0a0a0a', 'important');
+      el.style.setProperty('background-color', '#0a0a0a', 'important');
+      el.style.setProperty('color', '#f5f4f0', 'important');
+    });
+    document.querySelectorAll('product-card').forEach(function(el) {
+      el.style.setProperty('background', '#141414', 'important');
+      el.style.setProperty('background-color', '#141414', 'important');
+    });
+    document.body.style.setProperty('background', '#0a0a0a', 'important');
+    document.documentElement.style.setProperty('background', '#0a0a0a', 'important');
+  });
 </script>
 
 <script
