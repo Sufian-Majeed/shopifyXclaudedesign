@@ -1,82 +1,64 @@
 
 
 <style>
-  /* Override Horizon theme CSS variables for collection page */
-  body.template-collection,
-  body.template-collection * {
-    --color-background: 10, 10, 10;
-    --color-foreground: 245, 244, 240;
-    --color-foreground-heading: 245, 244, 240;
-    --color-primary: 184, 151, 90;
-    --color-primary-hover: 184, 151, 90;
-    --color-border: 255, 255, 255;
-    --color-shadow: 0, 0, 0;
-    --color-input-background: 20, 20, 20;
-    --color-input-text: 245, 244, 240;
-    --color-input-border: 255, 255, 255;
-    --alpha-border: 0.1;
-  }
+  body.template-collection { background: #0a0a0a !important; }
 
-  body.template-collection { background-color: #0a0a0a !important; }
-
-  /* Every element gets dark background */
   body.template-collection .shopify-section,
-  body.template-collection .section-background,
   body.template-collection results-list,
+  body.template-collection .section-background,
   body.template-collection .product-grid-container,
   body.template-collection .collection-wrapper,
-  body.template-collection [class*="color-scheme"],
   body.template-collection [class*="color-"] {
-    background-color: #0a0a0a !important;
+    background: #0a0a0a !important;
     color: #f5f4f0 !important;
   }
 
-  /* ALL text dark to light */
-  body.template-collection p,
-  body.template-collection span,
-  body.template-collection a,
-  body.template-collection h1, body.template-collection h2,
-  body.template-collection h3, body.template-collection h4 {
+  /* product-card is a custom HTML element — target by tag name */
+  body.template-collection product-card {
+    background: #141414 !important;
     color: #f5f4f0 !important;
+    --color-background: 20, 20, 20 !important;
+    --color-foreground: 245, 244, 240 !important;
+  }
+  body.template-collection product-card *,
+  body.template-collection product-card a,
+  body.template-collection product-card span,
+  body.template-collection product-card p {
+    color: #f5f4f0 !important;
+    background-color: transparent !important;
   }
 
+  /* Headings */
   body.template-collection h1 {
+    color: #f5f4f0 !important;
     font-family: 'Cormorant Garamond', Georgia, serif !important;
     font-weight: 300 !important;
   }
+  body.template-collection h2, body.template-collection h3,
+  body.template-collection p, body.template-collection span, body.template-collection a {
+    color: #f5f4f0 !important;
+  }
 
-  /* Filters & buttons */
+  /* Filters */
   body.template-collection summary,
   body.template-collection details,
   body.template-collection button,
-  body.template-collection select {
-    background-color: #141414 !important;
+  body.template-collection select,
+  body.template-collection [class*="filter"] {
+    background: #141414 !important;
     color: #f5f4f0 !important;
     border-color: rgba(255,255,255,0.15) !important;
   }
 
-  /* Product cards & list items */
-  body.template-collection li,
-  body.template-collection .product-grid__item,
-  body.template-collection [class*="card"],
-  body.template-collection [class*="product-card"] {
-    background-color: #141414 !important;
-    color: #f5f4f0 !important;
-  }
-
-  /* Price gold */
-  body.template-collection [class*="price"]:not([class*="compare"]):not(s) {
+  /* Price */
+  body.template-collection [class*="price"]:not(s) {
     color: #b8975a !important;
   }
-  body.template-collection s,
-  body.template-collection [class*="compare"] {
-    color: rgba(245,244,240,0.35) !important;
-  }
+  body.template-collection s { color: rgba(245,244,240,0.35) !important; }
 
-  /* Sale badge gold */
-  body.template-collection [class*="badge"],
-  body.template-collection .badge {
-    background-color: #b8975a !important;
+  /* Badge */
+  body.template-collection [class*="badge"] {
+    background: #b8975a !important;
     color: #0a0a0a !important;
     border-radius: 0 !important;
   }
