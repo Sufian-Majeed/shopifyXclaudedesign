@@ -1,5 +1,13 @@
 <style>
-  html, body, .shopify-section { background: #0a0a0a !important; color: #f5f4f0 !important; }
+  html, body,
+  .shopify-section,
+  .shopify-section-group,
+  [class*="color-scheme"],
+  [class*="color-"],
+  .section-background {
+    background: #0a0a0a !important;
+    color: #f5f4f0 !important;
+  }
   * { box-sizing: border-box; }
   .jgz-col-page {
     background: #0a0a0a;
@@ -415,7 +423,7 @@
 </style>
 
 {%- paginate collection.products by 24 -%}
-<div class="jgz-col-page">
+<div class="jgz-col-page" style="background:#0a0a0a;color:#f5f4f0;min-height:100vh;display:block;">
   <!-- Collection Header -->
   <div class="jgz-col-header">
     <div class="jgz-col-header__top">
@@ -505,7 +513,7 @@
         </div>
       </div>
 
-      <div class="jgz-col-grid">
+      <div class="jgz-col-grid" style="background:#0a0a0a;">
         {%- for product in collection.products -%}
           {%- assign savings_percent = 0 -%}
           {%- if product.compare_at_price > product.price -%}
@@ -513,7 +521,7 @@
             {%- assign savings_percent = savings | times: 100 | divided_by: product.compare_at_price -%}
           {%- endif -%}
 
-          <a href="{{ product.url }}" class="jgz-product-card" style="text-decoration:none;display:block;">
+          <a href="{{ product.url }}" class="jgz-product-card" style="text-decoration:none;display:block;background:#0a0a0a;color:#f5f4f0;">
             <div class="jgz-product-card__image-wrap">
               {%- if product.featured_image != blank -%}
                 <img src="{{ product.featured_image | image_url: width: 600 }}" alt="{{ product.title }}" width="600" loading="lazy">
