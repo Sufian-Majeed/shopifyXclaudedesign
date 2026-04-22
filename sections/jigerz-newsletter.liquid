@@ -49,17 +49,17 @@
     flex: 1;
     height: 48px;
     background: #141414;
-    border: 1px solid rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.2);
     border-right: none;
     color: #f5f4f0;
     font-family: 'Barlow', system-ui, sans-serif;
     font-size: 13px;
     padding: 0 16px;
     outline: none;
+    min-width: 0;
   }
   .jgz-newsletter__input::placeholder {
-    color: #f5f4f0;
-    opacity: 0.35;
+    color: rgba(245,244,240,0.45);
   }
   .jgz-newsletter__input:focus {
     border-color: #b8975a;
@@ -87,9 +87,23 @@
       padding: 60px 20px;
     }
     .jgz-newsletter__heading { font-size: 36px; }
-    .jgz-newsletter__form { flex-direction: column; gap: 8px; }
-    .jgz-newsletter__input { border-right: 1px solid rgba(255,255,255,0.08); }
-    .jgz-newsletter__btn { width: 100%; }
+    .jgz-newsletter__form {
+      flex-direction: column;
+      gap: 10px;
+      max-width: 100%;
+      width: 100%;
+    }
+    .jgz-newsletter__input {
+      border-right: 1px solid rgba(255,255,255,0.2);
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+      width: 100%;
+      height: 52px;
+      font-size: 16px; /* prevents iOS zoom on focus */
+    }
+    .jgz-newsletter__btn {
+      width: 100%;
+      height: 52px;
+    }
   }
 </style>
 
