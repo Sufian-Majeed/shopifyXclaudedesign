@@ -116,6 +116,9 @@
     text-transform: uppercase;
   }
 
+  .jgz-hero__img-desktop { display: block; }
+  .jgz-hero__img-mobile { display: none; }
+
   /* subtle gradient on left edge of image for blend */
   .jgz-hero__right::before {
     content: '';
@@ -145,6 +148,8 @@
       max-height: 420px;
     }
     .jgz-hero__right::before { display: none; }
+    .jgz-hero__img-desktop { display: none; }
+    .jgz-hero__img-mobile { display: block; }
   }
 </style>
 
@@ -167,9 +172,12 @@
   <!-- RIGHT: full-height image -->
   <div class="jgz-hero__right">
     {%- if section.settings.hero_image != blank -%}
-      <img src="{{ section.settings.hero_image | image_url: width: 1400 }}" alt="{{ section.settings.heading }}" loading="eager">
+      <img class="jgz-hero__img-desktop" src="{{ section.settings.hero_image | image_url: width: 1400 }}" alt="{{ section.settings.heading }}" loading="eager">
     {%- else -%}
       <div class="jgz-hero__right-placeholder">Product Image</div>
+    {%- endif -%}
+    {%- if section.settings.hero_image_mobile != blank -%}
+      <img class="jgz-hero__img-mobile" src="{{ section.settings.hero_image_mobile | image_url: width: 800 }}" alt="{{ section.settings.heading }}" loading="eager">
     {%- endif -%}
   </div>
 
@@ -187,7 +195,8 @@
     { "type": "url", "id": "cta_primary_url", "label": "Primary CTA link" },
     { "type": "text", "id": "cta_secondary_label", "label": "Secondary CTA label", "default": "Explore Collection" },
     { "type": "url", "id": "cta_secondary_url", "label": "Secondary CTA link" },
-    { "type": "image_picker", "id": "hero_image", "label": "Hero product image" }
+    { "type": "image_picker", "id": "hero_image", "label": "Hero image — Desktop" },
+    { "type": "image_picker", "id": "hero_image_mobile", "label": "Hero image — Mobile (16:9)" }
   ],
   "presets": [{ "name": "JIGERZ Hero" }]
 }
