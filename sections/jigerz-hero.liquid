@@ -5,9 +5,18 @@
     min-height: 600px;
     background: #0a0a0a;
     overflow: hidden;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  /* LEFT — content panel */
+  .jgz-hero__left {
+    position: relative;
     display: flex;
-    align-items: flex-end;
-    padding: 0 60px 72px;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 60px 60px 72px;
+    z-index: 2;
   }
 
   .jgz-hero__grid-overlay {
@@ -32,20 +41,6 @@
     color: #b8975a;
     writing-mode: vertical-rl;
     transform: rotate(180deg);
-  }
-
-  .jgz-hero__inner {
-    position: relative;
-    width: 100%;
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    gap: 40px;
-    z-index: 2;
-  }
-
-  .jgz-hero__content {
-    max-width: 560px;
   }
 
   .jgz-hero__eyebrow {
@@ -91,66 +86,93 @@
     flex-wrap: wrap;
   }
 
-  .jgz-hero__image-placeholder {
-    width: 360px;
-    flex-shrink: 0;
-    aspect-ratio: 360 / 500;
+  /* RIGHT — full-height image panel */
+  .jgz-hero__right {
+    position: relative;
+    overflow: hidden;
     background: #141414;
-    border: 1px solid rgba(255,255,255,0.08);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: rgba(245,244,240,0.15);
-    font-family: 'Barlow', system-ui, sans-serif;
-    font-size: 11px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
   }
 
-  .jgz-hero__image-placeholder img {
+  .jgz-hero__right img {
+    position: absolute;
+    inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: center top;
+    display: block;
   }
 
-  @media (max-width: 768px) {
+  .jgz-hero__right-placeholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(245,244,240,0.12);
+    font-family: 'Barlow', system-ui, sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  /* subtle gradient on left edge of image for blend */
+  .jgz-hero__right::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, #0a0a0a 0%, transparent 12%);
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  @media (max-width: 900px) {
     .jgz-hero {
+      grid-template-columns: 1fr;
       height: auto;
       min-height: 100svh;
-      padding: 80px 20px 60px;
-      align-items: center;
     }
-    .jgz-hero__inner { flex-direction: column; align-items: flex-start; }
+    .jgz-hero__left {
+      padding: 100px 24px 48px;
+      order: 2;
+    }
+    .jgz-hero__collection-label { left: 24px; }
     .jgz-hero__heading { font-size: 52px; }
-    .jgz-hero__image-placeholder { display: none; }
-    .jgz-hero__collection-label { left: 20px; }
+    .jgz-hero__right {
+      order: 1;
+      height: 55vw;
+      min-height: 280px;
+      max-height: 420px;
+    }
+    .jgz-hero__right::before { display: none; }
   }
 </style>
 
 <section class="jgz-hero">
-  <div class="jgz-hero__grid-overlay"></div>
-  <span class="jgz-hero__collection-label">SS 2026 Collection</span>
 
-  <div class="jgz-hero__inner">
-    <div class="jgz-hero__content">
-      <p class="jgz-hero__eyebrow">{{ section.settings.eyebrow }}</p>
-      <h1 class="jgz-hero__heading">{{ section.settings.heading }}</h1>
-      <p class="jgz-hero__tagline">{{ section.settings.tagline }}</p>
-      <p class="jgz-hero__subtext">{{ section.settings.subtext }}</p>
-      <div class="jgz-hero__ctas">
-        <a href="{{ section.settings.cta_primary_url }}" class="jgz-btn-gold">{{ section.settings.cta_primary_label }}</a>
-        <a href="{{ section.settings.cta_secondary_url }}" class="jgz-btn-ghost">{{ section.settings.cta_secondary_label }}</a>
-      </div>
-    </div>
-
-    <div class="jgz-hero__image-placeholder">
-      {%- if section.settings.hero_image != blank -%}
-        <img src="{{ section.settings.hero_image | image_url: width: 720 }}" alt="{{ section.settings.heading }}" width="360" height="500" loading="eager">
-      {%- else -%}
-        Product Image
-      {%- endif -%}
+  <!-- LEFT: text content -->
+  <div class="jgz-hero__left">
+    <div class="jgz-hero__grid-overlay"></div>
+    <span class="jgz-hero__collection-label">SS 2026 Collection</span>
+    <p class="jgz-hero__eyebrow">{{ section.settings.eyebrow }}</p>
+    <h1 class="jgz-hero__heading">{{ section.settings.heading }}</h1>
+    <p class="jgz-hero__tagline">{{ section.settings.tagline }}</p>
+    <p class="jgz-hero__subtext">{{ section.settings.subtext }}</p>
+    <div class="jgz-hero__ctas">
+      <a href="{{ section.settings.cta_primary_url }}" class="jgz-btn-gold">{{ section.settings.cta_primary_label }}</a>
+      <a href="{{ section.settings.cta_secondary_url }}" class="jgz-btn-ghost">{{ section.settings.cta_secondary_label }}</a>
     </div>
   </div>
+
+  <!-- RIGHT: full-height image -->
+  <div class="jgz-hero__right">
+    {%- if section.settings.hero_image != blank -%}
+      <img src="{{ section.settings.hero_image | image_url: width: 1400 }}" alt="{{ section.settings.heading }}" loading="eager">
+    {%- else -%}
+      <div class="jgz-hero__right-placeholder">Product Image</div>
+    {%- endif -%}
+  </div>
+
 </section>
 
 {% schema %}
