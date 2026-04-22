@@ -1,112 +1,84 @@
 
 
 <style>
-  /* JIGERZ — Collection Page Dark Theme */
+  /* Override Horizon theme CSS variables for collection page */
   body.template-collection,
+  body.template-collection * {
+    --color-background: 10, 10, 10;
+    --color-foreground: 245, 244, 240;
+    --color-foreground-heading: 245, 244, 240;
+    --color-primary: 184, 151, 90;
+    --color-primary-hover: 184, 151, 90;
+    --color-border: 255, 255, 255;
+    --color-shadow: 0, 0, 0;
+    --color-input-background: 20, 20, 20;
+    --color-input-text: 245, 244, 240;
+    --color-input-border: 255, 255, 255;
+    --alpha-border: 0.1;
+  }
+
+  body.template-collection { background-color: #0a0a0a !important; }
+
+  /* Every element gets dark background */
   body.template-collection .shopify-section,
   body.template-collection .section-background,
   body.template-collection results-list,
   body.template-collection .product-grid-container,
   body.template-collection .collection-wrapper,
+  body.template-collection [class*="color-scheme"],
   body.template-collection [class*="color-"] {
-    background: #0a0a0a !important;
     background-color: #0a0a0a !important;
     color: #f5f4f0 !important;
-    --color-background: 10, 10, 10 !important;
-    --color-foreground: 245, 244, 240 !important;
-    --color-foreground-heading: 245, 244, 240 !important;
-    --color-primary: 184, 151, 90 !important;
-    --color-border: rgba(255,255,255,0.08) !important;
   }
 
-  body.template-collection {
-    background: #0a0a0a !important;
-  }
-
-  /* Collection heading */
-  body.template-collection h1,
-  body.template-collection h2,
-  body.template-collection h3,
-  body.template-collection .collection-title {
+  /* ALL text dark to light */
+  body.template-collection p,
+  body.template-collection span,
+  body.template-collection a,
+  body.template-collection h1, body.template-collection h2,
+  body.template-collection h3, body.template-collection h4 {
     color: #f5f4f0 !important;
+  }
+
+  body.template-collection h1 {
     font-family: 'Cormorant Garamond', Georgia, serif !important;
     font-weight: 300 !important;
   }
 
-  /* Filter bar */
-  body.template-collection .filters,
-  body.template-collection [class*="filter"],
+  /* Filters & buttons */
   body.template-collection summary,
-  body.template-collection details {
-    background: #0a0a0a !important;
-    color: #f5f4f0 !important;
-    border-color: rgba(255,255,255,0.1) !important;
-  }
-
+  body.template-collection details,
   body.template-collection button,
-  body.template-collection select,
-  body.template-collection .sort-by {
-    background: #141414 !important;
+  body.template-collection select {
+    background-color: #141414 !important;
     color: #f5f4f0 !important;
-    border-color: rgba(255,255,255,0.12) !important;
+    border-color: rgba(255,255,255,0.15) !important;
   }
 
-  /* Product cards */
-  body.template-collection .product-card,
-  body.template-collection [class*="product-card"],
-  body.template-collection .card,
+  /* Product cards & list items */
+  body.template-collection li,
   body.template-collection .product-grid__item,
-  body.template-collection li[class*="product"] {
-    background: #141414 !important;
+  body.template-collection [class*="card"],
+  body.template-collection [class*="product-card"] {
+    background-color: #141414 !important;
     color: #f5f4f0 !important;
   }
 
-  body.template-collection .product-card a,
-  body.template-collection [class*="card"] a,
-  body.template-collection .product-grid__item a {
-    color: #f5f4f0 !important;
-    text-decoration: none !important;
-  }
-
-  /* Price */
-  body.template-collection [class*="price"],
-  body.template-collection .price {
+  /* Price gold */
+  body.template-collection [class*="price"]:not([class*="compare"]):not(s) {
     color: #b8975a !important;
   }
-
-  body.template-collection [class*="compare-at"],
-  body.template-collection [class*="was-price"],
-  body.template-collection s {
-    color: rgba(245,244,240,0.4) !important;
+  body.template-collection s,
+  body.template-collection [class*="compare"] {
+    color: rgba(245,244,240,0.35) !important;
   }
 
-  /* Sale badge */
+  /* Sale badge gold */
   body.template-collection [class*="badge"],
   body.template-collection .badge {
-    background: #b8975a !important;
+    background-color: #b8975a !important;
     color: #0a0a0a !important;
-    border: none !important;
     border-radius: 0 !important;
-  }
-
-  /* Pagination */
-  body.template-collection [class*="pagination"] a,
-  body.template-collection [class*="page-link"] {
-    background: #141414 !important;
-    color: #f5f4f0 !important;
-    border-color: rgba(255,255,255,0.1) !important;
-  }
-
-  body.template-collection [class*="pagination"] a:hover {
-    border-color: #b8975a !important;
-    color: #b8975a !important;
-  }
-
-  /* Product title text */
-  body.template-collection [class*="product-title"],
-  body.template-collection [class*="card-title"],
-  body.template-collection [class*="card__title"] {
-    color: #f5f4f0 !important;
   }
 </style>
 
