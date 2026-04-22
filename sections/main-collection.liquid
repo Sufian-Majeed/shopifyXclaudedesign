@@ -64,7 +64,10 @@
   }
 </style>
 
-<div style="background:#b8975a;color:#000;padding:20px;font-size:18px;font-weight:bold;text-align:center;">JIGERZ DARK THEME ACTIVE ✓</div>
+<div id="jgz-debug" style="background:#b8975a;color:#000;padding:10px;font-size:12px;text-align:center;"></div>
+<script>
+  document.getElementById('jgz-debug').textContent = 'Body classes: ' + document.body.className;
+</script>
 
 <script
   src="{{ 'results-list.js' | asset_url }}"
