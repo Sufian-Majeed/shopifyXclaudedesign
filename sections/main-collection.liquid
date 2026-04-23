@@ -1,8 +1,10 @@
 
 
 <style>
+  /* ── Page base ── */
   html, body { background: #0a0a0a !important; }
 
+  /* ── Section containers ── */
   .shopify-section,
   results-list,
   .section-background,
@@ -13,32 +15,58 @@
     color: #f5f4f0 !important;
   }
 
-  product-card {
-    background: #141414 !important;
-    color: #f5f4f0 !important;
-  }
-
-  h1, h2, h3, p, span, a, li { color: #f5f4f0 !important; }
-
-  h1 {
+  /* ── Collection heading ── */
+  h1, h2 {
     font-family: 'Cormorant Garamond', Georgia, serif !important;
     font-weight: 300 !important;
+    color: #f5f4f0 !important;
   }
 
-  summary, details, select, [class*="filter"] {
+  /* ── Product card outer shell ── */
+  product-card {
+    background: #141414 !important;
+    display: block;
+  }
+
+  /* ── Product card inner content area ── */
+  .product-card__content,
+  .product-grid__card {
     background: #141414 !important;
     color: #f5f4f0 !important;
-    border-color: rgba(255,255,255,0.15) !important;
   }
 
-  [class*="price"]:not(s) { color: #b8975a !important; }
-  s { color: rgba(245,244,240,0.35) !important; }
+  /* ── Product title (custom element + fallback headings) ── */
+  product-title,
+  product-title *,
+  h3, h4, h5, h6 {
+    font-family: 'Barlow', system-ui, sans-serif !important;
+    font-weight: 400 !important;
+    color: #f5f4f0 !important;
+  }
 
+  /* ── Generic text ── */
+  p, span, a, li, label { color: #f5f4f0 !important; }
+
+  /* ── Prices: gold for active, muted for compare ── */
+  [class*="price"]:not(s) { color: #b8975a !important; }
+  s, [class*="compare"] { color: rgba(245,244,240,0.35) !important; }
+
+  /* ── Badges ── */
   [class*="badge"] {
     background: #b8975a !important;
     color: #0a0a0a !important;
     border-radius: 0 !important;
   }
+
+  /* ── Filters / sorting UI ── */
+  summary, details, select, [class*="filter"], [class*="sort"] {
+    background: #141414 !important;
+    color: #f5f4f0 !important;
+    border-color: rgba(255,255,255,0.15) !important;
+  }
+
+  /* ── Slideshow container background (shows while image loads) ── */
+  slideshow-container { background-color: #141414 !important; }
 </style>
 
 <script>
