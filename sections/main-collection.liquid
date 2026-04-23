@@ -1,175 +1,168 @@
-
-
 <style>
-  /* ── Page base ── */
-  html, body { background: #0a0a0a !important; }
+  html, body, .shopify-section { background: #0a0a0a !important; color: #f5f4f0 !important; }
+  * { box-sizing: border-box; }
 
-  /* ── Section containers ── */
-  .shopify-section,
-  results-list,
-  .section-background,
-  .product-grid-container,
-  .collection-wrapper,
-  [class*="color-scheme"] {
-    background: #0a0a0a !important;
-    color: #f5f4f0 !important;
-  }
+  .jgz-col-page { background: #0a0a0a; min-height: 100vh; padding-bottom: 80px; }
 
-  /* ── Collection heading ── */
-  h1, h2 {
-    font-family: 'Cormorant Garamond', Georgia, serif !important;
-    font-weight: 300 !important;
-    color: #f5f4f0 !important;
-  }
+  .jgz-col-header { padding: 60px 60px 0; border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .jgz-col-header__top { display: flex; align-items: flex-end; justify-content: space-between; padding-bottom: 32px; }
+  .jgz-col-header__kicker { font-family: 'Barlow', system-ui, sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: #b8975a; margin: 0 0 10px; }
+  .jgz-col-header__title { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 64px; font-weight: 300; color: #f5f4f0; margin: 0; line-height: 1; }
+  .jgz-col-header__count { font-family: 'Barlow', system-ui, sans-serif; font-size: 11px; letter-spacing: 0.1em; color: #f5f4f0; opacity: 0.35; text-transform: uppercase; margin-bottom: 4px; }
 
-  /* ── Product card outer shell ── */
-  product-card {
-    background: #141414 !important;
-    display: block;
-  }
+  .jgz-col-layout { display: grid; grid-template-columns: 220px 1fr; gap: 0; padding: 0 60px; align-items: start; }
 
-  /* ── Product card inner content area ── */
-  .product-card__content,
-  .product-grid__card {
-    background: #141414 !important;
-    color: #f5f4f0 !important;
-  }
+  .jgz-sidebar { position: sticky; top: 80px; padding: 32px 32px 32px 0; border-right: 1px solid rgba(255,255,255,0.08); min-height: 300px; }
+  .jgz-sidebar__title { font-family: 'Barlow', system-ui, sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: #b8975a; margin: 0 0 16px; padding-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .jgz-sidebar__section { margin-bottom: 32px; }
+  .jgz-sidebar__options { display: flex; flex-wrap: wrap; gap: 6px; }
+  .jgz-size-pill { font-family: 'Barlow', system-ui, sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 0.05em; color: #f5f4f0; border: 1px solid rgba(255,255,255,0.08); padding: 6px 14px; cursor: pointer; min-width: 44px; text-align: center; background: none; transition: border-color 0.2s, color 0.2s; }
+  .jgz-size-pill:hover { border-color: #b8975a; color: #b8975a; }
+  .jgz-checkbox-label { display: flex; align-items: center; gap: 10px; font-family: 'Barlow', system-ui, sans-serif; font-size: 12px; color: #f5f4f0; opacity: 0.75; cursor: pointer; margin-bottom: 10px; }
+  .jgz-checkbox-label input[type="checkbox"] { accent-color: #b8975a; }
 
-  /* ── Product title (custom element + fallback headings) ── */
-  product-title,
-  product-title *,
-  h3, h4, h5, h6 {
-    font-family: 'Barlow', system-ui, sans-serif !important;
-    font-weight: 400 !important;
-    color: #f5f4f0 !important;
-  }
+  .jgz-col-main { padding: 32px 0 32px 32px; }
+  .jgz-sort-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 28px; padding-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .jgz-sort-row__count { font-family: 'Barlow', system-ui, sans-serif; font-size: 12px; color: #f5f4f0; opacity: 0.4; }
+  .jgz-sort-select { background: #141414; border: 1px solid rgba(255,255,255,0.08); color: #f5f4f0; font-family: 'Barlow', system-ui, sans-serif; font-size: 11px; padding: 8px 12px; cursor: pointer; outline: none; }
 
-  /* ── Generic text ── */
-  p, span, a, li, label { color: #f5f4f0 !important; }
+  .jgz-col-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
 
-  /* ── Prices: gold for active, muted for compare ── */
-  [class*="price"]:not(s) { color: #b8975a !important; }
-  s, [class*="compare"] { color: rgba(245,244,240,0.35) !important; }
+  .jgz-product-card { display: block; text-decoration: none; background: #0a0a0a; color: #f5f4f0; }
+  .jgz-product-card__image-wrap { position: relative; aspect-ratio: 3/4; background: #141414; overflow: hidden; }
+  .jgz-product-card__image-wrap img { width: 100% !important; height: 100% !important; object-fit: cover !important; display: block !important; opacity: 1 !important; visibility: visible !important; transition: transform 0.5s ease; }
+  .jgz-product-card:hover .jgz-product-card__image-wrap img { transform: scale(1.04); }
+  .jgz-product-card__quick-add { position: absolute; bottom: 0; left: 0; right: 0; background: rgba(10,10,10,0.92); color: #b8975a; font-family: 'Barlow', system-ui, sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; text-align: center; padding: 14px; transform: translateY(100%); transition: transform 0.25s ease; cursor: pointer; }
+  .jgz-product-card:hover .jgz-product-card__quick-add { transform: translateY(0); }
+  .jgz-product-card__badges { position: absolute; top: 12px; left: 12px; display: flex; flex-direction: column; gap: 4px; z-index: 2; }
+  .jgz-badge { font-family: 'Barlow', system-ui, sans-serif; font-size: 9px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; padding: 4px 10px; }
+  .jgz-badge--new { background: #b8975a; color: #0a0a0a; }
+  .jgz-badge--sale { background: #e85d04; color: #fff; }
 
-  /* ── Badges ── */
-  [class*="badge"] {
-    background: #b8975a !important;
-    color: #0a0a0a !important;
-    border-radius: 0 !important;
-  }
+  .jgz-product-card__info { padding: 14px 0 8px; }
+  .jgz-product-card__name { font-family: 'Barlow', system-ui, sans-serif; font-size: 13px; font-weight: 400; color: #f5f4f0; margin: 0 0 6px; }
+  .jgz-product-card__price-row { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+  .jgz-product-card__price { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 18px; font-weight: 600; color: #b8975a; }
+  .jgz-product-card__compare { font-size: 13px; color: #f5f4f0; opacity: 0.35; text-decoration: line-through; }
+  .jgz-product-card__save { font-family: 'Barlow', system-ui, sans-serif; font-size: 10px; font-weight: 600; color: #e85d04; }
 
-  /* ── Filters / sorting UI ── */
-  summary, details, select, [class*="filter"], [class*="sort"] {
-    background: #141414 !important;
-    color: #f5f4f0 !important;
-    border-color: rgba(255,255,255,0.15) !important;
-  }
+  .jgz-pagination { display: flex; justify-content: center; gap: 4px; margin-top: 48px; }
+  .jgz-pagination a, .jgz-pagination span { width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; font-family: 'Barlow', system-ui, sans-serif; font-size: 12px; border: 1px solid rgba(255,255,255,0.08); color: #f5f4f0; text-decoration: none; }
+  .jgz-pagination a:hover { border-color: #b8975a; color: #b8975a; }
+  .jgz-pagination span { color: #b8975a; border-color: #b8975a; }
 
-  /* ── Slideshow: force slides visible before JS sets aria-hidden ── */
-  slideshow-container { background-color: #141414 !important; }
-  slideshow-slide { content-visibility: visible !important; }
-  product-card .product-media-container img,
-  product-card .card-gallery img {
-    opacity: 1 !important;
-    visibility: visible !important;
-    display: block !important;
+  @media (max-width: 768px) {
+    .jgz-col-header { padding: 40px 20px 0; }
+    .jgz-col-header__title { font-size: 40px; }
+    .jgz-col-layout { grid-template-columns: 1fr; padding: 0 20px; }
+    .jgz-sidebar { display: none; }
+    .jgz-col-main { padding: 24px 0; }
+    .jgz-col-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .jgz-product-card__quick-add { display: none; }
   }
 </style>
 
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    // Only force dark bg on page-level containers, NOT inside product-card
-    document.body.style.setProperty('background-color', '#0a0a0a', 'important');
-    document.documentElement.style.setProperty('background-color', '#0a0a0a', 'important');
-    ['results-list', '.product-grid-container', '.collection-wrapper', '.section-background'].forEach(function(sel) {
-      document.querySelectorAll(sel).forEach(function(el) {
-        el.style.setProperty('background-color', '#0a0a0a', 'important');
-        el.style.setProperty('color', '#f5f4f0', 'important');
-      });
-    });
-    // product-card outer only — don't touch image containers inside
-    document.querySelectorAll('product-card').forEach(function(el) {
-      el.style.setProperty('background-color', '#141414', 'important');
-      el.style.setProperty('color', '#f5f4f0', 'important');
-    });
-  });
-</script>
+{%- paginate collection.products by 24 -%}
+<div class="jgz-col-page">
 
-<script
-  src="{{ 'results-list.js' | asset_url }}"
-  type="module"
-  fetchpriority="low"
-></script>
-
-{% javascript %}
-  const url = new URL(window.location.href);
-  if (url.hash) {
-    document.addEventListener(
-      'DOMContentLoaded',
-      () => {
-        const card = document.getElementById(url.hash.slice(1));
-        if (card) {
-          card.scrollIntoView({ behavior: 'instant' });
-        }
-      },
-      { once: true }
-    );
-  }
-{% endjavascript %}
-
-{% comment %} We always render this full-width, as the child blocks have width: page/full settings {% endcomment %}
-<div class="section-background color-{{ section.settings.color_scheme }}"></div>
-<results-list
-  class="section product-grid-container color-{{ section.settings.color_scheme }}"
-  style="--padding-block-start: {{ section.settings.padding-block-start }}px; --padding-block-end: {{ section.settings.padding-block-end }}px;"
-  section-id="{{ section.id }}"
-  infinite-scroll="{{ section.settings.enable_infinite_scroll }}"
->
-  {% render 'skip-to-content-link', href: '#ResultsList', text: 'accessibility.skip_to_results_list' %}
-
-  <div
-    class="collection-wrapper grid gap-style{% if section.settings.product_grid_width == 'full-width' %} collection-wrapper--grid-full-width{% endif %}"
-  >
-    {% content_for 'block',
-      type: 'filters',
-      id: 'filters',
-      results: collection,
-      results_size: collection.products_count
-    %}
-
-    {% assign products_per_page = 24 %}
-
-    {% if section.settings.enable_infinite_scroll == false %}
-      {% assign products_per_page = section.settings.products_per_page %}
-    {% endif %}
-
-    {% paginate collection.products by products_per_page %}
-      {% capture children %}
-        {% for product in collection.products %}
-          <li
-            id="{{ section.id }}-{{ product.id }}"
-            class="product-grid__item product-grid__item--{{ forloop.index0 }}"
-            data-page="{{ paginate.current_page }}"
-            data-product-id="{{ product.id }}"
-            ref="cards[]"
-          >
-            {% # theme-check-disable %}
-            {% content_for 'block', type: '_product-card', id: 'product-card', closest.product: product %}
-            {% # theme-check-enable %}
-          </li>
-        {% endfor %}
-      {% endcapture %}
-
-      {% render 'product-grid',
-        section: section,
-        children: children,
-        products: collection.products,
-        paginate: paginate,
-        enable_infinite_scroll: section.settings.enable_infinite_scroll
-      %}
-    {% endpaginate %}
+  <div class="jgz-col-header">
+    <div class="jgz-col-header__top">
+      <div>
+        <p class="jgz-col-header__kicker">JIGERZ</p>
+        <h1 class="jgz-col-header__title">{{ collection.title }}</h1>
+      </div>
+      <p class="jgz-col-header__count">{{ collection.products_count }} Products</p>
+    </div>
   </div>
-</results-list>
+
+  <div class="jgz-col-layout">
+    <aside class="jgz-sidebar">
+      <div class="jgz-sidebar__section">
+        <h3 class="jgz-sidebar__title">Category</h3>
+        {%- for link in linklists['main-menu'].links -%}
+          <label class="jgz-checkbox-label"><input type="checkbox"> {{ link.title }}</label>
+        {%- endfor -%}
+      </div>
+      <div class="jgz-sidebar__section">
+        <h3 class="jgz-sidebar__title">Size</h3>
+        <div class="jgz-sidebar__options">
+          {%- for size in 'XS,S,M,L,XL,XXL' | split: ',' -%}
+            <button class="jgz-size-pill">{{ size }}</button>
+          {%- endfor -%}
+        </div>
+      </div>
+      <div class="jgz-sidebar__section">
+        <h3 class="jgz-sidebar__title">Availability</h3>
+        <label class="jgz-checkbox-label"><input type="checkbox" checked> In Stock</label>
+        <label class="jgz-checkbox-label"><input type="checkbox"> Out of Stock</label>
+      </div>
+    </aside>
+
+    <div class="jgz-col-main">
+      <div class="jgz-sort-row">
+        <span class="jgz-sort-row__count">{{ collection.products_count }} products</span>
+        <select class="jgz-sort-select" onchange="window.location.href=this.value">
+          {%- for option in collection.sort_options -%}
+            <option value="{{ collection.url }}?sort_by={{ option.value }}"{% if collection.sort_by == option.value %} selected{% endif %}>{{ option.name }}</option>
+          {%- endfor -%}
+        </select>
+      </div>
+
+      <div class="jgz-col-grid">
+        {%- for product in collection.products -%}
+          {%- assign savings_percent = 0 -%}
+          {%- if product.compare_at_price > product.price -%}
+            {%- assign savings = product.compare_at_price | minus: product.price -%}
+            {%- assign savings_percent = savings | times: 100 | divided_by: product.compare_at_price -%}
+          {%- endif -%}
+
+          <a href="{{ product.url }}" class="jgz-product-card">
+            <div class="jgz-product-card__image-wrap">
+              {%- if product.featured_image != blank -%}
+                <img
+                  src="{{ product.featured_image | image_url: width: 800 }}"
+                  srcset="{{ product.featured_image | image_url: width: 400 }} 400w, {{ product.featured_image | image_url: width: 800 }} 800w"
+                  sizes="(max-width: 768px) 50vw, 33vw"
+                  alt="{{ product.title | escape }}"
+                  loading="eager"
+                  style="width:100%;height:100%;object-fit:cover;display:block;opacity:1;visibility:visible;"
+                >
+              {%- else -%}
+                <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:rgba(245,244,240,0.1);font-family:'Barlow',system-ui,sans-serif;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;">No Image</div>
+              {%- endif -%}
+              <div class="jgz-product-card__badges">
+                {%- if product.tags contains 'new-arrival' -%}<span class="jgz-badge jgz-badge--new">New</span>{%- endif -%}
+                {%- if savings_percent > 0 -%}<span class="jgz-badge jgz-badge--sale">Sale</span>{%- endif -%}
+              </div>
+              <div class="jgz-product-card__quick-add">Quick Add +</div>
+            </div>
+            <div class="jgz-product-card__info">
+              <p class="jgz-product-card__name">{{ product.title }}</p>
+              <div class="jgz-product-card__price-row">
+                <span class="jgz-product-card__price">{{ product.price | money }}</span>
+                {%- if product.compare_at_price > product.price -%}
+                  <span class="jgz-product-card__compare">{{ product.compare_at_price | money }}</span>
+                  <span class="jgz-product-card__save">-{{ savings_percent }}%</span>
+                {%- endif -%}
+              </div>
+            </div>
+          </a>
+        {%- endfor -%}
+      </div>
+
+      {%- if paginate.pages > 1 -%}
+        <div class="jgz-pagination">
+          {%- if paginate.previous -%}<a href="{{ paginate.previous.url }}">‹</a>{%- endif -%}
+          {%- for part in paginate.parts -%}
+            {%- if part.is_link -%}<a href="{{ part.url }}">{{ part.title }}</a>{%- else -%}<span>{{ part.title }}</span>{%- endif -%}
+          {%- endfor -%}
+          {%- if paginate.next -%}<a href="{{ paginate.next.url }}">›</a>{%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+{%- endpaginate -%}
 
 {% schema %}
 {
@@ -177,178 +170,7 @@
   "enabled_on": {
     "templates": ["collection"]
   },
-  "settings": [
-    {
-      "type": "select",
-      "id": "layout_type",
-      "label": "t:settings.type",
-      "options": [
-        {
-          "value": "grid",
-          "label": "t:options.grid"
-        },
-        {
-          "value": "organic",
-          "label": "t:options.editorial"
-        }
-      ],
-      "default": "grid"
-    },
-    {
-      "type": "select",
-      "id": "product_card_size",
-      "label": "t:settings.card_size",
-      "options": [
-        {
-          "value": "small",
-          "label": "t:options.small"
-        },
-        {
-          "value": "medium",
-          "label": "t:options.medium"
-        },
-        {
-          "value": "large",
-          "label": "t:options.large"
-        },
-        {
-          "value": "extra-large",
-          "label": "t:options.extra_large"
-        }
-      ],
-      "default": "medium",
-      "visible_if": "{{ section.settings.layout_type == 'grid' }}"
-    },
-    {
-      "type": "select",
-      "id": "mobile_product_card_size",
-      "label": "t:settings.mobile_card_size",
-      "options": [
-        {
-          "value": "small",
-          "label": "t:options.small"
-        },
-        {
-          "value": "large",
-          "label": "t:options.large"
-        }
-      ],
-      "default": "small"
-    },
-    {
-      "type": "checkbox",
-      "id": "enable_infinite_scroll",
-      "label": "t:settings.auto_load_products",
-      "default": true
-    },
-    {
-      "type": "range",
-      "id": "products_per_page",
-      "label": "t:settings.products_per_page",
-      "min": 8,
-      "max": 36,
-      "step": 4,
-      "default": 24,
-      "visible_if": "{{ section.settings.enable_infinite_scroll == false }}"
-    },
-    {
-      "type": "header",
-      "content": "t:content.layout"
-    },
-    {
-      "type": "select",
-      "id": "product_grid_width",
-      "label": "t:settings.width",
-      "options": [
-        {
-          "value": "centered",
-          "label": "t:options.page"
-        },
-        {
-          "value": "full-width",
-          "label": "t:options.full"
-        }
-      ],
-      "default": "centered"
-    },
-    {
-      "type": "checkbox",
-      "id": "full_width_on_mobile",
-      "label": "t:settings.full_width_on_mobile",
-      "default": true,
-      "visible_if": "{{ section.settings.product_grid_width != 'full-width' }}"
-    },
-    {
-      "type": "range",
-      "id": "columns_gap_horizontal",
-      "label": "t:settings.horizontal_gap",
-      "min": 0,
-      "max": 50,
-      "step": 1,
-      "unit": "px",
-      "default": 16
-    },
-    {
-      "type": "range",
-      "id": "columns_gap_vertical",
-      "label": "t:settings.vertical_gap",
-      "min": 0,
-      "max": 50,
-      "step": 1,
-      "unit": "px",
-      "default": 16
-    },
-    {
-      "type": "range",
-      "id": "padding-inline-start",
-      "label": "t:settings.left_padding",
-      "min": 0,
-      "max": 100,
-      "step": 1,
-      "unit": "px",
-      "default": 0
-    },
-    {
-      "type": "range",
-      "id": "padding-inline-end",
-      "label": "t:settings.right_padding",
-      "min": 0,
-      "max": 100,
-      "step": 1,
-      "unit": "px",
-      "default": 0
-    },
-    {
-      "type": "header",
-      "content": "t:content.section_layout"
-    },
-    {
-      "type": "color_scheme",
-      "id": "color_scheme",
-      "label": "t:settings.color_scheme",
-      "default": "scheme-1"
-    },
-    {
-      "type": "range",
-      "id": "padding-block-start",
-      "label": "t:settings.top_padding",
-      "min": 0,
-      "max": 100,
-      "step": 1,
-      "unit": "px",
-      "default": 8
-    },
-    {
-      "type": "range",
-      "id": "padding-block-end",
-      "label": "t:settings.bottom_padding",
-      "min": 0,
-      "max": 100,
-      "step": 1,
-      "unit": "px",
-      "default": 8
-    }
-  ],
+  "settings": [],
   "presets": []
 }
 {% endschema %}
