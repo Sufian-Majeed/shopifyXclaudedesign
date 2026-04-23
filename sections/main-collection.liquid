@@ -65,8 +65,15 @@
     border-color: rgba(255,255,255,0.15) !important;
   }
 
-  /* ── Slideshow container background (shows while image loads) ── */
+  /* ── Slideshow: force slides visible before JS sets aria-hidden ── */
   slideshow-container { background-color: #141414 !important; }
+  slideshow-slide { content-visibility: visible !important; }
+  product-card .product-media-container img,
+  product-card .card-gallery img {
+    opacity: 1 !important;
+    visibility: visible !important;
+    display: block !important;
+  }
 </style>
 
 <script>
