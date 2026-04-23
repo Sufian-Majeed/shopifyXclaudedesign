@@ -3,7 +3,6 @@
   .shopify-section,
   .shopify-section-group,
   [class*="color-scheme"],
-  [class*="color-"],
   .section-background {
     background: #0a0a0a !important;
     color: #f5f4f0 !important;
@@ -524,7 +523,15 @@
           <a href="{{ product.url }}" class="jgz-product-card" style="text-decoration:none;display:block;background:#0a0a0a;color:#f5f4f0;">
             <div class="jgz-product-card__image-wrap">
               {%- if product.featured_image != blank -%}
-                <img src="{{ product.featured_image | image_url: width: 600 }}" alt="{{ product.title }}" width="600" loading="lazy">
+                <img
+                  src="{{ product.featured_image | image_url: width: 800 }}"
+                  srcset="{{ product.featured_image | image_url: width: 400 }} 400w, {{ product.featured_image | image_url: width: 800 }} 800w"
+                  sizes="(max-width: 768px) 50vw, 33vw"
+                  alt="{{ product.title | escape }}"
+                  loading="eager"
+                  width="800"
+                  height="1067"
+                >
               {%- else -%}
                 <div style="width:100%;height:100%;background:#141414;display:flex;align-items:center;justify-content:center;color:rgba(245,244,240,0.1);font-family:'Barlow', system-ui, sans-serif;font-size:11px;text-transform:uppercase;letter-spacing:0.1em;">No Image</div>
               {%- endif -%}
