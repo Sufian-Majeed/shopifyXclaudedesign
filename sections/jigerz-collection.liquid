@@ -284,7 +284,7 @@
   .jgz-product-card {
     display: block;
     text-decoration: none;
-    background: red;
+    background: #0a0a0a;
     color: #f5f4f0;
   }
 
@@ -302,6 +302,9 @@
     display: block !important;
     opacity: 1 !important;
     visibility: visible !important;
+    content-visibility: visible !important;
+    position: relative !important;
+    z-index: 1 !important;
     transition: transform 0.5s ease;
   }
   .jgz-product-card:hover .jgz-product-card__image-wrap img {
@@ -425,10 +428,6 @@
 
 {%- paginate collection.products by 24 -%}
 <div class="jgz-col-page" style="background:#0a0a0a;color:#f5f4f0;min-height:100vh;display:block;">
-  <!-- JIGERZ Top Bar -->
-  <div style="background:#0a0a0a;border-bottom:1px solid rgba(184,151,90,0.3);padding:18px 60px;display:flex;align-items:center;justify-content:center;">
-    <span style="font-family:'Cormorant Garamond',Georgia,serif;font-size:36px;font-weight:300;letter-spacing:0.35em;color:#ffffff;text-transform:uppercase;background:red;padding:10px 20px;">JIGERZ</span>
-  </div>
   <!-- Collection Header -->
   <div class="jgz-col-header">
     <div class="jgz-col-header__top">
@@ -535,7 +534,9 @@
                   sizes="(max-width: 768px) 50vw, 33vw"
                   alt="{{ product.title | escape }}"
                   loading="eager"
-                  style="width:100%;height:100%;object-fit:cover;display:block;opacity:1;visibility:visible;position:relative;z-index:1;"
+                  fetchpriority="high"
+                  decoding="sync"
+                  style="width:100%!important;height:100%!important;object-fit:cover!important;display:block!important;opacity:1!important;visibility:visible!important;position:relative!important;z-index:1!important;content-visibility:visible!important;"
                 >
               {%- else -%}
                 <div style="width:100%;height:100%;background:#141414;display:flex;align-items:center;justify-content:center;color:rgba(245,244,240,0.1);font-family:'Barlow', system-ui, sans-serif;font-size:11px;text-transform:uppercase;letter-spacing:0.1em;">No Image</div>
@@ -562,7 +563,6 @@
 
             <div class="jgz-product-card__info">
               <p class="jgz-product-card__name">{{ product.title }}</p>
-              <p style="font-family:'Barlow',system-ui,sans-serif;font-size:9px;font-weight:600;letter-spacing:0.25em;text-transform:uppercase;color:#b8975a;margin:0 0 6px;opacity:0.7;">JIGERZ</p>
               <div class="jgz-product-card__price-row">
                 <span class="jgz-product-card__price">{{ product.price | money }}</span>
                 {%- if product.compare_at_price > product.price -%}
@@ -596,6 +596,27 @@
   </div>
 </div>
 {%- endpaginate -%}
+
+<script>
+(function() {
+  function fixImages() {
+    document.querySelectorAll('.jgz-product-card__image-wrap img').forEach(function(img) {
+      img.style.setProperty('opacity', '1', 'important');
+      img.style.setProperty('visibility', 'visible', 'important');
+      img.style.setProperty('display', 'block', 'important');
+      if (img.dataset.src) { img.src = img.dataset.src; }
+      if (img.dataset.srcset) { img.srcset = img.dataset.srcset; }
+    });
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', fixImages);
+  } else {
+    fixImages();
+  }
+  setTimeout(fixImages, 500);
+  setTimeout(fixImages, 1500);
+})();
+</script>
 
 {% schema %}
 {
