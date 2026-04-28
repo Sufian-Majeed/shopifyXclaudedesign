@@ -43,7 +43,8 @@
           "settings": {
             "name": "T-Shirts",
             "count": "24 Styles",
-            "link": "shopify://collections/frontpage"
+            "link": "shopify://collections/frontpage",
+            "image": "shopify://shop_images/Tshirts.webp"
           }
         },
         "cat_polo": {
@@ -51,23 +52,26 @@
           "settings": {
             "name": "Polo",
             "count": "10 Styles",
-            "link": "/collections/polo"
+            "link": "shopify://collections/jigerz-special",
+            "image": "shopify://shop_images/Jigerz.webp"
           }
         },
         "cat_oversized": {
           "type": "category",
           "settings": {
-            "name": "Oversized",
+            "name": "Track-Suit",
             "count": "14 Styles",
-            "link": "/collections/oversized"
+            "link": "/collections/oversized",
+            "image": "shopify://shop_images/Summer_Tracksuits.webp"
           }
         },
-        "cat_accessories": {
+        "category_qxQwgJ": {
           "type": "category",
           "settings": {
-            "name": "Accessories",
-            "count": "8 Styles",
-            "link": "/collections/accessories"
+            "name": "Hoddies",
+            "count": "24 Styles",
+            "link": "",
+            "image": "shopify://shop_images/3.webp"
           }
         }
       },
@@ -75,7 +79,7 @@
         "cat_tshirts",
         "cat_polo",
         "cat_oversized",
-        "cat_accessories"
+        "category_qxQwgJ"
       ],
       "settings": {
         "section_label": "Shop by Category",
