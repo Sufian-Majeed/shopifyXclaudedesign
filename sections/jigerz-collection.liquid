@@ -455,16 +455,6 @@
   <div class="jgz-col-layout">
     <!-- Sidebar -->
     <aside class="jgz-sidebar">
-      <!-- Category Filter -->
-      <div class="jgz-sidebar__section">
-        <h3 class="jgz-sidebar__title">Category</h3>
-        {%- for link in linklists[section.settings.filter_menu].links -%}
-          <label class="jgz-checkbox-label">
-            <input type="checkbox"> {{ link.title }}
-          </label>
-        {%- endfor -%}
-      </div>
-
       <!-- Size Filter -->
       <div class="jgz-sidebar__section">
         <h3 class="jgz-sidebar__title">Size</h3>
