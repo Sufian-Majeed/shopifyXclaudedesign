@@ -1,62 +1,50 @@
 <style>
-  html, body,
-  .shopify-section,
-  .shopify-section-group,
-  [class*="color-scheme"],
-  .section-background {
-    background: #0a0a0a !important;
-    color: #f5f4f0 !important;
-  }
   * { box-sizing: border-box; }
+
   .jgz-col-page {
-    background: #0a0a0a;
+    background: var(--color-background);
+    color: var(--color-foreground);
     min-height: 100vh;
     padding-bottom: 80px;
   }
 
-  /* ---- Collection Header ---- */
   .jgz-col-header {
     padding: 60px 60px 0;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
+    border-bottom: 1px solid var(--color-border);
   }
-
   .jgz-col-header__top {
     display: flex;
     align-items: flex-end;
     justify-content: space-between;
     padding-bottom: 32px;
   }
-
   .jgz-col-header__kicker {
     font-family: 'Barlow', system-ui, sans-serif;
     font-size: 10px;
     font-weight: 600;
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: #b8975a;
+    color: var(--color-primary);
     margin: 0 0 10px;
   }
-
   .jgz-col-header__title {
     font-family: 'Cormorant Garamond', Georgia, serif;
     font-size: 64px;
     font-weight: 300;
-    color: #f5f4f0;
+    color: var(--color-foreground-heading);
     margin: 0;
     line-height: 1;
   }
-
   .jgz-col-header__count {
     font-family: 'Barlow', system-ui, sans-serif;
     font-size: 11px;
     letter-spacing: 0.1em;
-    color: #f5f4f0;
+    color: var(--color-foreground);
     opacity: 0.35;
     text-transform: uppercase;
     margin-bottom: 4px;
   }
 
-  /* ---- Filter Tab Bar ---- */
   .jgz-filter-tabs {
     display: flex;
     overflow-x: auto;
@@ -64,32 +52,26 @@
     -ms-overflow-style: none;
   }
   .jgz-filter-tabs::-webkit-scrollbar { display: none; }
-
   .jgz-filter-tab {
     font-family: 'Barlow', system-ui, sans-serif;
     font-size: 11px;
     font-weight: 500;
     letter-spacing: 0.15em;
     text-transform: uppercase;
-    color: #f5f4f0;
+    color: var(--color-foreground);
     opacity: 0.55;
     padding: 16px 24px;
     white-space: nowrap;
     cursor: pointer;
-    border-right: 1px solid rgba(255,255,255,0.08);
+    border-right: 1px solid var(--color-border);
     border-bottom: 2px solid transparent;
     text-decoration: none;
     transition: opacity 0.2s, border-color 0.2s, color 0.2s;
   }
   .jgz-filter-tab:hover { opacity: 1; }
-  .jgz-filter-tab--active {
-    color: #b8975a;
-    opacity: 1;
-    border-bottom-color: #b8975a;
-  }
+  .jgz-filter-tab--active { color: var(--color-primary); opacity: 1; border-bottom-color: var(--color-primary); }
   .jgz-filter-tab--sale { color: #e85d04; opacity: 1; }
 
-  /* ---- Layout ---- */
   .jgz-col-layout {
     display: grid;
     grid-template-columns: 220px 1fr;
@@ -98,45 +80,34 @@
     align-items: start;
   }
 
-  /* ---- Sidebar ---- */
   .jgz-sidebar {
     position: sticky;
     top: 80px;
     padding: 32px 32px 32px 0;
-    border-right: 1px solid rgba(255,255,255,0.08);
+    border-right: 1px solid var(--color-border);
     min-height: 300px;
   }
-
-  .jgz-sidebar__section {
-    margin-bottom: 32px;
-  }
-
+  .jgz-sidebar__section { margin-bottom: 32px; }
   .jgz-sidebar__title {
     font-family: 'Barlow', system-ui, sans-serif;
     font-size: 10px;
     font-weight: 600;
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: #b8975a;
+    color: var(--color-primary);
     margin: 0 0 16px;
     padding-bottom: 10px;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
+    border-bottom: 1px solid var(--color-border);
   }
+  .jgz-sidebar__options { display: flex; flex-wrap: wrap; gap: 6px; }
 
-  .jgz-sidebar__options {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-  }
-
-  /* Size pills */
   .jgz-size-pill {
     font-family: 'Barlow', system-ui, sans-serif;
     font-size: 11px;
     font-weight: 500;
     letter-spacing: 0.05em;
-    color: #f5f4f0;
-    border: 1px solid rgba(255,255,255,0.08);
+    color: var(--color-foreground);
+    border: 1px solid var(--color-border);
     padding: 6px 14px;
     cursor: pointer;
     min-width: 44px;
@@ -144,12 +115,8 @@
     transition: border-color 0.2s, color 0.2s;
     background: none;
   }
-  .jgz-size-pill:hover, .jgz-size-pill--active {
-    border-color: #b8975a;
-    color: #b8975a;
-  }
+  .jgz-size-pill:hover, .jgz-size-pill--active { border-color: var(--color-primary); color: var(--color-primary); }
 
-  /* Color swatches */
   .jgz-color-swatch {
     width: 26px;
     height: 26px;
@@ -157,65 +124,40 @@
     border: 2px solid transparent;
     cursor: pointer;
     transition: border-color 0.2s;
-    outline: 1px solid rgba(255,255,255,0.08);
+    outline: 1px solid var(--color-border);
   }
-  .jgz-color-swatch:hover, .jgz-color-swatch--active {
-    border-color: #b8975a;
-    outline-color: #b8975a;
-  }
+  .jgz-color-swatch:hover, .jgz-color-swatch--active { border-color: var(--color-primary); outline-color: var(--color-primary); }
 
-  /* Checkbox filter */
   .jgz-checkbox-label {
     display: flex;
     align-items: center;
     gap: 10px;
     font-family: 'Barlow', system-ui, sans-serif;
     font-size: 12px;
-    color: #f5f4f0;
+    color: var(--color-foreground);
     opacity: 0.75;
     cursor: pointer;
     margin-bottom: 10px;
     width: 100%;
   }
-  .jgz-checkbox-label input[type="checkbox"] {
-    width: 14px;
-    height: 14px;
-    accent-color: #b8975a;
-    flex-shrink: 0;
-  }
+  .jgz-checkbox-label input[type="checkbox"] { width: 14px; height: 14px; accent-color: var(--color-primary); flex-shrink: 0; }
 
-  /* ---- Sort + Products Area ---- */
-  .jgz-col-main {
-    padding: 32px 0 32px 32px;
-  }
-
+  .jgz-col-main { padding: 32px 0 32px 32px; }
   .jgz-sort-row {
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin-bottom: 28px;
     padding-bottom: 20px;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
+    border-bottom: 1px solid var(--color-border);
   }
-
-  .jgz-sort-row__count {
-    font-family: 'Barlow', system-ui, sans-serif;
-    font-size: 12px;
-    color: #f5f4f0;
-    opacity: 0.4;
-    letter-spacing: 0.05em;
-  }
-
-  .jgz-sort-row__controls {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-  }
+  .jgz-sort-row__count { font-family: 'Barlow', system-ui, sans-serif; font-size: 12px; color: var(--color-foreground); opacity: 0.4; letter-spacing: 0.05em; }
+  .jgz-sort-row__controls { display: flex; align-items: center; gap: 16px; }
 
   .jgz-sort-select {
-    background: #141414;
-    border: 1px solid rgba(255,255,255,0.08);
-    color: #f5f4f0;
+    background: var(--color-input-background);
+    border: 1px solid var(--color-border);
+    color: var(--color-foreground);
     font-family: 'Barlow', system-ui, sans-serif;
     font-size: 11px;
     letter-spacing: 0.1em;
@@ -224,77 +166,50 @@
     outline: none;
   }
 
-  .jgz-grid-toggle {
-    display: flex;
-    gap: 4px;
-  }
+  .jgz-grid-toggle { display: flex; gap: 4px; }
   .jgz-grid-btn {
-    width: 32px;
-    height: 32px;
+    width: 32px; height: 32px;
     background: transparent;
-    border: 1px solid rgba(255,255,255,0.08);
-    color: #f5f4f0;
+    border: 1px solid var(--color-border);
+    color: var(--color-foreground);
     opacity: 0.4;
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: flex; align-items: center; justify-content: center;
     font-size: 11px;
     transition: opacity 0.2s, border-color 0.2s;
   }
-  .jgz-grid-btn--active, .jgz-grid-btn:hover {
-    opacity: 1;
-    border-color: #b8975a;
-    color: #b8975a;
-  }
+  .jgz-grid-btn--active, .jgz-grid-btn:hover { opacity: 1; border-color: var(--color-primary); color: var(--color-primary); }
 
-  /* ---- Product Grid ---- */
-  .jgz-col-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
-  }
+  .jgz-col-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
   .jgz-col-grid--2col { grid-template-columns: repeat(2, 1fr); }
   .jgz-col-grid--4col { grid-template-columns: repeat(4, 1fr); }
 
-  /* ---- Pagination ---- */
-  .jgz-pagination {
-    display: flex;
-    justify-content: center;
-    gap: 4px;
-    margin-top: 48px;
-  }
+  .jgz-pagination { display: flex; justify-content: center; gap: 4px; margin-top: 48px; }
   .jgz-pagination a, .jgz-pagination span {
-    width: 36px;
-    height: 36px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    width: 36px; height: 36px;
+    display: flex; align-items: center; justify-content: center;
     font-family: 'Barlow', system-ui, sans-serif;
     font-size: 12px;
-    border: 1px solid rgba(255,255,255,0.08);
-    color: #f5f4f0;
+    border: 1px solid var(--color-border);
+    color: var(--color-foreground);
     text-decoration: none;
     transition: border-color 0.2s, color 0.2s;
   }
-  .jgz-pagination a:hover { border-color: #b8975a; color: #b8975a; }
-  .jgz-pagination span { color: #b8975a; border-color: #b8975a; }
+  .jgz-pagination a:hover { border-color: var(--color-primary); color: var(--color-primary); }
+  .jgz-pagination span { color: var(--color-primary); border-color: var(--color-primary); }
 
-  /* ---- Product Card ---- */
   .jgz-product-card {
     display: block;
     text-decoration: none;
-    background: #0a0a0a;
-    color: #f5f4f0;
+    background: var(--color-background);
+    color: var(--color-foreground);
   }
-
   .jgz-product-card__image-wrap {
     position: relative;
     aspect-ratio: 3/4;
-    background: #141414;
+    background: var(--color-input-background);
     overflow: hidden;
   }
-
   .jgz-product-card__image-wrap img {
     width: 100% !important;
     height: 100% !important;
@@ -307,113 +222,48 @@
     z-index: 1 !important;
     transition: transform 0.5s ease;
   }
-  .jgz-product-card:hover .jgz-product-card__image-wrap img {
-    transform: scale(1.04);
-  }
+  .jgz-product-card:hover .jgz-product-card__image-wrap img { transform: scale(1.04); }
 
-  .jgz-product-card__badges {
-    position: absolute;
-    top: 12px;
-    left: 12px;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    z-index: 2;
-  }
-
-  .jgz-badge {
-    font-family: 'Barlow', system-ui, sans-serif;
-    font-size: 9px;
-    font-weight: 600;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    padding: 4px 10px;
-  }
-  .jgz-badge--new { background: #b8975a; color: #0a0a0a; }
+  .jgz-product-card__badges { position: absolute; top: 12px; left: 12px; display: flex; flex-direction: column; gap: 4px; z-index: 2; }
+  .jgz-badge { font-family: 'Barlow', system-ui, sans-serif; font-size: 9px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; padding: 4px 10px; }
+  .jgz-badge--new { background: var(--color-primary); color: var(--color-background); }
   .jgz-badge--sale { background: #e85d04; color: #fff; }
-  .jgz-badge--bestseller { background: rgba(255,255,255,0.1); color: #f5f4f0; border: 1px solid rgba(255,255,255,0.2); }
+  .jgz-badge--bestseller { background: rgb(var(--color-foreground-rgb) / 0.1); color: var(--color-foreground); border: 1px solid rgb(var(--color-foreground-rgb) / 0.2); }
 
   .jgz-product-card__wishlist {
-    position: absolute;
-    top: 12px;
-    right: 12px;
-    width: 32px;
-    height: 32px;
-    background: rgba(10,10,10,0.7);
-    border: 1px solid rgba(255,255,255,0.1);
-    color: #f5f4f0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    opacity: 0;
-    transition: opacity 0.2s;
-    z-index: 2;
+    position: absolute; top: 12px; right: 12px;
+    width: 32px; height: 32px;
+    background: rgb(var(--color-background-rgb) / 0.7);
+    border: 1px solid var(--color-border);
+    color: var(--color-foreground);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; opacity: 0; transition: opacity 0.2s; z-index: 2;
   }
   .jgz-product-card:hover .jgz-product-card__wishlist { opacity: 1; }
 
   .jgz-product-card__quick-add {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: rgba(10,10,10,0.92);
-    color: #b8975a;
+    position: absolute; bottom: 0; left: 0; right: 0;
+    background: rgb(var(--color-background-rgb) / 0.92);
+    color: var(--color-primary);
     font-family: 'Barlow', system-ui, sans-serif;
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    text-align: center;
-    padding: 14px;
-    transform: translateY(100%);
-    transition: transform 0.25s ease;
-    cursor: pointer;
-    z-index: 2;
+    font-size: 11px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase;
+    text-align: center; padding: 14px;
+    transform: translateY(100%); transition: transform 0.25s ease;
+    cursor: pointer; z-index: 2;
   }
   .jgz-product-card:hover .jgz-product-card__quick-add { transform: translateY(0); }
 
-  .jgz-product-card__info {
-    padding: 14px 0 8px;
-  }
-
+  .jgz-product-card__info { padding: 14px 0 8px; }
   .jgz-product-card__name {
     font-family: 'Barlow', system-ui, sans-serif;
-    font-size: 13px;
-    font-weight: 400;
-    color: #f5f4f0;
-    margin: 0 0 6px;
-    letter-spacing: 0.02em;
+    font-size: 13px; font-weight: 400;
+    color: var(--color-foreground);
+    margin: 0 0 6px; letter-spacing: 0.02em;
   }
-
-  .jgz-product-card__price-row {
-    display: flex;
-    align-items: baseline;
-    gap: 8px;
-    flex-wrap: wrap;
-  }
-
-  .jgz-product-card__price {
-    font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: 18px;
-    font-weight: 600;
-    color: #b8975a;
-  }
-
-  .jgz-product-card__compare {
-    font-size: 13px;
-    color: #f5f4f0;
-    opacity: 0.35;
-    text-decoration: line-through;
-  }
-
-  .jgz-product-card__save {
-    font-family: 'Barlow', system-ui, sans-serif;
-    font-size: 10px;
-    font-weight: 600;
-    color: #e85d04;
-    letter-spacing: 0.05em;
-  }
+  .jgz-product-card__price-row { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+  .jgz-product-card__price { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 18px; font-weight: 600; color: var(--color-primary); }
+  .jgz-product-card__compare { font-size: 13px; color: var(--color-foreground); opacity: 0.35; text-decoration: line-through; }
+  .jgz-product-card__save { font-family: 'Barlow', system-ui, sans-serif; font-size: 10px; font-weight: 600; color: #e85d04; letter-spacing: 0.05em; }
 
   @media (max-width: 768px) {
     .jgz-col-header { padding: 40px 20px 0; }
@@ -427,8 +277,7 @@
 </style>
 
 {%- paginate collection.products by 24 -%}
-<div class="jgz-col-page" style="background:#0a0a0a;color:#f5f4f0;min-height:100vh;display:block;">
-  <!-- Collection Header -->
+<div class="jgz-col-page color-{{ section.settings.color_scheme }}">
   <div class="jgz-col-header">
     <div class="jgz-col-header__top">
       <div>
@@ -439,8 +288,6 @@
         <p class="jgz-col-header__count">{{ collection.products_count }} Products</p>
       </div>
     </div>
-
-    <!-- Filter Tabs -->
     <nav class="jgz-filter-tabs">
       <a href="{{ routes.collections_url }}/all" class="jgz-filter-tab {% if collection.handle == 'all' %}jgz-filter-tab--active{% endif %}">All</a>
       {%- for link in linklists[section.settings.filter_menu].links -%}
@@ -451,11 +298,8 @@
     </nav>
   </div>
 
-  <!-- Main Layout -->
   <div class="jgz-col-layout">
-    <!-- Sidebar -->
     <aside class="jgz-sidebar">
-      <!-- Size Filter -->
       <div class="jgz-sidebar__section">
         <h3 class="jgz-sidebar__title">Size</h3>
         <div class="jgz-sidebar__options">
@@ -465,8 +309,6 @@
           {%- endfor -%}
         </div>
       </div>
-
-      <!-- Color Filter -->
       <div class="jgz-sidebar__section">
         <h3 class="jgz-sidebar__title">Color</h3>
         <div class="jgz-sidebar__options" style="gap:8px;">
@@ -478,8 +320,6 @@
           <div class="jgz-color-swatch" style="background:#8b0000;" title="Maroon" data-color="maroon"></div>
         </div>
       </div>
-
-      <!-- Availability -->
       <div class="jgz-sidebar__section">
         <h3 class="jgz-sidebar__title">Availability</h3>
         <label class="jgz-checkbox-label"><input type="checkbox" id="filter-instock" checked> In Stock</label>
@@ -487,7 +327,6 @@
       </div>
     </aside>
 
-    <!-- Products Area -->
     <div class="jgz-col-main">
       <div class="jgz-sort-row">
         <span class="jgz-sort-row__count">Showing {{ collection.products_count }} products</span>
@@ -507,7 +346,7 @@
         </div>
       </div>
 
-      <div class="jgz-col-grid" style="background:#0a0a0a;">
+      <div class="jgz-col-grid">
         {%- for product in collection.products -%}
           {%- assign savings_percent = 0 -%}
           {%- if product.compare_at_price > product.price -%}
@@ -518,17 +357,13 @@
           {%- assign p_colors = '' -%}
           {%- for option in product.options_with_values -%}
             {%- assign opt_lower = option.name | downcase -%}
-            {%- if opt_lower == 'size' -%}
-              {%- assign p_sizes = option.values | join: ',' | downcase -%}
-            {%- endif -%}
-            {%- if opt_lower == 'color' or opt_lower == 'colour' -%}
-              {%- assign p_colors = option.values | join: ',' | downcase -%}
-            {%- endif -%}
+            {%- if opt_lower == 'size' -%}{%- assign p_sizes = option.values | join: ',' | downcase -%}{%- endif -%}
+            {%- if opt_lower == 'color' or opt_lower == 'colour' -%}{%- assign p_colors = option.values | join: ',' | downcase -%}{%- endif -%}
           {%- endfor -%}
           {%- assign p_available = 'true' -%}
           {%- unless product.available -%}{%- assign p_available = 'false' -%}{%- endunless -%}
 
-          <a href="{{ product.url }}" class="jgz-product-card" data-sizes="{{ p_sizes }}" data-colors="{{ p_colors }}" data-available="{{ p_available }}" style="text-decoration:none;display:block;background:#0a0a0a;color:#f5f4f0;">
+          <a href="{{ product.url }}" class="jgz-product-card" data-sizes="{{ p_sizes }}" data-colors="{{ p_colors }}" data-available="{{ p_available }}">
             <div class="jgz-product-card__image-wrap">
               {%- if product.featured_image != blank -%}
                 <img
@@ -539,31 +374,20 @@
                   loading="eager"
                   fetchpriority="high"
                   decoding="sync"
-                  style="width:100%!important;height:100%!important;object-fit:cover!important;display:block!important;opacity:1!important;visibility:visible!important;position:relative!important;z-index:1!important;content-visibility:visible!important;"
                 >
               {%- else -%}
-                <div style="width:100%;height:100%;background:#141414;display:flex;align-items:center;justify-content:center;color:rgba(245,244,240,0.1);font-family:'Barlow', system-ui, sans-serif;font-size:11px;text-transform:uppercase;letter-spacing:0.1em;">No Image</div>
+                <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-family:'Barlow',system-ui,sans-serif;font-size:11px;text-transform:uppercase;letter-spacing:0.1em;opacity:0.1;">No Image</div>
               {%- endif -%}
-
               <div class="jgz-product-card__badges">
-                {%- if product.tags contains 'new-arrival' -%}
-                  <span class="jgz-badge jgz-badge--new">New</span>
-                {%- endif -%}
-                {%- if savings_percent > 0 -%}
-                  <span class="jgz-badge jgz-badge--sale">Sale</span>
-                {%- endif -%}
-                {%- if product.tags contains 'best-seller' -%}
-                  <span class="jgz-badge jgz-badge--bestseller">Best Seller</span>
-                {%- endif -%}
+                {%- if product.tags contains 'new-arrival' -%}<span class="jgz-badge jgz-badge--new">New</span>{%- endif -%}
+                {%- if savings_percent > 0 -%}<span class="jgz-badge jgz-badge--sale">Sale</span>{%- endif -%}
+                {%- if product.tags contains 'best-seller' -%}<span class="jgz-badge jgz-badge--bestseller">Best Seller</span>{%- endif -%}
               </div>
-
               <button class="jgz-product-card__wishlist" aria-label="Add to wishlist" onclick="event.preventDefault()">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
               </button>
-
               <div class="jgz-product-card__quick-add">Quick Add +</div>
             </div>
-
             <div class="jgz-product-card__info">
               <p class="jgz-product-card__name">{{ product.title }}</p>
               <div class="jgz-product-card__price-row">
@@ -580,19 +404,11 @@
 
       {%- if paginate.pages > 1 -%}
         <div class="jgz-pagination">
-          {%- if paginate.previous -%}
-            <a href="{{ paginate.previous.url }}">‹</a>
-          {%- endif -%}
+          {%- if paginate.previous -%}<a href="{{ paginate.previous.url }}">‹</a>{%- endif -%}
           {%- for part in paginate.parts -%}
-            {%- if part.is_link -%}
-              <a href="{{ part.url }}">{{ part.title }}</a>
-            {%- else -%}
-              <span>{{ part.title }}</span>
-            {%- endif -%}
+            {%- if part.is_link -%}<a href="{{ part.url }}">{{ part.title }}</a>{%- else -%}<span>{{ part.title }}</span>{%- endif -%}
           {%- endfor -%}
-          {%- if paginate.next -%}
-            <a href="{{ paginate.next.url }}">›</a>
-          {%- endif -%}
+          {%- if paginate.next -%}<a href="{{ paginate.next.url }}">›</a>{%- endif -%}
         </div>
       {%- endif -%}
     </div>
@@ -602,7 +418,6 @@
 
 <script>
 (function() {
-  // Fix lazy-loaded images
   function fixImages() {
     document.querySelectorAll('.jgz-product-card__image-wrap img').forEach(function(img) {
       img.style.setProperty('opacity', '1', 'important');
@@ -612,13 +427,6 @@
       if (img.dataset.srcset) { img.srcset = img.dataset.srcset; }
     });
   }
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
-    init();
-  }
-  setTimeout(fixImages, 500);
-  setTimeout(fixImages, 1500);
 
   var activeSize = null;
   var activeColor = null;
@@ -629,26 +437,18 @@
       var sizes = (card.dataset.sizes || '').split(',').map(function(s){ return s.trim(); });
       var colors = (card.dataset.colors || '').split(',').map(function(s){ return s.trim(); });
       var available = card.dataset.available !== 'false';
-
       var sizeMatch = !activeSize || sizes.indexOf(activeSize) !== -1 || card.dataset.sizes === '';
       var colorMatch = !activeColor || colors.indexOf(activeColor) !== -1 || card.dataset.colors === '';
       var stockMatch = available || showOutOfStock;
-
       card.style.display = (sizeMatch && colorMatch && stockMatch) ? 'block' : 'none';
     });
-    updateCount();
-  }
-
-  function updateCount() {
-    var visible = document.querySelectorAll('.jgz-product-card[style*="display: block"], .jgz-product-card:not([style*="display: none"])').length;
+    var visible = document.querySelectorAll('.jgz-product-card:not([style*="display: none"])').length;
     var el = document.querySelector('.jgz-sort-row__count');
     if (el) el.textContent = 'Showing ' + visible + ' products';
   }
 
   function init() {
     fixImages();
-
-    // Size pills
     document.querySelectorAll('.jgz-size-pill').forEach(function(btn) {
       btn.addEventListener('click', function() {
         var val = this.dataset.size;
@@ -663,10 +463,7 @@
         applyFilters();
       });
     });
-
-    // Color swatches
     document.querySelectorAll('.jgz-color-swatch').forEach(function(swatch) {
-      swatch.style.cursor = 'pointer';
       swatch.addEventListener('click', function() {
         var val = this.dataset.color;
         if (activeColor === val) {
@@ -680,13 +477,19 @@
         applyFilters();
       });
     });
-
-    // Availability checkboxes
     var instock = document.getElementById('filter-instock');
     var outstock = document.getElementById('filter-outstock');
     if (instock) instock.addEventListener('change', applyFilters);
     if (outstock) outstock.addEventListener('change', applyFilters);
   }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+  setTimeout(fixImages, 500);
+  setTimeout(fixImages, 1500);
 })();
 </script>
 
@@ -694,6 +497,12 @@
 {
   "name": "JIGERZ Collection",
   "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
     {
       "type": "link_list",
       "id": "filter_menu",
