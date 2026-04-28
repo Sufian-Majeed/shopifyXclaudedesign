@@ -461,7 +461,7 @@
         <div class="jgz-sidebar__options">
           {%- assign size_list = section.settings.available_sizes | split: ',' -%}
           {%- for size in size_list -%}
-            <button class="jgz-size-pill">{{ size | strip }}</button>
+            <button class="jgz-size-pill" data-size="{{ size | strip | downcase }}">{{ size | strip }}</button>
           {%- endfor -%}
         </div>
       </div>
@@ -470,20 +470,20 @@
       <div class="jgz-sidebar__section">
         <h3 class="jgz-sidebar__title">Color</h3>
         <div class="jgz-sidebar__options" style="gap:8px;">
-          <div class="jgz-color-swatch" style="background:#1a1a1a;" title="Black"></div>
-          <div class="jgz-color-swatch" style="background:#f5f4f0;" title="White"></div>
-          <div class="jgz-color-swatch" style="background:#b8975a;" title="Gold"></div>
-          <div class="jgz-color-swatch" style="background:#2d4a2d;" title="Olive"></div>
-          <div class="jgz-color-swatch" style="background:#3b5998;" title="Navy"></div>
-          <div class="jgz-color-swatch" style="background:#8b0000;" title="Maroon"></div>
+          <div class="jgz-color-swatch" style="background:#1a1a1a;" title="Black" data-color="black"></div>
+          <div class="jgz-color-swatch" style="background:#f5f4f0;" title="White" data-color="white"></div>
+          <div class="jgz-color-swatch" style="background:#b8975a;" title="Gold" data-color="gold"></div>
+          <div class="jgz-color-swatch" style="background:#2d4a2d;" title="Olive" data-color="olive"></div>
+          <div class="jgz-color-swatch" style="background:#3b5998;" title="Navy" data-color="navy"></div>
+          <div class="jgz-color-swatch" style="background:#8b0000;" title="Maroon" data-color="maroon"></div>
         </div>
       </div>
 
       <!-- Availability -->
       <div class="jgz-sidebar__section">
         <h3 class="jgz-sidebar__title">Availability</h3>
-        <label class="jgz-checkbox-label"><input type="checkbox" checked> In Stock</label>
-        <label class="jgz-checkbox-label"><input type="checkbox"> Out of Stock</label>
+        <label class="jgz-checkbox-label"><input type="checkbox" id="filter-instock" checked> In Stock</label>
+        <label class="jgz-checkbox-label"><input type="checkbox" id="filter-outstock"> Out of Stock</label>
       </div>
     </aside>
 
@@ -514,8 +514,21 @@
             {%- assign savings = product.compare_at_price | minus: product.price -%}
             {%- assign savings_percent = savings | times: 100 | divided_by: product.compare_at_price -%}
           {%- endif -%}
+          {%- assign p_sizes = '' -%}
+          {%- assign p_colors = '' -%}
+          {%- for option in product.options_with_values -%}
+            {%- assign opt_lower = option.name | downcase -%}
+            {%- if opt_lower == 'size' -%}
+              {%- assign p_sizes = option.values | join: ',' | downcase -%}
+            {%- endif -%}
+            {%- if opt_lower == 'color' or opt_lower == 'colour' -%}
+              {%- assign p_colors = option.values | join: ',' | downcase -%}
+            {%- endif -%}
+          {%- endfor -%}
+          {%- assign p_available = 'true' -%}
+          {%- unless product.available -%}{%- assign p_available = 'false' -%}{%- endunless -%}
 
-          <a href="{{ product.url }}" class="jgz-product-card" style="text-decoration:none;display:block;background:#0a0a0a;color:#f5f4f0;">
+          <a href="{{ product.url }}" class="jgz-product-card" data-sizes="{{ p_sizes }}" data-colors="{{ p_colors }}" data-available="{{ p_available }}" style="text-decoration:none;display:block;background:#0a0a0a;color:#f5f4f0;">
             <div class="jgz-product-card__image-wrap">
               {%- if product.featured_image != blank -%}
                 <img
@@ -589,6 +602,7 @@
 
 <script>
 (function() {
+  // Fix lazy-loaded images
   function fixImages() {
     document.querySelectorAll('.jgz-product-card__image-wrap img').forEach(function(img) {
       img.style.setProperty('opacity', '1', 'important');
@@ -599,12 +613,80 @@
     });
   }
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', fixImages);
+    document.addEventListener('DOMContentLoaded', init);
   } else {
-    fixImages();
+    init();
   }
   setTimeout(fixImages, 500);
   setTimeout(fixImages, 1500);
+
+  var activeSize = null;
+  var activeColor = null;
+
+  function applyFilters() {
+    var showOutOfStock = document.getElementById('filter-outstock') && document.getElementById('filter-outstock').checked;
+    document.querySelectorAll('.jgz-product-card').forEach(function(card) {
+      var sizes = (card.dataset.sizes || '').split(',').map(function(s){ return s.trim(); });
+      var colors = (card.dataset.colors || '').split(',').map(function(s){ return s.trim(); });
+      var available = card.dataset.available !== 'false';
+
+      var sizeMatch = !activeSize || sizes.indexOf(activeSize) !== -1 || card.dataset.sizes === '';
+      var colorMatch = !activeColor || colors.indexOf(activeColor) !== -1 || card.dataset.colors === '';
+      var stockMatch = available || showOutOfStock;
+
+      card.style.display = (sizeMatch && colorMatch && stockMatch) ? 'block' : 'none';
+    });
+    updateCount();
+  }
+
+  function updateCount() {
+    var visible = document.querySelectorAll('.jgz-product-card[style*="display: block"], .jgz-product-card:not([style*="display: none"])').length;
+    var el = document.querySelector('.jgz-sort-row__count');
+    if (el) el.textContent = 'Showing ' + visible + ' products';
+  }
+
+  function init() {
+    fixImages();
+
+    // Size pills
+    document.querySelectorAll('.jgz-size-pill').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var val = this.dataset.size;
+        if (activeSize === val) {
+          activeSize = null;
+          this.classList.remove('jgz-size-pill--active');
+        } else {
+          activeSize = val;
+          document.querySelectorAll('.jgz-size-pill').forEach(function(b){ b.classList.remove('jgz-size-pill--active'); });
+          this.classList.add('jgz-size-pill--active');
+        }
+        applyFilters();
+      });
+    });
+
+    // Color swatches
+    document.querySelectorAll('.jgz-color-swatch').forEach(function(swatch) {
+      swatch.style.cursor = 'pointer';
+      swatch.addEventListener('click', function() {
+        var val = this.dataset.color;
+        if (activeColor === val) {
+          activeColor = null;
+          this.classList.remove('jgz-color-swatch--active');
+        } else {
+          activeColor = val;
+          document.querySelectorAll('.jgz-color-swatch').forEach(function(s){ s.classList.remove('jgz-color-swatch--active'); });
+          this.classList.add('jgz-color-swatch--active');
+        }
+        applyFilters();
+      });
+    });
+
+    // Availability checkboxes
+    var instock = document.getElementById('filter-instock');
+    var outstock = document.getElementById('filter-outstock');
+    if (instock) instock.addEventListener('change', applyFilters);
+    if (outstock) outstock.addEventListener('change', applyFilters);
+  }
 })();
 </script>
 
