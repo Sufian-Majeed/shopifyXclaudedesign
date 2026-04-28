@@ -43,7 +43,7 @@
           "settings": {
             "name": "T-Shirts",
             "count": "24 Styles",
-            "link": "/collections/t-shirts"
+            "link": "shopify://collections/frontpage"
           }
         },
         "cat_polo": {
