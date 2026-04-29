@@ -267,7 +267,13 @@
               {%- for value in option.values -%}
                 {%- assign c = value | downcase -%}
                 {%- assign sw = '#888888' -%}
-                {%- if c contains 'white' or c contains 'cream' or c contains 'ivory' -%}{%- assign sw = '#f0ede8' -%}
+                {%- comment -%} Multi-word patterns first {%- endcomment -%}
+                {%- if c contains 'crimson' and c contains 'navy' -%}{%- assign sw = 'linear-gradient(135deg,#a50020 50%,#1a2744 50%)' -%}
+                {%- elsif c contains 'red' and c contains 'navy' -%}{%- assign sw = 'linear-gradient(135deg,#c0392b 50%,#1a2744 50%)' -%}
+                {%- elsif c contains 'black' and c contains 'white' -%}{%- assign sw = 'linear-gradient(135deg,#1a1a1a 50%,#f0ede8 50%)' -%}
+                {%- elsif c contains 'stripe' -%}{%- assign sw = 'linear-gradient(135deg,#1a2744 33%,#a50020 33%,#a50020 66%,#f0ede8 66%)' -%}
+                {%- comment -%} Single colors {%- endcomment -%}
+                {%- elsif c contains 'white' or c contains 'cream' or c contains 'ivory' -%}{%- assign sw = '#f0ede8' -%}
                 {%- elsif c contains 'black' -%}{%- assign sw = '#1a1a1a' -%}
                 {%- elsif c contains 'crimson' -%}{%- assign sw = '#a50020' -%}
                 {%- elsif c contains 'red' -%}{%- assign sw = '#c0392b' -%}
@@ -283,7 +289,6 @@
                 {%- elsif c contains 'pink' -%}{%- assign sw = '#d4547a' -%}
                 {%- elsif c contains 'purple' or c contains 'violet' -%}{%- assign sw = '#6b21a8' -%}
                 {%- elsif c contains 'yellow' or c contains 'mustard' -%}{%- assign sw = '#c9960c' -%}
-                {%- elsif c contains 'stripe' -%}{%- assign sw = 'linear-gradient(135deg,#1a2744 50%,#a50020 50%)' -%}
                 {%- endif -%}
                 <div class="jgz-color-opt {% if option.selected_value == value %}active{% endif %}"
                      style="background: {{ sw }};"
@@ -422,6 +427,13 @@
     jgzOpts[{{ option.position }}] = '{{ option.selected_value | escape }}';
   {%- endfor -%}
   var jgzVariants = {{ product.variants | json }};
+
+  var jgzColorImages = {};
+  {%- for variant in product.variants -%}
+    {%- if variant.featured_image -%}
+      jgzColorImages['{{ variant.option1 | escape }}'] = '{{ variant.featured_image | image_url: width: 1200 }}';
+    {%- endif -%}
+  {%- endfor -%}
   var jgzQtyVal = 1;
   var jgzCurrentIdx = 0;
 
@@ -484,6 +496,11 @@
     if (nameEl) nameEl.textContent = val;
     jgzOpts[pos] = val;
     jgzUpdateVariant();
+    var mainImg = document.getElementById('jgzMainImg');
+    if (mainImg && jgzColorImages[val]) {
+      mainImg.src = jgzColorImages[val];
+      document.querySelectorAll('.jgz-gallery-thumb').forEach(function(t){ t.classList.remove('active'); });
+    }
   };
 
   window.jgzSelectSize = function(el, pos, val) {
