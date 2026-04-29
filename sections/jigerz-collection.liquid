@@ -277,7 +277,7 @@
 </style>
 
 {%- paginate collection.products by 24 -%}
-<div class="jgz-col-page color-{{ section.settings.color_scheme }}">
+<div class="jgz-col-page">
   <div class="jgz-col-header">
     <div class="jgz-col-header__top">
       <div>
@@ -497,12 +497,6 @@
 {
   "name": "JIGERZ Collection",
   "settings": [
-    {
-      "type": "color_scheme",
-      "id": "color_scheme",
-      "label": "Color scheme",
-      "default": "scheme-1"
-    },
     {
       "type": "link_list",
       "id": "filter_menu",
