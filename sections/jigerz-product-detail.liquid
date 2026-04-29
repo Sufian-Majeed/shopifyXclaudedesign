@@ -67,17 +67,18 @@
   .jgz-option-section { margin-bottom: 24px; }
   .jgz-option-label { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; opacity: 0.5; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; color: #f5f4f0; font-family: 'Barlow', system-ui, sans-serif; }
   .jgz-option-selected { color: #b8975a; opacity: 1; font-weight: 500; }
-  .jgz-color-options { display: flex; flex-wrap: wrap; gap: 10px; }
+  .jgz-color-options { display: flex; flex-wrap: wrap; gap: 8px; }
   .jgz-color-opt {
-    width: 34px; height: 34px; border-radius: 50%;
+    width: 64px; height: 80px;
     cursor: pointer;
     border: 2px solid transparent;
-    outline: 2px solid rgba(255,255,255,0.12);
-    transition: all 0.2s;
-    position: relative;
+    overflow: hidden;
+    transition: border-color 0.2s;
+    flex-shrink: 0;
   }
-  .jgz-color-opt:hover { outline-color: rgba(184,151,90,0.6); transform: scale(1.1); }
-  .jgz-color-opt.active { border-color: #b8975a; outline-color: #b8975a; }
+  .jgz-color-opt img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .jgz-color-opt:hover { border-color: rgba(184,151,90,0.6); }
+  .jgz-color-opt.active { border-color: #b8975a; }
 
   .jgz-size-grid { display: flex; flex-wrap: wrap; gap: 8px; }
   .jgz-size-opt { min-width: 50px; padding: 9px 14px; border: 1px solid rgba(255,255,255,0.08); font-size: 12px; letter-spacing: 0.1em; text-align: center; cursor: pointer; transition: all 0.2s; opacity: 0.55; background: none; color: #f5f4f0; font-family: 'Barlow', system-ui, sans-serif; }
@@ -265,35 +266,21 @@
             </div>
             <div class="jgz-color-options">
               {%- for value in option.values -%}
-                {%- assign c = value | downcase -%}
-                {%- assign sw = '#888888' -%}
-                {%- comment -%} Multi-word patterns first {%- endcomment -%}
-                {%- if c contains 'crimson' and c contains 'navy' -%}{%- assign sw = 'linear-gradient(135deg,#a50020 50%,#1a2744 50%)' -%}
-                {%- elsif c contains 'red' and c contains 'navy' -%}{%- assign sw = 'linear-gradient(135deg,#c0392b 50%,#1a2744 50%)' -%}
-                {%- elsif c contains 'black' and c contains 'white' -%}{%- assign sw = 'linear-gradient(135deg,#1a1a1a 50%,#f0ede8 50%)' -%}
-                {%- elsif c contains 'stripe' -%}{%- assign sw = 'linear-gradient(135deg,#1a2744 33%,#a50020 33%,#a50020 66%,#f0ede8 66%)' -%}
-                {%- comment -%} Single colors {%- endcomment -%}
-                {%- elsif c contains 'white' or c contains 'cream' or c contains 'ivory' -%}{%- assign sw = '#f0ede8' -%}
-                {%- elsif c contains 'black' -%}{%- assign sw = '#1a1a1a' -%}
-                {%- elsif c contains 'crimson' -%}{%- assign sw = '#a50020' -%}
-                {%- elsif c contains 'red' -%}{%- assign sw = '#c0392b' -%}
-                {%- elsif c contains 'navy' -%}{%- assign sw = '#1a2744' -%}
-                {%- elsif c contains 'blue' -%}{%- assign sw = '#2563eb' -%}
-                {%- elsif c contains 'gold' or c contains 'golden' -%}{%- assign sw = '#b8975a' -%}
-                {%- elsif c contains 'maroon' or c contains 'burgundy' -%}{%- assign sw = '#800020' -%}
-                {%- elsif c contains 'olive' -%}{%- assign sw = '#556b2f' -%}
-                {%- elsif c contains 'green' -%}{%- assign sw = '#2d6a2d' -%}
-                {%- elsif c contains 'grey' or c contains 'gray' -%}{%- assign sw = '#6b6b6b' -%}
-                {%- elsif c contains 'brown' or c contains 'chocolate' -%}{%- assign sw = '#6b3a2a' -%}
-                {%- elsif c contains 'orange' -%}{%- assign sw = '#e07b28' -%}
-                {%- elsif c contains 'pink' -%}{%- assign sw = '#d4547a' -%}
-                {%- elsif c contains 'purple' or c contains 'violet' -%}{%- assign sw = '#6b21a8' -%}
-                {%- elsif c contains 'yellow' or c contains 'mustard' -%}{%- assign sw = '#c9960c' -%}
-                {%- endif -%}
+                {%- assign swatch_img = nil -%}
+                {%- for variant in product.variants -%}
+                  {%- if variant.option1 == value and variant.featured_image -%}
+                    {%- assign swatch_img = variant.featured_image -%}
+                    {%- break -%}
+                  {%- endif -%}
+                {%- endfor -%}
                 <div class="jgz-color-opt {% if option.selected_value == value %}active{% endif %}"
-                     style="background: {{ sw }};"
                      title="{{ value }}"
                      onclick="jgzSelectColor(this, {{ option.position }}, '{{ value }}')">
+                  {%- if swatch_img -%}
+                    <img src="{{ swatch_img | image_url: width: 160 }}" alt="{{ value }}" loading="lazy">
+                  {%- else -%}
+                    <div style="width:100%;height:100%;background:#333;display:flex;align-items:center;justify-content:center;font-size:9px;color:#fff;text-align:center;padding:2px;">{{ value | truncate: 8, '' }}</div>
+                  {%- endif -%}
                 </div>
               {%- endfor -%}
             </div>
