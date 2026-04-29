@@ -289,7 +289,7 @@
         </button>
       </div>
 
-      <button type="button" class="jgz-buy-now">Buy Now — {{ current_variant.price | money }}</button>
+      <button type="button" id="jgzBuyNow" class="jgz-buy-now" onclick="jgzBuyNow()">Buy Now — {{ current_variant.price | money }}</button>
 
     {%- endform -%}
 
@@ -379,51 +379,65 @@
 
 <script>
 (function() {
-  var jgzCurrentIdx = 0;
-  var jgzThumbs = document.querySelectorAll('.jgz-gallery-thumb');
-  var jgzMainImg = document.getElementById('jgzMainImg');
-
-  window.jgzThumb = function(el, src) {
-    jgzThumbs.forEach(function(t){ t.classList.remove('active'); });
-    el.classList.add('active');
-    jgzCurrentIdx = parseInt(el.dataset.idx || 0);
-    if (jgzMainImg) jgzMainImg.src = src;
-  };
-
-  window.jgzNavImg = function(dir) {
-    if (!jgzThumbs.length) return;
-    jgzCurrentIdx = (jgzCurrentIdx + dir + jgzThumbs.length) % jgzThumbs.length;
-    jgzThumbs[jgzCurrentIdx].click();
-  };
-
-  var jgzQtyVal = 1;
-  window.jgzQty = function(d) {
-    jgzQtyVal = Math.max(1, jgzQtyVal + d);
-    document.getElementById('jgzQtyDisplay').textContent = jgzQtyVal;
-    document.getElementById('jgzQtyHidden').value = jgzQtyVal;
-  };
-
   var jgzOpts = {};
   {%- for option in product.options_with_values -%}
     jgzOpts[{{ option.position }}] = '{{ option.selected_value | escape }}';
   {%- endfor -%}
   var jgzVariants = {{ product.variants | json }};
+  var jgzQtyVal = 1;
+  var jgzCurrentIdx = 0;
 
   function jgzUpdateVariant() {
-    var match = jgzVariants.find(function(v) {
-      return Object.keys(jgzOpts).every(function(p) {
-        return v['option' + p] === jgzOpts[p];
-      });
-    });
-    if (match) {
-      document.getElementById('jgzVariantId').value = match.id;
-      var priceEl = document.getElementById('jgzPrice');
-      if (priceEl) {
-        var formatted = 'Rs.' + (match.price / 100).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-        priceEl.textContent = formatted;
+    var match = null;
+    for (var i = 0; i < jgzVariants.length; i++) {
+      var v = jgzVariants[i];
+      var keys = Object.keys(jgzOpts);
+      var isMatch = true;
+      for (var k = 0; k < keys.length; k++) {
+        if (v['option' + keys[k]] !== jgzOpts[keys[k]]) { isMatch = false; break; }
       }
+      if (isMatch) { match = v; break; }
     }
+    if (!match) return;
+
+    var vidEl = document.getElementById('jgzVariantId');
+    if (vidEl) vidEl.value = match.id;
+
+    var priceEl = document.getElementById('jgzPrice');
+    if (priceEl) {
+      var formatted = 'Rs. ' + (match.price / 100).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+      priceEl.textContent = formatted;
+    }
+
+    var atcBtn = document.getElementById('jgzAtcBtn');
+    if (atcBtn) atcBtn.textContent = match.available ? 'Add to Bag' : 'Sold Out';
+
+    var buyBtn = document.getElementById('jgzBuyNow');
+    if (buyBtn) buyBtn.setAttribute('data-variant', match.id);
   }
+
+  window.jgzThumb = function(el, src) {
+    document.querySelectorAll('.jgz-gallery-thumb').forEach(function(t){ t.classList.remove('active'); });
+    el.classList.add('active');
+    jgzCurrentIdx = parseInt(el.dataset.idx || 0);
+    var main = document.getElementById('jgzMainImg');
+    if (main) main.src = src;
+  };
+
+  window.jgzNavImg = function(dir) {
+    var thumbs = document.querySelectorAll('.jgz-gallery-thumb');
+    if (!thumbs.length) return;
+    jgzCurrentIdx = (jgzCurrentIdx + dir + thumbs.length) % thumbs.length;
+    thumbs[jgzCurrentIdx].click();
+  };
+
+  window.jgzQty = function(d) {
+    jgzQtyVal = Math.max(1, jgzQtyVal + d);
+    var dispEl = document.getElementById('jgzQtyDisplay');
+    var hidEl = document.getElementById('jgzQtyHidden');
+    if (dispEl) dispEl.textContent = jgzQtyVal;
+    if (hidEl) hidEl.value = jgzQtyVal;
+  };
 
   window.jgzSelectColor = function(el, pos, val) {
     el.parentElement.querySelectorAll('.jgz-color-opt').forEach(function(c){ c.classList.remove('active'); });
@@ -446,21 +460,29 @@
     btn.parentElement.classList.toggle('open');
   };
 
-  var form = document.getElementById('jgz-product-form');
-  if (form) {
-    form.addEventListener('submit', function() {
-      var btn = document.getElementById('jgzAtcBtn');
-      if (!btn) return;
-      setTimeout(function() {
-        btn.textContent = '✓ Added to Bag!';
-        btn.classList.add('added');
+  window.jgzBuyNow = function() {
+    var variantId = document.getElementById('jgzVariantId').value;
+    var qty = jgzQtyVal;
+    window.location.href = '/cart/' + variantId + ':' + qty + '?checkout';
+  };
+
+  document.addEventListener('DOMContentLoaded', function() {
+    var form = document.getElementById('jgz-product-form');
+    if (form) {
+      form.addEventListener('submit', function() {
+        var btn = document.getElementById('jgzAtcBtn');
+        if (!btn) return;
         setTimeout(function() {
-          btn.textContent = 'Add to Bag';
-          btn.classList.remove('added');
-        }, 2000);
-      }, 300);
-    });
-  }
+          btn.textContent = '✓ Added to Bag!';
+          btn.classList.add('added');
+          setTimeout(function() {
+            btn.textContent = 'Add to Bag';
+            btn.classList.remove('added');
+          }, 2000);
+        }, 300);
+      });
+    }
+  });
 })();
 </script>
 
